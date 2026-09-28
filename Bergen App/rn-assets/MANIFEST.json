@@ -1,0 +1,414 @@
+{
+  "generated": "2026-08-12",
+  "source": "Bergen App/index.html",
+  "groups": {
+    "icons": {
+      "base": "24x24 pt",
+      "note": "stroke-only, currentColor",
+      "items": [
+        {
+          "name": "home",
+          "referenced": true
+        },
+        {
+          "name": "search",
+          "referenced": true
+        },
+        {
+          "name": "calendar",
+          "referenced": true
+        },
+        {
+          "name": "user",
+          "referenced": true
+        },
+        {
+          "name": "users",
+          "referenced": true
+        },
+        {
+          "name": "bell",
+          "referenced": true
+        },
+        {
+          "name": "chev-left",
+          "referenced": true
+        },
+        {
+          "name": "chev-right",
+          "referenced": true
+        },
+        {
+          "name": "chev-down",
+          "referenced": true
+        },
+        {
+          "name": "x",
+          "referenced": true
+        },
+        {
+          "name": "check",
+          "referenced": true
+        },
+        {
+          "name": "plus",
+          "referenced": true
+        },
+        {
+          "name": "phone",
+          "referenced": true
+        },
+        {
+          "name": "globe",
+          "referenced": true
+        },
+        {
+          "name": "clock",
+          "referenced": true
+        },
+        {
+          "name": "pin",
+          "referenced": true
+        },
+        {
+          "name": "tag",
+          "referenced": true
+        },
+        {
+          "name": "chart",
+          "referenced": true
+        },
+        {
+          "name": "eye",
+          "referenced": true
+        },
+        {
+          "name": "eye-off",
+          "referenced": false
+        },
+        {
+          "name": "click",
+          "referenced": true
+        },
+        {
+          "name": "megaphone",
+          "referenced": true
+        },
+        {
+          "name": "card",
+          "referenced": true
+        },
+        {
+          "name": "image",
+          "referenced": true
+        },
+        {
+          "name": "play",
+          "referenced": true
+        },
+        {
+          "name": "video",
+          "referenced": true
+        },
+        {
+          "name": "edit",
+          "referenced": true
+        },
+        {
+          "name": "trash",
+          "referenced": true
+        },
+        {
+          "name": "upload",
+          "referenced": true
+        },
+        {
+          "name": "lock",
+          "referenced": true
+        },
+        {
+          "name": "mail",
+          "referenced": true
+        },
+        {
+          "name": "briefcase",
+          "referenced": true
+        },
+        {
+          "name": "logout",
+          "referenced": true
+        },
+        {
+          "name": "settings",
+          "referenced": false
+        },
+        {
+          "name": "arrow-right",
+          "referenced": true
+        },
+        {
+          "name": "trending",
+          "referenced": true
+        },
+        {
+          "name": "verified",
+          "referenced": false
+        },
+        {
+          "name": "sliders",
+          "referenced": true
+        },
+        {
+          "name": "star",
+          "referenced": true
+        },
+        {
+          "name": "book",
+          "referenced": true
+        },
+        {
+          "name": "stethoscope",
+          "referenced": true
+        },
+        {
+          "name": "school",
+          "referenced": true
+        },
+        {
+          "name": "palette",
+          "referenced": true
+        },
+        {
+          "name": "soccer",
+          "referenced": true
+        },
+        {
+          "name": "music",
+          "referenced": true
+        },
+        {
+          "name": "tent",
+          "referenced": true
+        },
+        {
+          "name": "cake",
+          "referenced": true
+        },
+        {
+          "name": "waves",
+          "referenced": true
+        },
+        {
+          "name": "theater",
+          "referenced": true
+        },
+        {
+          "name": "tooth",
+          "referenced": true
+        },
+        {
+          "name": "dashboard",
+          "referenced": false
+        },
+        {
+          "name": "heart",
+          "referenced": false
+        },
+        {
+          "name": "sun",
+          "referenced": true
+        },
+        {
+          "name": "moon",
+          "referenced": true
+        },
+        {
+          "name": "device",
+          "referenced": true
+        },
+        {
+          "name": "info",
+          "referenced": true
+        }
+      ]
+    },
+    "illustrations": {
+      "note": "transparent PNG, meant to sit on the sky gradient",
+      "items": [
+        {
+          "name": "hills-splash",
+          "size": "393x270",
+          "darkOpacity": 0.14,
+          "note": "welcome / splash horizon, with the stand of pines"
+        },
+        {
+          "name": "hills-signin",
+          "size": "393x270",
+          "darkOpacity": 0.14,
+          "note": "sign-up / log-in / verify horizon, bare hills"
+        },
+        {
+          "name": "sun",
+          "size": "104x104",
+          "darkOpacity": 0.55,
+          "note": "welcome-screen corner decoration"
+        },
+        {
+          "name": "kite",
+          "size": "58x58",
+          "darkOpacity": 0.55,
+          "note": "auth-screen corner decoration"
+        }
+      ]
+    },
+    "backgrounds": {
+      "size": "393x852 pt",
+      "note": "scale-to-fill, pinned to the bottom",
+      "items": [
+        {
+          "name": "splash-bg",
+          "note": "splash — sky only, the wordmark is drawn on top by the app"
+        },
+        {
+          "name": "welcome-bg",
+          "note": "welcome — sky, sun, drifting dots, wooded horizon"
+        },
+        {
+          "name": "signup-bg",
+          "note": "sign up / log in / verify code — sky, kite, bare horizon"
+        }
+      ]
+    },
+    "system": {
+      "note": "prototype status-bar chrome — a real app gets these from the OS",
+      "items": [
+        {
+          "name": "status-signal",
+          "size": "17x11"
+        },
+        {
+          "name": "status-wifi",
+          "size": "16x12"
+        },
+        {
+          "name": "status-battery",
+          "size": "26x12"
+        }
+      ]
+    },
+    "placeholders": {
+      "size": "360x240 (3:2)",
+      "note": "shown when a photo is missing — identical in both themes",
+      "items": [
+        {
+          "name": "photo-medical",
+          "category": "Medical & Health",
+          "gradient": [
+            "#10b981",
+            "#14b8a6"
+          ]
+        },
+        {
+          "name": "photo-schools",
+          "category": "Schools & Preschools",
+          "gradient": [
+            "#f59e0b",
+            "#f97316"
+          ]
+        },
+        {
+          "name": "photo-tutoring",
+          "category": "Tutoring & Test Prep",
+          "gradient": [
+            "#2563eb",
+            "#4338ca"
+          ]
+        },
+        {
+          "name": "photo-arts",
+          "category": "Arts & Crafts",
+          "gradient": [
+            "#ec4899",
+            "#f43f5e"
+          ]
+        },
+        {
+          "name": "photo-sports",
+          "category": "Sports & Athletics",
+          "gradient": [
+            "#0284c7",
+            "#0d9488"
+          ]
+        },
+        {
+          "name": "photo-music",
+          "category": "Music & Dance",
+          "gradient": [
+            "#7c3aed",
+            "#c026d3"
+          ]
+        },
+        {
+          "name": "photo-camps",
+          "category": "Camps & Programs",
+          "gradient": [
+            "#f97316",
+            "#ec4899"
+          ]
+        },
+        {
+          "name": "photo-parties",
+          "category": "Parties & Events",
+          "gradient": [
+            "#14b8a6",
+            "#059669"
+          ]
+        },
+        {
+          "name": "ad-creative",
+          "category": "banner ad fallback",
+          "gradient": [
+            "#1a2e4a",
+            "#1e8c7a"
+          ]
+        }
+      ]
+    },
+    "brand": {
+      "note": "wordmark is a hosted CDN PNG; ask design for the vector original",
+      "items": [
+        {
+          "name": "wordmark",
+          "size": "238x112 pt",
+          "note": "the lockup exactly as the splash and welcome screens crop it"
+        },
+        {
+          "name": "wordmark-full",
+          "size": "320x210 pt",
+          "note": "the untouched CDN artwork, full bleed and margins"
+        },
+        {
+          "name": "app-icon-1024",
+          "size": "1024x1024",
+          "derived": true,
+          "note": "DERIVED — the prototype has no square launcher icon. Hand mark centred on the theme ground; confirm with design before shipping."
+        },
+        {
+          "name": "mark-512",
+          "size": "512 wide",
+          "derived": true,
+          "note": "DERIVED — hand mark alone on transparency, same in both themes."
+        }
+      ]
+    }
+  },
+  "densities": [
+    "1x",
+    "2x",
+    "3x"
+  ],
+  "themes": [
+    "light",
+    "dark"
+  ]
+}

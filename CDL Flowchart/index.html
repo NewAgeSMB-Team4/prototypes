@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Student journey flowchart</title>
+    <style>
+        :root {
+            --brand: #F26A1B;
+            --brand-dark: #C4520F;
+            --coal: #1C1A17;
+            --ink: #26231F;
+            --muted: #7A736A;
+            --line: #DDD8D0;
+            --canvas: #F7F5F2;
+            --ok: #1C7A45;
+            --ok-bg: #E9F4ED;
+            --warn: #B26A00;
+            --warn-bg: #FCF2E1;
+            --bad: #B3261E;
+            --bad-bg: #FBEBE9;
+            --ext: #3A5BA0;
+            --ext-bg: #EAEFF8;
+            --stu-bg: #FDF0E6;
+            --adm-bg: #EFF1F6;
+            --ins-bg: #EAF3EE;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--canvas);
+            color: var(--ink);
+            font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif
+        }
+
+        .wrap {
+            max-width: 720px;
+            margin: 0 auto;
+            padding: 30px 20px 70px
+        }
+
+        header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--line)
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 21px
+        }
+
+        .sub {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 3px
+        }
+
+        .key {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 14px;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .key span {
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .sw {
+            height: 11px;
+            width: 11px;
+            border-radius: 50%;
+            display: inline-block
+        }
+
+        .flow {
+            margin-top: 24px
+        }
+
+        .step {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 12px 15px;
+            background: #fff
+        }
+
+        .step .who {
+            font-size: 10.5px;
+            font-weight: 700;
+            letter-spacing: .07em;
+            text-transform: uppercase;
+            color: var(--muted)
+        }
+
+        .step .t {
+            font-weight: 600;
+            font-size: 14.5px;
+            margin-top: 3px
+        }
+
+        .step .d {
+            font-size: 12.5px;
+            color: var(--muted);
+            margin-top: 3px
+        }
+
+        .step.stu {
+            background: var(--stu-bg);
+            border-color: #F1D5BC
+        }
+
+        .step.adm {
+            background: var(--adm-bg);
+            border-color: #CFD5E3
+        }
+
+        .step.ins {
+            background: var(--ins-bg);
+            border-color: #C6DECF
+        }
+
+        .step.ext {
+            background: var(--ext-bg);
+            border-color: #CBD7EC
+        }
+
+        .step.sys {
+            background: #fff;
+            border-style: dashed;
+            border-color: #C9C2B8
+        }
+
+        .step.sys .who {
+            color: var(--brand-dark)
+        }
+
+        .arrow {
+            height: 26px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative
+        }
+
+        .arrow::before {
+            content: "";
+            width: 2px;
+            height: 100%;
+            background: var(--line)
+        }
+
+        .arrow::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            border: 6px solid transparent;
+            border-top-color: var(--line)
+        }
+
+        .gate {
+            border: 1px solid #EBD6B4;
+            background: var(--warn-bg);
+            border-radius: 12px;
+            padding: 10px 15px;
+            color: #6F4400;
+            font-size: 12.5px;
+            display: flex;
+            gap: 9px;
+            align-items: flex-start
+        }
+
+        .gate b {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 1px
+        }
+
+        .gate .i {
+            flex: none;
+            height: 18px;
+            width: 18px;
+            border-radius: 50%;
+            background: var(--warn);
+            color: #fff;
+            font-size: 11px;
+            font-weight: 700;
+            display: grid;
+            place-items: center;
+            margin-top: 1px
+        }
+
+        .fail {
+            border: 1px dashed #E7BFBA;
+            background: var(--bad-bg);
+            border-radius: 12px;
+            padding: 9px 14px;
+            color: #8C2B24;
+            font-size: 12.5px;
+            margin-left: 34px;
+            position: relative
+        }
+
+        .fail::before {
+            content: "";
+            position: absolute;
+            left: -18px;
+            top: 50%;
+            width: 16px;
+            height: 1px;
+            background: #E7BFBA
+        }
+
+        .fail b {
+            font-weight: 600
+        }
+
+        .phase {
+            margin: 26px 0 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: var(--muted);
+            text-align: center
+        }
+
+        .phase::before,
+        .phase::after {
+            content: "";
+            display: inline-block;
+            width: 42px;
+            height: 1px;
+            background: var(--line);
+            vertical-align: middle;
+            margin: 0 10px
+        }
+
+        .done {
+            border: 2px solid var(--ok);
+            background: var(--ok-bg);
+            border-radius: 12px;
+            padding: 14px;
+            text-align: center
+        }
+
+        .done .t {
+            font-weight: 700;
+            font-size: 15px;
+            color: var(--ok)
+        }
+
+        .done .d {
+            font-size: 12.5px;
+            color: #3E6B52;
+            margin-top: 2px
+        }
+
+        .note {
+            margin-top: 28px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 15px 18px
+        }
+
+        .note h3 {
+            margin: 0 0 7px;
+            font-size: 13.5px
+        }
+
+        .note p {
+            margin: 0 0 7px;
+            font-size: 12.5px;
+            color: #4A443D
+        }
+
+        .note p:last-child {
+            margin-bottom: 0
+        }
+
+        @media print {
+            body {
+                background: #fff
+            }
+
+            .step,
+            .gate,
+            .fail {
+                page-break-inside: avoid
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <header>
+            <h1>Student journey · enrolment to CDL</h1>
+            <div class="sub">Cascade Driving Academy · Class A shown; other programmes noted at the end</div>
+            <div class="key">
+                <span><i class="sw" style="background:var(--brand)"></i> Student</span>
+                <span><i class="sw" style="background:var(--ext)"></i> Office</span>
+                <span><i class="sw" style="background:var(--ok)"></i> Instructor</span>
+                <span><i class="sw" style="background:#8A93A8"></i> DOL / registry</span>
+                <span><i class="sw" style="background:#C9C2B8"></i> System, no one clicks it</span>
+            </div>
+        </header>
+
+        <div class="flow">
+
+            <div class="phase">Enrolment</div>
+
+            <div class="step stu">
+                <div class="who">Student</div>
+                <div class="t">Enrols for a programme</div>
+                <div class="d">Uploads the documents that programme requires, signs the agreement, pays</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Verifies documents and approves the enrolment</div>
+                <div class="d">Assigns a lead instructor</div>
+            </div>
+
+            <div class="phase">Theory</div>
+
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Assigns the theory programme</div>
+                <div class="d">The sections appear on the student's Training screen and the classroom sessions are
+                    booked</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step ins">
+                <div class="who">Instructor and student</div>
+                <div class="t">Sessions run · both sign each log</div>
+                <div class="d">Sections marked complete as they are covered</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step sys">
+                <div class="who">System</div>
+                <div class="t">All theory sections marked complete</div>
+                <div class="d">When every required section is signed by the instructor and the student</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step sys">
+                <div class="who">System</div>
+                <div class="t">Final theory test unlocks</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step stu">
+                <div class="who">Student</div>
+                <div class="t">Takes the final test and passes</div>
+                <div class="d">80% to pass · attempts limited by the programme</div>
+            </div>
+            <div class="fail"><b>Fails all attempts:</b> the office grants another attempt with a condition and a retest
+                fee, paid before the test reopens.</div>
+            <div class="arrow"></div>
+            <div class="step sys">
+                <div class="who">System</div>
+                <div class="t">Theory marked complete · certificate generated</div>
+            </div>
+
+            <div class="phase">Learner permit</div>
+
+            <div class="step stu">
+                <div class="who">Student</div>
+                <div class="t">Takes the certificate to the DOL and sits the knowledge test</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step ext">
+                <div class="who">State</div>
+                <div class="t">CLP issued</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step stu">
+                <div class="who">Student</div>
+                <div class="t">Uploads the CLP in the app</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Verifies the CLP</div>
+            </div>
+
+            <div class="phase">Theory certification</div>
+
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Submits the theory certification to the TPR</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Files the record on the TPR website by hand</div>
+                <div class="d">The registry has no API</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Records the answer</div>
+                <div class="d">Accepted with the result file attached, or rejected with the reason given</div>
+            </div>
+            <div class="fail"><b>Rejected:</b> the office corrects the record and refiles. Earlier attempts stay on the
+                file.</div>
+
+            <div class="arrow"></div>
+            <div class="gate">
+                <div class="i">!</div>
+                <div><b>Behind-the-wheel can only start now</b>Theory certification accepted and CLP verified.</div>
+            </div>
+
+            <div class="phase">Range</div>
+
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Assigns range training</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step ins">
+                <div class="who">Instructor and student</div>
+                <div class="t">Sessions run · both sign each log</div>
+                <div class="d">Units marked proficient and signed off as they are met</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step sys">
+                <div class="who">System</div>
+                <div class="t">Range training marked complete</div>
+                <div class="d">When every required range skill is signed by the instructor and the student</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Schedules the final range assessment</div>
+                <div class="d">Assessor cannot be the student's own instructor</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step ins">
+                <div class="who">Assessor and student</div>
+                <div class="t">Assessment run and signed</div>
+            </div>
+
+            <div class="phase">Public road</div>
+
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Assigns road training</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step ins">
+                <div class="who">Instructor and student</div>
+                <div class="t">Sessions run · both sign each log</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step sys">
+                <div class="who">System</div>
+                <div class="t">Road training marked complete</div>
+                <div class="d">When every required road unit is signed by both</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Schedules the final road assessment</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step ins">
+                <div class="who">Assessor and student</div>
+                <div class="t">Assessment run and signed</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step sys">
+                <div class="who">System</div>
+                <div class="t">Behind-the-wheel complete · certificate generated</div>
+            </div>
+
+            <div class="phase">Behind-the-wheel certification</div>
+
+            <div class="gate">
+                <div class="i">!</div>
+                <div><b>Nine compliance checks must pass first</b>Including every session signed by both parties, and a
+                    medical certificate valid on every session date. Any failure blocks the submission.</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Submits, files on the TPR website, records the answer</div>
+                <div class="d">Accepted with the result file, or rejected with the reason</div>
+            </div>
+            <div class="fail"><b>Rejected:</b> corrected and refiled.</div>
+
+            <div class="phase">Skills test and licence</div>
+
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Books the CDL skills test</div>
+                <div class="d">Only once the behind-the-wheel record is accepted · date, site, vehicle and documents to
+                    bring</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step stu">
+                <div class="who">Student</div>
+                <div class="t">Attends the test at the site on the day</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Records the result: passed or failed</div>
+                <div class="d">Recorded whether or not the student has uploaded anything</div>
+            </div>
+            <div class="fail"><b>Failed:</b> a remedial session and a retest are booked, and the retest fee is invoiced.
+            </div>
+            <div class="arrow"></div>
+            <div class="step stu">
+                <div class="who">Student</div>
+                <div class="t">Uploads the CDL when the state issues it</div>
+                <div class="d">Optional</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="step adm">
+                <div class="who">Office</div>
+                <div class="t">Records the CDL details, or closes the file without them</div>
+            </div>
+            <div class="arrow"></div>
+            <div class="done">
+                <div class="t">Completed</div>
+                <div class="d">CDL recorded, or completed with the CDL pending</div>
+            </div>
+
+        </div>
+
+        <div class="note">
+            <h3>Two things the system does, not a person</h3>
+            <p>Nobody marks training complete, in theory, range or road. The system does it when every required section,
+                skill or unit carries both signatures, the instructor's and the student's. Hours on an unsigned log do
+                not count.</p>
+            <p>Nobody assigns the final theory test either. It unlocks the moment the last section is complete.</p>
+            <h3 style="margin-top:12px">Other programmes</h3>
+            <p><b>Class B and the B → A upgrade</b> follow the same chart with fewer sections and lower hour targets.
+            </p>
+            <p><b>Passenger and school bus</b> follow it too, but the student already holds a CDL, so the permit step
+                becomes an endorsement with a restriction, and the training and test happen in a bus.</p>
+            <p><b>Hazmat</b> stops after the theory certification is accepted. No permit, no driving, no assessments, no
+                skills test. The student then takes the state hazmat test and the TSA check themselves, and the office
+                records the endorsement.</p>
+        </div>
+
+    </div>
+</body>
+
+</html>

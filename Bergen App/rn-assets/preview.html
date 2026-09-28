@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Bergen Kids — asset pack</title>
+<style>
+  :root { --bg:#f4f7fa; --panel:#fff; --ink:#1a2e4a; --muted:#54637a; --line:#e7ecf1; }
+  body.dark { --bg:#0f1915; --panel:#17241e; --ink:#e9f2ec; --muted:#a0b4a8; --line:rgba(255,255,255,.11); }
+  * { box-sizing: border-box }
+  body { margin:0; padding:0 0 60px; font:15px/1.5 Inter,system-ui,sans-serif; background:var(--bg); color:var(--ink); transition:background .2s }
+  header { position:sticky; top:0; z-index:5; display:flex; align-items:center; gap:16px;
+           padding:14px 28px; background:var(--panel); border-bottom:1px solid var(--line) }
+  h1 { font-size:16px; margin:0; font-weight:700 }
+  header p { margin:0; color:var(--muted); font-size:13px; flex:1 }
+  button { font:600 13px Inter,system-ui,sans-serif; padding:8px 16px; border-radius:999px;
+           border:1px solid var(--line); background:var(--panel); color:var(--ink); cursor:pointer }
+  button.on { background:#2d7a4f; border-color:#2d7a4f; color:#fff }
+  section { padding:26px 28px 6px }
+  h2 { font-size:13px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin:0 0 14px }
+  h2 span { background:var(--line); color:var(--ink); border-radius:999px; padding:2px 8px; font-size:11px; margin-left:6px }
+  .grid { display:grid; gap:14px; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)) }
+  .grid.illustrations, .grid.placeholders, .grid.brand { grid-template-columns:repeat(auto-fill,minmax(220px,1fr)) }
+  .grid.backgrounds { grid-template-columns:repeat(auto-fill,minmax(150px,1fr)) }
+  figure { margin:0; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px; text-align:center }
+  .frame { display:grid; place-items:center; min-height:64px }
+  .grid.backgrounds .frame img { max-height:260px; width:auto }
+  .grid.illustrations img, .grid.placeholders img, .grid.brand img { max-width:100% }
+  figcaption { margin-top:8px; font-size:11.5px; color:var(--muted); overflow-wrap:anywhere }
+  figcaption em { display:block; color:#c07a2a; font-style:normal; font-size:10.5px }
+  .grid.illustrations img, .grid.brand img, .grid.placeholders img { image-rendering:auto }
+  .faded { opacity:.5 }
+</style></head>
+<body>
+<header>
+  <h1>Bergen Kids — asset pack</h1>
+  <p>79 assets · every one in light and dark · @1x / @2x / @3x</p>
+  <button id="t-light" class="on">Light</button><button id="t-dark">Dark</button>
+</header>
+<section><h2>Icons <span>56</span></h2><div class="grid icons"><figure><div class="frame">
+      <img data-src="icons/THEME/arrow-right@3x.png" width="24" alt="arrow-right">
+    </div><figcaption>arrow-right</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/bell@3x.png" width="24" alt="bell">
+    </div><figcaption>bell</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/book@3x.png" width="24" alt="book">
+    </div><figcaption>book</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/briefcase@3x.png" width="24" alt="briefcase">
+    </div><figcaption>briefcase</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/cake@3x.png" width="24" alt="cake">
+    </div><figcaption>cake</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/calendar@3x.png" width="24" alt="calendar">
+    </div><figcaption>calendar</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/card@3x.png" width="24" alt="card">
+    </div><figcaption>card</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/chart@3x.png" width="24" alt="chart">
+    </div><figcaption>chart</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/check@3x.png" width="24" alt="check">
+    </div><figcaption>check</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/chev-down@3x.png" width="24" alt="chev-down">
+    </div><figcaption>chev-down</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/chev-left@3x.png" width="24" alt="chev-left">
+    </div><figcaption>chev-left</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/chev-right@3x.png" width="24" alt="chev-right">
+    </div><figcaption>chev-right</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/click@3x.png" width="24" alt="click">
+    </div><figcaption>click</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/clock@3x.png" width="24" alt="clock">
+    </div><figcaption>clock</figcaption></figure>
+<figure class="faded"><div class="frame">
+      <img data-src="icons/THEME/dashboard@3x.png" width="24" alt="dashboard">
+    </div><figcaption>dashboard<em>not referenced</em></figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/device@3x.png" width="24" alt="device">
+    </div><figcaption>device</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/edit@3x.png" width="24" alt="edit">
+    </div><figcaption>edit</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/eye@3x.png" width="24" alt="eye">
+    </div><figcaption>eye</figcaption></figure>
+<figure class="faded"><div class="frame">
+      <img data-src="icons/THEME/eye-off@3x.png" width="24" alt="eye-off">
+    </div><figcaption>eye-off<em>not referenced</em></figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/globe@3x.png" width="24" alt="globe">
+    </div><figcaption>globe</figcaption></figure>
+<figure class="faded"><div class="frame">
+      <img data-src="icons/THEME/heart@3x.png" width="24" alt="heart">
+    </div><figcaption>heart<em>not referenced</em></figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/home@3x.png" width="24" alt="home">
+    </div><figcaption>home</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/image@3x.png" width="24" alt="image">
+    </div><figcaption>image</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/info@3x.png" width="24" alt="info">
+    </div><figcaption>info</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/lock@3x.png" width="24" alt="lock">
+    </div><figcaption>lock</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/logout@3x.png" width="24" alt="logout">
+    </div><figcaption>logout</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/mail@3x.png" width="24" alt="mail">
+    </div><figcaption>mail</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/megaphone@3x.png" width="24" alt="megaphone">
+    </div><figcaption>megaphone</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/moon@3x.png" width="24" alt="moon">
+    </div><figcaption>moon</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/music@3x.png" width="24" alt="music">
+    </div><figcaption>music</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/palette@3x.png" width="24" alt="palette">
+    </div><figcaption>palette</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/phone@3x.png" width="24" alt="phone">
+    </div><figcaption>phone</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/pin@3x.png" width="24" alt="pin">
+    </div><figcaption>pin</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/play@3x.png" width="24" alt="play">
+    </div><figcaption>play</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/plus@3x.png" width="24" alt="plus">
+    </div><figcaption>plus</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/school@3x.png" width="24" alt="school">
+    </div><figcaption>school</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/search@3x.png" width="24" alt="search">
+    </div><figcaption>search</figcaption></figure>
+<figure class="faded"><div class="frame">
+      <img data-src="icons/THEME/settings@3x.png" width="24" alt="settings">
+    </div><figcaption>settings<em>not referenced</em></figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/sliders@3x.png" width="24" alt="sliders">
+    </div><figcaption>sliders</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/soccer@3x.png" width="24" alt="soccer">
+    </div><figcaption>soccer</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/star@3x.png" width="24" alt="star">
+    </div><figcaption>star</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/stethoscope@3x.png" width="24" alt="stethoscope">
+    </div><figcaption>stethoscope</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/sun@3x.png" width="24" alt="sun">
+    </div><figcaption>sun</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/tag@3x.png" width="24" alt="tag">
+    </div><figcaption>tag</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/tent@3x.png" width="24" alt="tent">
+    </div><figcaption>tent</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/theater@3x.png" width="24" alt="theater">
+    </div><figcaption>theater</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/tooth@3x.png" width="24" alt="tooth">
+    </div><figcaption>tooth</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/trash@3x.png" width="24" alt="trash">
+    </div><figcaption>trash</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/trending@3x.png" width="24" alt="trending">
+    </div><figcaption>trending</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/upload@3x.png" width="24" alt="upload">
+    </div><figcaption>upload</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/user@3x.png" width="24" alt="user">
+    </div><figcaption>user</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/users@3x.png" width="24" alt="users">
+    </div><figcaption>users</figcaption></figure>
+<figure class="faded"><div class="frame">
+      <img data-src="icons/THEME/verified@3x.png" width="24" alt="verified">
+    </div><figcaption>verified<em>not referenced</em></figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/video@3x.png" width="24" alt="video">
+    </div><figcaption>video</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/waves@3x.png" width="24" alt="waves">
+    </div><figcaption>waves</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="icons/THEME/x@3x.png" width="24" alt="x">
+    </div><figcaption>x</figcaption></figure></div></section>
+<section><h2>Illustrations <span>4</span></h2><div class="grid illustrations"><figure><div class="frame">
+      <img data-src="illustrations/THEME/hills-signin@3x.png" width="393" alt="hills-signin">
+    </div><figcaption>hills-signin</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="illustrations/THEME/hills-splash@3x.png" width="393" alt="hills-splash">
+    </div><figcaption>hills-splash</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="illustrations/THEME/kite@3x.png" width="58" alt="kite">
+    </div><figcaption>kite</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="illustrations/THEME/sun@3x.png" width="104" alt="sun">
+    </div><figcaption>sun</figcaption></figure></div></section>
+<section><h2>Screen backgrounds <span>3</span></h2><div class="grid backgrounds"><figure><div class="frame">
+      <img data-src="backgrounds/THEME/signup-bg@3x.png" width="131" alt="signup-bg">
+    </div><figcaption>signup-bg</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="backgrounds/THEME/splash-bg@3x.png" width="131" alt="splash-bg">
+    </div><figcaption>splash-bg</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="backgrounds/THEME/welcome-bg@3x.png" width="131" alt="welcome-bg">
+    </div><figcaption>welcome-bg</figcaption></figure></div></section>
+<section><h2>Brand <span>4</span></h2><div class="grid brand"><figure><div class="frame">
+      <img data-src="brand/THEME/app-icon-1024.png" width="180" alt="app-icon-1024">
+    </div><figcaption>app-icon-1024</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="brand/THEME/mark-512.png" width="140" alt="mark-512">
+    </div><figcaption>mark-512</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="brand/THEME/wordmark@3x.png" width="238" alt="wordmark">
+    </div><figcaption>wordmark</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="brand/THEME/wordmark-full@3x.png" width="260" alt="wordmark-full">
+    </div><figcaption>wordmark-full</figcaption></figure></div></section>
+<section><h2>Photo placeholders <span>9</span></h2><div class="grid placeholders"><figure><div class="frame">
+      <img data-src="placeholders/THEME/ad-creative@3x.png" width="180" alt="ad-creative">
+    </div><figcaption>ad-creative</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="placeholders/THEME/photo-arts@3x.png" width="180" alt="photo-arts">
+    </div><figcaption>photo-arts</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="placeholders/THEME/photo-camps@3x.png" width="180" alt="photo-camps">
+    </div><figcaption>photo-camps</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="placeholders/THEME/photo-medical@3x.png" width="180" alt="photo-medical">
+    </div><figcaption>photo-medical</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="placeholders/THEME/photo-music@3x.png" width="180" alt="photo-music">
+    </div><figcaption>photo-music</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="placeholders/THEME/photo-parties@3x.png" width="180" alt="photo-parties">
+    </div><figcaption>photo-parties</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="placeholders/THEME/photo-schools@3x.png" width="180" alt="photo-schools">
+    </div><figcaption>photo-schools</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="placeholders/THEME/photo-sports@3x.png" width="180" alt="photo-sports">
+    </div><figcaption>photo-sports</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="placeholders/THEME/photo-tutoring@3x.png" width="180" alt="photo-tutoring">
+    </div><figcaption>photo-tutoring</figcaption></figure></div></section>
+<section><h2>System glyphs <span>3</span></h2><div class="grid system"><figure><div class="frame">
+      <img data-src="system/THEME/status-battery@3x.png" width="52" alt="status-battery">
+    </div><figcaption>status-battery</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="system/THEME/status-signal@3x.png" width="34" alt="status-signal">
+    </div><figcaption>status-signal</figcaption></figure>
+<figure><div class="frame">
+      <img data-src="system/THEME/status-wifi@3x.png" width="32" alt="status-wifi">
+    </div><figcaption>status-wifi</figcaption></figure></div></section>
+
+<script>
+  function paint(theme) {
+    document.body.classList.toggle('dark', theme === 'dark');
+    document.getElementById('t-light').classList.toggle('on', theme === 'light');
+    document.getElementById('t-dark').classList.toggle('on', theme === 'dark');
+    document.querySelectorAll('img[data-src]').forEach(img => {
+      img.src = img.dataset.src.replace('THEME', theme);
+    });
+  }
+  document.getElementById('t-light').onclick = () => paint('light');
+  document.getElementById('t-dark').onclick = () => paint('dark');
+  paint('light');
+</script>
+</body></html>

@@ -1,0 +1,12 @@
+﻿{
+  "name": "bergen-kids-asset-pack-tools",
+  "private": true,
+  "description": "Re-exports the Bergen Kids asset pack from the prototype (../../index.html).",
+  "scripts": {
+    "build": "node build.js && node docs.js"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2",
+    "sharp": "^0.34.0"
+  }
+}

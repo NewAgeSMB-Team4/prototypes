@@ -1,0 +1,1695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SnapStitch — Customer App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FAF7F4;--chalk:#FFF;--mist:#F4F0F7;
+  --violet:#8B6FC7;--violet-tint:#EDE6F9;--violet-deep:#6B51A6;
+  --mint:#4FAE8C;--mint-tint:#DEF2E9;--mint-deep:#2F7A5F;
+  --blush:#DE7B96;--blush-tint:#FBE4EA;--blush-deep:#B0435F;
+  --saffron:#D99B4E;--saffron-tint:#FBEEDA;--saffron-deep:#8A5A18;
+  --sky:#6BA3CF;--sky-tint:#E1EEF8;--sky-deep:#3C6E96;
+  --ink:#35303D;--graphite:#7A7387;--wisp:#A9A3B5;--seam:#EBE6EF;
+  --shadow:0 2px 4px rgba(53,48,61,.03),0 12px 32px rgba(53,48,61,.07);
+  --shadow-lg:0 24px 60px -14px rgba(53,48,61,.3);
+  --ease:cubic-bezier(.22,1,.36,1);--spring:cubic-bezier(.34,1.56,.64,1);
+  --display:'Fraunces',Georgia,serif;--ui:'Plus Jakarta Sans',system-ui,sans-serif;--mono:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--ui);background:var(--paper);color:var(--ink);min-height:100dvh;display:flex;gap:30px;padding:30px;
+background-image:radial-gradient(circle at 10% 6%,var(--violet-tint) 0,transparent 42%),radial-gradient(circle at 92% 94%,var(--mint-tint) 0,transparent 40%);
+-webkit-font-smoothing:antialiased;overflow-x:hidden}
+::selection{background:var(--violet-tint);color:var(--violet-deep)}
+:focus-visible{outline:2.5px solid var(--violet);outline-offset:2px;border-radius:8px}
+
+/* ---------- icon system ---------- */
+[data-ic]{display:inline-grid;place-items:center;line-height:0;flex-shrink:0}
+[data-ic] svg{width:1em;height:1em;display:block;fill:none;stroke:currentColor;stroke-width:1.85;stroke-linecap:round;stroke-linejoin:round}
+[data-ic].fill svg{fill:currentColor;stroke:none}
+
+/* ---------- animations ---------- */
+@keyframes rise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pop{from{opacity:0;transform:scale(.94)}to{opacity:1;transform:none}}
+@keyframes bounceIn{0%{opacity:0;transform:scale(.5)}70%{transform:scale(1.09)}100%{opacity:1;transform:scale(1)}}
+@keyframes toastIn{from{opacity:0;transform:translateY(-16px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes toastOut{to{opacity:0;transform:translateY(-10px) scale(.97);margin-top:-56px}}
+@keyframes sheetIn{from{transform:translateY(101%)}to{transform:none}}
+@keyframes sheetOut{to{transform:translateY(101%)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes shake{10%,90%{transform:translateX(-2px)}20%,80%{transform:translateX(4px)}30%,50%,70%{transform:translateX(-6px)}40%,60%{transform:translateX(6px)}}
+@keyframes tickPop{0%{transform:scale(0)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+@keyframes grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+/* ---------- rail ---------- */
+.rail{width:232px;flex-shrink:0;position:sticky;top:30px;height:calc(100dvh - 60px);overflow-y:auto;scrollbar-width:thin}
+.rail::-webkit-scrollbar{width:0}
+.brand{display:flex;align-items:center;gap:9px;margin-bottom:4px}
+.bmark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--violet),var(--violet-deep));display:grid;place-items:center;flex-shrink:0;font-size:17px;color:#fff;box-shadow:0 5px 13px -4px rgba(139,111,199,.75)}
+.bname{font-family:var(--display);font-size:21.5px;font-weight:600;letter-spacing:-.3px}
+.rsub{font-size:12.5px;color:var(--wisp);letter-spacing:.09em;text-transform:uppercase;font-weight:700;margin-bottom:16px;padding-left:39px}
+.rlab{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--wisp);font-weight:700;margin:16px 0 6px 10px}
+.rbtn{display:flex;align-items:center;gap:10px;width:100%;text-align:left;background:none;border:0;font-family:var(--ui);font-size:14.5px;font-weight:500;color:var(--graphite);padding:9px 11px;border-radius:9px;cursor:pointer;transition:.16s var(--ease)}
+.rbtn:hover{background:var(--chalk);color:var(--ink)}
+.rbtn.on{background:var(--violet);color:#fff;font-weight:600;box-shadow:0 6px 15px -6px rgba(107,81,166,.8)}
+.rnum{font-family:var(--mono);font-size:11.5px;opacity:.5;width:15px;flex-shrink:0}
+.railtop{display:none}
+
+/* ---------- phone ---------- */
+.stage{flex:1;display:flex;justify-content:center;align-items:flex-start;min-width:0}
+.phone{width:436px;height:min(906px,calc(100dvh - 60px));background:var(--chalk);border-radius:52px;
+box-shadow:var(--shadow),0 0 0 10px #EDE8F2,0 0 0 11px #DDD6E5;position:relative;overflow:hidden;display:flex;flex-direction:column}
+.notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:132px;height:28px;background:#EDE8F2;border-radius:0 0 15px 15px;z-index:60}
+.sbar{height:46px;flex-shrink:0;display:flex;align-items:flex-end;justify-content:space-between;padding:0 24px 5px;font-family:var(--mono);font-size:12.5px;font-weight:500;z-index:50}
+.sbar .sig{display:flex;align-items:center;gap:5px;font-size:13px}
+.screen{flex:1;min-height:0;overflow:hidden;display:none;flex-direction:column}
+.screen.on{display:flex;animation:fadeIn .26s ease}
+.screen::-webkit-scrollbar{width:0}
+.screen.on .bd>*{animation:rise .42s var(--ease) backwards}
+.screen.on .bd>*:nth-child(1){animation-delay:.02s}
+.screen.on .bd>*:nth-child(2){animation-delay:.06s}
+.screen.on .bd>*:nth-child(3){animation-delay:.1s}
+.screen.on .bd>*:nth-child(4){animation-delay:.14s}
+.screen.on .bd>*:nth-child(5){animation-delay:.18s}
+
+.top{padding:6px 22px 14px;display:flex;align-items:center;gap:11px;flex-shrink:0}
+.back{width:42px;height:42px;border-radius:14px;background:var(--mist);border:1.5px solid transparent;cursor:pointer;display:grid;place-items:center;color:var(--graphite);font-size:18px;flex-shrink:0;
+transition:background .18s,color .18s,border-color .18s,transform .18s var(--ease),box-shadow .22s var(--ease)}
+.back:hover{background:var(--violet-tint);color:var(--violet-deep);border-color:rgba(139,111,199,.28);box-shadow:0 5px 14px -6px rgba(107,81,166,.6)}
+.back:active{transform:scale(.9)}
+.back svg{transition:transform .24s var(--ease)}
+.back[data-back]:hover svg{transform:translateX(-2.5px)}
+.top.backonly{padding-bottom:4px}
+.back.glass{background:rgba(255,255,255,.88);-webkit-backdrop-filter:blur(12px) saturate(160%);backdrop-filter:blur(12px) saturate(160%);color:var(--ink);box-shadow:0 4px 16px rgba(53,48,61,.18)}
+.back.glass:hover{background:#fff;color:var(--violet-deep)}
+.back.float{position:absolute;top:14px;left:16px;z-index:20}
+.ttl{font-family:var(--display);font-size:21.5px;font-weight:600;letter-spacing:-.7px}
+.bd{padding:0 22px 26px;flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:none}
+.bd::-webkit-scrollbar{width:0}
+.ft{padding:16px 22px 24px;border-top:1px dashed var(--seam);background:var(--chalk);flex-shrink:0}
+
+.stitch{height:0;border-top:2.5px dashed var(--seam);margin:16px 0}
+.track{position:relative;padding-left:25px}
+.track::before{content:'';position:absolute;left:8px;top:10px;bottom:10px;border-left:2.5px dashed var(--seam)}
+.nd{position:relative;padding:8px 0}
+.nd::before{content:'';position:absolute;left:-22px;top:13px;width:12px;height:12px;border-radius:50%;background:var(--chalk);border:2px solid var(--seam);animation:tickPop .42s var(--spring) backwards}
+.nd.done::before{background:var(--mint);border-color:var(--mint)}
+.nd.now::before{background:var(--violet);border-color:var(--violet);box-shadow:0 0 0 4px var(--violet-tint)}
+.nd-t{font-size:15px;font-weight:600}
+.nd.pend .nd-t{color:var(--wisp);font-weight:500}
+.nd-s{font-size:13px;color:var(--graphite);margin-top:1px}
+
+.eb{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--wisp);font-weight:700;margin-bottom:8px}
+.h1{font-family:var(--display);font-size:29px;font-weight:600;letter-spacing:-.7px;line-height:1.15}
+.h2{font-family:var(--display);font-size:19px;font-weight:600;letter-spacing:-.7px}
+.sb{font-size:14.5px;color:var(--graphite);line-height:1.62}
+.mn{font-family:var(--mono)}
+.row{display:flex;justify-content:space-between;align-items:center}
+
+.card{background:var(--chalk);border:1.5px solid var(--seam);border-radius:21px;padding:18px}
+.card.tint{background:var(--mist);border-color:transparent}
+.btn{width:100%;padding:17px;border-radius:17px;border:0;font-family:var(--ui);font-size:16px;font-weight:700;cursor:pointer;
+display:flex;align-items:center;justify-content:center;gap:8px;position:relative;overflow:hidden;
+transition:transform .16s var(--ease),background .16s,box-shadow .22s var(--ease),opacity .2s}
+.btn:active:not(:disabled){transform:scale(.975)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.b1{background:var(--violet);color:#fff;box-shadow:0 6px 16px rgba(139,111,199,.28)}
+.b1:hover:not(:disabled){background:var(--violet-deep);box-shadow:0 10px 24px rgba(139,111,199,.36)}
+.b2{background:var(--mist);color:var(--ink)}
+.b2:hover:not(:disabled){background:var(--violet-tint);color:var(--violet-deep)}
+.bg{background:var(--mint);color:#fff;box-shadow:0 6px 16px rgba(79,174,140,.28)}
+.bg:hover:not(:disabled){background:var(--mint-deep);box-shadow:0 10px 24px rgba(79,174,140,.36)}
+.bx{background:var(--blush-tint);color:var(--blush-deep)}
+.bx:hover:not(:disabled){background:var(--blush);color:#fff}
+.bs{padding:11px 16px;font-size:14px;width:auto;border-radius:11px}
+.btn .spin{width:15px;height:15px;border:2px solid rgba(255,255,255,.35);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+.b2 .spin,.bx .spin{border-color:rgba(107,81,166,.25);border-top-color:var(--violet-deep)}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.45);transform:scale(0);animation:rip .6s linear;pointer-events:none}
+.b2 .ripple,.bx .ripple{background:rgba(107,81,166,.2)}
+@keyframes rip{to{transform:scale(4);opacity:0}}
+
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;font-size:12.5px;font-weight:700;transition:.2s var(--ease)}
+.cv{background:var(--violet-tint);color:var(--violet-deep)}
+.cm{background:var(--mint-tint);color:var(--mint-deep)}
+.cb{background:var(--blush-tint);color:var(--blush-deep)}
+.cs{background:var(--saffron-tint);color:var(--saffron-deep)}
+.ck{background:var(--sky-tint);color:var(--sky-deep)}
+.cg{background:var(--mist);color:var(--graphite)}
+.chip.tog{cursor:pointer}
+.chip.tog:active{transform:scale(.94)}
+.chip.bump{animation:bounceIn .42s var(--spring)}
+.chip.live i{width:7px;height:7px;border-radius:50%;background:currentColor;animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 currentColor;opacity:1}70%{box-shadow:0 0 0 7px transparent;opacity:.75}100%{box-shadow:0 0 0 0 transparent;opacity:1}}
+
+input[type=text],input[type=email],input[type=tel],input[type=password],textarea{width:100%;border:1.5px solid var(--seam);border-radius:16px;padding:15px 16px;font-family:var(--ui);font-size:15.5px;color:var(--ink);outline:none;background:var(--chalk);resize:none;transition:border-color .2s,box-shadow .2s}
+input:focus,textarea:focus{border-color:var(--violet);box-shadow:0 0 0 4px var(--violet-tint)}
+label.fl{display:block;font-size:12.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--graphite);margin:14px 0 6px 3px}
+.otp{display:flex;gap:9px;justify-content:center;margin:6px 0}
+.otp input{width:52px;height:64px;text-align:center;font-family:var(--mono);font-size:25px;font-weight:700;padding:0}
+.otp input.filled{border-color:var(--violet);background:var(--violet-tint)}
+
+.opt{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:16px 17px;border:1.5px solid var(--seam);border-radius:17px;margin-bottom:10px;cursor:pointer;background:var(--chalk);
+transition:transform .16s var(--ease),background .16s,border-color .16s}
+.opt:hover{border-color:var(--violet);background:var(--violet-tint)}
+.opt:active{transform:scale(.985)}
+.opt.pick{border-color:var(--violet);background:var(--violet-tint);box-shadow:0 0 0 3px rgba(139,111,199,.13)}
+.opt-n{font-size:15.5px;font-weight:600}
+.opt-d{font-size:13px;color:var(--graphite);margin-top:1px}
+.opt-p{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--violet-deep);flex-shrink:0}
+.opt-i{font-size:22px;color:var(--violet-deep);flex-shrink:0}
+
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.gi{border:1.5px solid var(--seam);border-radius:18px;padding:16px;cursor:pointer;background:var(--chalk);text-align:left;font-family:var(--ui);
+transition:transform .16s var(--ease),background .16s,border-color .16s}
+.gi:hover{border-color:var(--violet);transform:translateY(-2px)}
+.gi:active{transform:scale(.98)}
+.gi.pick{border-color:var(--violet);background:var(--violet-tint);box-shadow:0 0 0 3px rgba(139,111,199,.13)}
+.gi .ic{font-size:26px;display:block;margin-bottom:8px;color:var(--violet-deep)}
+.gi .nm{font-size:15px;font-weight:700;color:var(--ink)}
+.gi .ds{font-size:12.5px;color:var(--graphite);margin-top:2px}
+
+.phs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.ph{aspect-ratio:1;border-radius:16px;background:var(--mist);display:grid;place-items:center;font-size:24px;color:var(--wisp);border:2px dashed var(--seam);cursor:pointer;overflow:hidden;position:relative;
+transition:transform .18s var(--ease),border-color .18s}
+.ph:hover{border-color:var(--violet);transform:translateY(-2px)}
+.ph:active{transform:scale(.96)}
+.ph.has{border-style:solid;border-color:transparent}
+.ph img{width:100%;height:100%;object-fit:cover;display:block}
+.ph.add{color:var(--violet-deep)}
+.ph.new{animation:pop .4s var(--spring)}
+
+.quote{background:linear-gradient(160deg,var(--violet-tint),var(--mist));border-radius:24px;padding:22px;border:1.5px solid #E0D6F2}
+.ql{display:flex;justify-content:space-between;gap:12px;font-size:14.5px;padding:7px 0;color:var(--graphite)}
+.ql b{color:var(--ink);font-family:var(--mono);font-weight:500;white-space:nowrap}
+.qt{display:flex;justify-content:space-between;align-items:baseline;padding-top:12px;margin-top:6px;border-top:2px dashed #DBCFF0}
+.qt span{font-size:15.5px;font-weight:700}
+.qt b{font-family:var(--mono);font-size:30px;font-weight:700;color:var(--violet-deep);letter-spacing:-1px}
+
+.tlr{display:flex;gap:12px;align-items:center}
+.av{width:60px;height:60px;border-radius:19px;object-fit:cover;flex-shrink:0;background:var(--mist);display:block}
+.avf{display:grid;place-items:center;font-weight:700;color:var(--violet-deep);background:var(--violet-tint);font-family:var(--ui);font-size:20px}
+.st{font-size:13px;color:var(--saffron-deep);font-weight:700;font-family:var(--mono);display:flex;align-items:center;gap:4px}
+.st [data-ic]{color:var(--saffron)}
+
+.nav{display:flex;border-top:1px solid var(--seam);background:var(--chalk);flex-shrink:0;padding:10px 6px 22px}
+.nb{flex:1;background:none;border:0;cursor:pointer;padding:8px 2px;border-radius:13px;font-family:var(--ui);font-size:11.5px;font-weight:700;color:var(--wisp);display:flex;flex-direction:column;align-items:center;gap:4px;transition:.18s var(--ease)}
+.nb .i{font-size:22px;transition:transform .3s var(--spring)}
+.nb.on{color:var(--violet-deep)}
+.nb.on .i{transform:translateY(-2px) scale(1.08)}
+.nb:hover{background:var(--mist)}
+.nb:active{transform:scale(.94)}
+
+.note,.ok,.info{border-radius:14px;padding:14px 16px;font-size:13.5px;line-height:1.55;display:flex;gap:10px;align-items:flex-start}
+.note{background:var(--saffron-tint);color:var(--saffron-deep)}
+.ok{background:var(--mint-tint);color:var(--mint-deep)}
+.info{background:var(--sky-tint);color:var(--sky-deep)}
+.note [data-ic],.ok [data-ic],.info [data-ic]{font-size:17px;margin-top:1px}
+
+.radar{height:190px;display:grid;place-items:center;position:relative;margin:6px 0}
+.ring{position:absolute;border-radius:50%;border:2px dashed var(--violet);opacity:0;animation:pl 3s infinite}
+@keyframes pl{0%{width:46px;height:46px;opacity:.7}100%{width:186px;height:186px;opacity:0}}
+.rcore{width:56px;height:56px;border-radius:50%;background:var(--violet);display:grid;place-items:center;font-size:26px;color:#fff;z-index:2;box-shadow:0 10px 26px -8px rgba(139,111,199,.8)}
+@media(prefers-reduced-motion:reduce){.ring{animation:none;opacity:.25;width:150px;height:150px}}
+
+.stars{display:flex;gap:8px;justify-content:center;font-size:34px;cursor:pointer;margin:4px 0 14px;color:var(--saffron)}
+.stars [data-ic]{opacity:.26;transition:.18s var(--spring)}
+.stars [data-ic].lit{opacity:1;transform:scale(1.1)}
+.tips{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.tip{padding:13px 3px;border:1.5px solid var(--seam);border-radius:13px;text-align:center;font-family:var(--mono);font-size:14.5px;font-weight:700;cursor:pointer;background:var(--chalk);transition:.16s var(--ease)}
+.tip:active{transform:scale(.96)}
+.tip.pick{border-color:var(--mint);background:var(--mint-tint);color:var(--mint-deep)}
+.hrow{display:flex;gap:11px;padding:12px 0;border-bottom:1px dashed var(--seam);cursor:pointer;transition:.16s var(--ease)}
+.hrow:hover{background:var(--mist);border-radius:12px;padding-left:8px;padding-right:8px}
+.hrow.hide{display:none}
+.hic{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:21px;flex-shrink:0}
+.msg{max-width:78%;padding:13px 16px;border-radius:18px;font-size:14.5px;line-height:1.45;margin-bottom:8px;animation:rise .35s var(--ease) backwards}
+.me{background:var(--violet);color:#fff;margin-left:auto;border-bottom-right-radius:5px}
+.them{background:var(--mist);border-bottom-left-radius:5px}
+.chk{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:13px 0;border-bottom:1px dashed var(--seam);cursor:pointer}
+.chk:last-child{border-bottom:0}
+.chk span{font-size:14.5px}
+.chk .box{width:26px;height:26px;border-radius:9px;border:2px solid var(--seam);display:grid;place-items:center;font-size:14px;color:transparent;flex-shrink:0;transition:.2s var(--spring)}
+.chk.on .box{background:var(--mint);border-color:var(--mint);color:#fff}
+.chk.on .box [data-ic]{animation:tickPop .34s var(--spring)}
+
+/* ---------- toast (inside phone) ---------- */
+.toasts{position:absolute;top:52px;left:14px;right:14px;z-index:200;display:flex;flex-direction:column;gap:8px;pointer-events:none}
+.tst{background:var(--ink);color:#fff;padding:12px 15px;border-radius:15px;font-size:13.5px;font-weight:600;box-shadow:var(--shadow-lg);display:flex;align-items:flex-start;gap:11px;pointer-events:auto;cursor:pointer;animation:toastIn .4s var(--spring)}
+.tst.out{animation:toastOut .3s var(--ease) forwards}
+.tst .ti{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font-size:12px;flex-shrink:0;color:#fff;margin-top:1px}
+.tst.ok .ti{background:var(--mint)}
+.tst.info .ti{background:var(--sky)}
+.tst.warn .ti{background:var(--saffron)}
+.tst.err .ti{background:var(--blush)}
+.tst b{display:block;font-weight:700;line-height:1.35}
+.tst small{display:block;font-size:12px;opacity:.72;font-weight:500;margin-top:2px;line-height:1.4}
+
+/* ---------- bottom sheet (inside phone) ---------- */
+.scrim{position:absolute;inset:0;background:rgba(53,48,61,.45);backdrop-filter:blur(2px);z-index:150;opacity:0;pointer-events:none;transition:opacity .3s}
+.scrim.on{opacity:1;pointer-events:auto}
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:160;background:var(--chalk);border-radius:28px 28px 0 0;padding:10px 22px 26px;
+max-height:82%;overflow-y:auto;transform:translateY(101%);box-shadow:0 -18px 44px -14px rgba(53,48,61,.32);scrollbar-width:none}
+.sheet::-webkit-scrollbar{width:0}
+.sheet.on{animation:sheetIn .42s var(--ease) forwards}
+.sheet.out{animation:sheetOut .3s var(--ease) forwards}
+.grab{width:42px;height:5px;border-radius:3px;background:var(--seam);margin:0 auto 16px}
+.sheet h3{font-family:var(--display);font-size:21px;font-weight:600;letter-spacing:-.6px;margin-bottom:5px}
+.sheet .sb{margin-bottom:14px}
+.sheet-a{display:flex;flex-direction:column;gap:9px;margin-top:18px}
+
+/* ---------- responsive ---------- */
+
+.rsicon{width:66px;height:66px;border-radius:22px;display:grid;place-items:center;font-size:30px;margin-bottom:16px}
+.bar{height:7px;border-radius:4px;background:var(--seam);overflow:hidden;margin-top:6px}
+.bar i{display:block;height:100%;border-radius:4px;background:var(--mint);transition:width .35s var(--ease),background .35s}
+.rule{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--wisp);padding:5px 0;transition:color .2s}
+.rule .dot{width:19px;height:19px;border-radius:50%;border:2px solid var(--seam);display:grid;place-items:center;font-size:10px;color:transparent;flex-shrink:0;transition:.22s var(--spring)}
+.rule.ok{color:var(--ink)}
+.rule.ok .dot{background:var(--mint);border-color:var(--mint);color:#fff}
+
+@media(max-width:1080px){
+  body{flex-direction:column;gap:14px;padding:14px}
+  .rail{position:static;width:100%;height:auto;overflow:visible}
+  .rail .rlab{display:none}
+  .brand{margin-bottom:10px}
+  .rsub{display:none}
+  .railtop{display:flex;gap:7px;overflow-x:auto;padding-bottom:6px;scrollbar-width:none}
+  .railtop::-webkit-scrollbar{height:0}
+  .rail .rbtn{display:none}
+  .stage{align-items:flex-start}
+}
+@media(max-width:520px){
+  body{padding:0;gap:0;background-image:none;background:var(--chalk)}
+  .rail{padding:12px 14px 0;background:var(--paper)}
+  .stage{width:100%}
+  .phone{width:100%;height:calc(100dvh - 108px);border-radius:0;box-shadow:none}
+  .notch{display:none}
+  .sbar{height:34px;padding:0 20px 4px}
+  .toasts{top:40px}
+}
+@media(max-width:400px){
+  .bd,.top{padding-left:16px;padding-right:16px}
+  .ft{padding-left:16px;padding-right:16px}
+  .h1{font-size:26px}
+  .otp input{width:44px;height:56px;font-size:22px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<nav class="rail">
+  <div class="brand"><div class="bmark" data-ic="needle"></div><div class="bname">SnapStitch</div></div>
+  <div class="rsub">Customer</div>
+  <div class="railtop" id="railTop"></div>
+  <div class="rlab">Onboarding</div>
+  <button class="rbtn on" data-go="c1"><span class="rnum">01</span>Splash</button>
+  <button class="rbtn" data-go="c2"><span class="rnum">02</span>Log in / Sign up</button>
+  <button class="rbtn" data-go="c3"><span class="rnum">03</span>Verify code</button>
+  <button class="rbtn" data-go="c4"><span class="rnum">04</span>Profile setup</button>
+  <button class="rbtn" data-go="c5"><span class="rnum">05</span>Add address</button>
+  <div class="rlab">Create a job</div>
+  <button class="rbtn" data-go="c6"><span class="rnum">06</span>Home</button>
+  <button class="rbtn" data-go="c7"><span class="rnum">07</span>Upload photos</button>
+  <button class="rbtn" data-go="c8"><span class="rnum">08</span>Garment type</button>
+  <button class="rbtn" data-go="c9"><span class="rnum">09</span>Alteration type</button>
+  <button class="rbtn" data-go="c10"><span class="rnum">10</span>Instructions</button>
+  <button class="rbtn" data-go="c11"><span class="rnum">11</span>On-site or pickup</button>
+  <div class="rlab">Price &amp; payment</div>
+  <button class="rbtn" data-go="c12"><span class="rnum">12</span>Your price</button>
+  <button class="rbtn" data-go="c13"><span class="rnum">13</span>Payment</button>
+  <button class="rbtn" data-go="c14"><span class="rnum">14</span>Payment success</button>
+  <div class="rlab">Job execution</div>
+  <button class="rbtn" data-go="c15"><span class="rnum">15</span>Finding a tailor</button>
+  <button class="rbtn" data-go="c16"><span class="rnum">16</span>Tailor assigned</button>
+  <button class="rbtn" data-go="c17"><span class="rnum">17</span>Tailor en route</button>
+  <button class="rbtn" data-go="c18"><span class="rnum">18</span>Tailor arrived</button>
+  <button class="rbtn" data-go="c19"><span class="rnum">19</span>Chat</button>
+  <div class="rlab">Add-on</div>
+  <button class="rbtn" data-go="c20"><span class="rnum">20</span>Add-on request</button>
+  <button class="rbtn" data-go="c21"><span class="rnum">21</span>Updated price</button>
+  <div class="rlab">Completion</div>
+  <button class="rbtn" data-go="c22"><span class="rnum">22</span>Job completed</button>
+  <button class="rbtn" data-go="c23"><span class="rnum">23</span>Approve the work</button>
+  <button class="rbtn" data-go="c24"><span class="rnum">24</span>Payment released</button>
+  <button class="rbtn" data-go="c25"><span class="rnum">25</span>Rate &amp; review</button>
+  <button class="rbtn" data-go="c26"><span class="rnum">26</span>Order summary</button>
+  <div class="rlab">Account</div>
+  <button class="rbtn" data-go="c27"><span class="rnum">27</span>Job history</button>
+  <button class="rbtn" data-go="c28"><span class="rnum">28</span>Profile</button>
+  <div class="rlab">Account recovery</div>
+  <button class="rbtn" data-go="fpa"><span class="rnum">R1</span>Forgot password</button>
+  <button class="rbtn" data-go="fpb"><span class="rnum">R2</span>Enter the code</button>
+  <button class="rbtn" data-go="fpc"><span class="rnum">R3</span>New password</button>
+  <button class="rbtn" data-go="fpd"><span class="rnum">R4</span>Password updated</button>
+</nav>
+
+<div class="stage"><div class="phone">
+<div class="notch"></div>
+<div class="sbar"><span>9:41</span><span class="sig"><span data-ic="signal"></span><span data-ic="wifi"></span><span data-ic="battery"></span></span></div>
+<div class="toasts" id="toasts"></div>
+<div class="scrim" id="scrim"></div>
+<div class="sheet" id="sheet"></div>
+
+<section class="screen on" id="c1">
+  <div class="bd" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding-top:0">
+    <div style="width:88px;height:88px;border-radius:28px;background:linear-gradient(135deg,var(--violet),var(--violet-deep));display:grid;place-items:center;margin-bottom:22px;box-shadow:0 14px 34px rgba(139,111,199,.4);font-size:46px;color:#fff" data-ic="needle"></div>
+    <div class="h1" style="font-size:38px">SnapStitch</div>
+    <div class="sb" style="margin-top:9px;max-width:250px">A tailor at your door. Snap a photo, get a price, done the same day.</div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c2">Get started</button>
+    <div class="sb" style="text-align:center;font-size:12.5px;margin-top:9px">Austin, TX · serving 78701–78759</div></div>
+</section>
+
+<section class="screen" id="c2">
+  <div class="bd" style="padding-top:22px">
+    <div class="h1">Welcome</div>
+    <div class="sb" style="margin-top:6px">Log in or create an account. We'll send you a code.</div>
+    <div style="display:flex;gap:7px;background:var(--mist);border-radius:13px;padding:4px;margin:20px 0 4px">
+      <button class="btn bs" id="tabPhone" style="flex:1;background:var(--chalk);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.07)">Mobile</button>
+      <button class="btn bs" id="tabMail" style="flex:1;background:none;color:var(--graphite)">Email</button>
+    </div>
+    <div id="panelPhone">
+      <label class="fl">Mobile number</label>
+      <div style="display:flex;gap:8px"><input type="text" value="+1" style="width:64px;text-align:center"><input type="tel" id="liPhone" value="(512) 555-0148"></div>
+    </div>
+    <div id="panelMail" style="display:none">
+      <label class="fl">Email address</label>
+      <input type="email" id="liMail" value="jessica.turner@example.com">
+    </div>
+    <div style="text-align:right;margin-top:11px"><b class="lnk" data-go="fpa">Forgot password?</b></div>
+    <div class="stitch"></div>
+    <div class="sb" style="font-size:13px">By continuing you agree to the <b class="lnk" data-legal="Terms of Service">Terms of Service</b> and <b class="lnk" data-legal="Privacy Policy">Privacy Policy</b>. Message and data rates may apply.</div>
+  </div>
+  <div class="ft"><button class="btn b1" id="sendCode">Send code</button></div>
+</section>
+
+<section class="screen" id="c3">
+  <div class="top"><button class="back" data-go="c2" data-ic="arrowleft"></button><div class="ttl">Verify</div></div>
+  <div class="bd">
+    <div class="sb">We sent a 6-digit code to <b style="color:var(--ink)" id="otpDest">+1 (512) 555-0148</b>.</div>
+    <div class="otp" style="margin-top:22px" id="otp">
+      <input value="4" maxlength="1" inputmode="numeric"><input value="0" maxlength="1" inputmode="numeric"><input value="2" maxlength="1" inputmode="numeric">
+      <input value="9" maxlength="1" inputmode="numeric"><input value="1" maxlength="1" inputmode="numeric"><input value="7" maxlength="1" inputmode="numeric">
+    </div>
+    <div style="text-align:center;margin-top:16px"><div class="sb" style="font-size:13.5px">Didn't get it? <b class="lnk" id="resend">Resend code</b></div></div>
+    <div class="stitch"></div>
+    <div class="info"><span data-ic="info"></span><div>The code is pre-filled for this prototype. Tap Verify to continue.</div></div>
+  </div>
+  <div class="ft"><button class="btn b1" id="doVerify">Verify</button></div>
+</section>
+
+<section class="screen" id="c4">
+  <div class="bd" style="padding-top:16px">
+    <div class="eb">Step 1 of 2</div>
+    <div class="h1">Tell us who you are</div>
+    <div style="display:flex;justify-content:center;margin:20px 0 4px">
+      <div style="position:relative;cursor:pointer" id="avPick">
+        <img class="av" data-me style="width:82px;height:82px;border-radius:26px" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Jessica Turner" data-i="JT">
+        <div style="position:absolute;bottom:-4px;right:-4px;width:29px;height:29px;border-radius:10px;background:var(--violet);color:#fff;display:grid;place-items:center;font-size:15px;border:3px solid var(--chalk)" data-ic="camera"></div>
+      </div>
+    </div>
+    <label class="fl">Full name</label><input type="text" id="pfName" value="Jessica Turner">
+    <label class="fl">Email address</label><input type="email" id="pfMail" value="jessica.turner@example.com">
+    <label class="fl">Mobile number</label><input type="tel" value="+1 (512) 555-0148" disabled style="background:var(--mist);color:var(--graphite)">
+  </div>
+  <div class="ft"><button class="btn b1" id="saveProfile">Continue</button></div>
+</section>
+
+<section class="screen" id="c5">
+  <div class="top"><button class="back" data-go="c4" data-ic="arrowleft"></button><div><div class="ttl">Add an address</div><div class="sb" style="font-size:13px">Step 2 of 2</div></div></div>
+  <div class="bd">
+    <div style="height:120px;border-radius:16px;background:linear-gradient(150deg,var(--sky-tint),var(--mint-tint));display:grid;place-items:center;position:relative;margin-bottom:6px;cursor:pointer" data-act="dragmap">
+      <span style="font-size:31px;color:var(--blush-deep)" data-ic="pin"></span>
+      <div style="position:absolute;bottom:10px;right:10px;background:rgba(255,255,255,.94);padding:6px 12px;border-radius:10px;font-size:13px;font-weight:700">Drag to adjust</div>
+    </div>
+    <label class="fl">Label</label>
+    <div style="display:flex;gap:7px" id="addrLabel">
+      <div class="opt pick" data-lbl="Home" style="flex:1;justify-content:center;margin:0;padding:11px;gap:7px"><span data-ic="home" style="font-size:17px"></span><span style="font-size:15px;font-weight:700">Home</span></div>
+      <div class="opt" data-lbl="Work" style="flex:1;justify-content:center;margin:0;padding:11px;gap:7px"><span data-ic="briefcase" style="font-size:17px"></span><span style="font-size:15px;font-weight:700">Work</span></div>
+      <div class="opt" data-lbl="Other" style="flex:1;justify-content:center;margin:0;padding:11px;gap:7px"><span data-ic="pin" style="font-size:17px"></span><span style="font-size:15px;font-weight:700">Other</span></div>
+    </div>
+    <label class="fl">Street address</label><input type="text" id="adStreet" value="418 Larkspur Lane">
+    <label class="fl">Apt / unit</label><input type="text" value="Apt 3B">
+    <div style="display:flex;gap:9px">
+      <div style="flex:1.6"><label class="fl">City</label><input type="text" value="Austin"></div>
+      <div style="flex:.7"><label class="fl">State</label><input type="text" value="TX"></div>
+      <div style="flex:1"><label class="fl">ZIP</label><input type="text" id="adZip" value="78704"></div>
+    </div>
+    <label class="fl">Gate or buzzer code (optional)</label><input type="text" value="4402">
+  </div>
+  <div class="ft"><button class="btn b1" id="saveAddr">Save and finish</button></div>
+</section>
+
+<section class="screen" id="c6">
+  <div class="bd" style="padding-top:8px">
+    <div class="row" style="margin-bottom:16px">
+      <div><div class="eb" style="margin:0">Good afternoon</div><div class="h1" style="font-size:26px">Hi, <span data-myfirst>Jessica</span></div></div>
+      <img class="av" data-me style="width:44px;height:44px;border-radius:15px;cursor:pointer" src="https://randomuser.me/api/portraits/women/65.jpg" alt="Jessica Turner" data-i="JT" data-go="c28">
+    </div>
+    <button class="btn b1" style="padding:20px;border-radius:20px;flex-direction:column;gap:6px" data-go="c7">
+      <span style="font-size:30px" data-ic="camera"></span>
+      <span style="font-size:18px">Create a job</span>
+      <span style="font-size:13px;font-weight:500;opacity:.85">Photograph your garment to get a price</span>
+    </button>
+    <div class="stitch"></div>
+    <div class="eb">Active job</div>
+    <div class="card" style="border-color:var(--mint);background:var(--mint-tint);cursor:pointer" data-go="c17">
+      <div class="row"><div><div style="font-size:15.5px;font-weight:700">Pants · Hemming × 2</div><div class="sb" style="font-size:13.5px;margin-top:2px;color:var(--mint-deep)">Marcus D. is 9 minutes away</div></div><span class="chip cm live"><i></i>En route</span></div>
+    </div>
+    <div class="stitch"></div>
+    <div class="eb">Book again</div>
+    <div class="opt" data-act="bookagain" data-job="Dress · Resizing"><div><div class="opt-n">Dress · Resizing</div><div class="opt-d">19 Jun · Marcus D. · ★ 5.0</div></div><div class="opt-p">$78</div></div>
+    <div class="opt" data-act="bookagain" data-job="Blazer · Lining repair"><div><div class="opt-n">Blazer · Lining repair</div><div class="opt-d">28 Jul · Emily C. · ★ 4.8</div></div><div class="opt-p">$120</div></div>
+  </div>
+  <div class="nav">
+    <button class="nb on" data-go="c6"><span class="i" data-ic="home"></span>Home</button>
+    <button class="nb" data-go="c15"><span class="i" data-ic="clock"></span>Orders</button>
+    <button class="nb" data-go="c27"><span class="i" data-ic="list"></span>History</button>
+    <button class="nb" data-go="c28"><span class="i" data-ic="userc"></span>Profile</button>
+  </div>
+</section>
+
+<section class="screen" id="c7">
+  <div class="top"><button class="back" data-go="c6" data-ic="arrowleft"></button><div><div class="ttl">Photograph the cloth</div><div class="sb" style="font-size:13px">Step 1 of 5</div></div></div>
+  <div class="bd" style="display:flex;flex-direction:column">
+    <div style="flex:1;min-height:270px;border-radius:22px;background:linear-gradient(150deg,var(--mist),var(--violet-tint));display:grid;place-items:center;position:relative;overflow:hidden">
+      <span style="font-size:74px;opacity:.32;color:var(--violet-deep)" data-ic="pants"></span>
+      <div style="position:absolute;inset:26px;border:2px dashed rgba(139,111,199,.4);border-radius:16px"></div>
+      <div style="position:absolute;bottom:18px;left:0;right:0;display:flex;justify-content:center;gap:26px;align-items:center">
+        <button class="back" style="background:rgba(255,255,255,.9)" data-act="gallery" data-ic="image" title="Choose from gallery"></button>
+        <button id="shutter" style="width:66px;height:66px;border-radius:50%;background:#fff;border:5px solid var(--violet);cursor:pointer;box-shadow:0 4px 14px rgba(53,48,61,.18);transition:transform .15s var(--ease)" title="Take a photo"></button>
+        <button class="back" style="background:rgba(255,255,255,.9)" data-act="flip" data-ic="rotate" title="Flip camera"></button>
+      </div>
+    </div>
+    <div class="eb" style="margin-top:16px">Photos added — <span id="phCount">2</span> of 6</div>
+    <div class="phs" id="phGrid"></div>
+    <div class="note" style="margin-top:14px"><span data-ic="info"></span><div>Take one shot of the whole garment and one close-up of the area you want worked on. Good light helps the tailor prepare.</div></div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c8">Next — garment type</button></div>
+</section>
+
+<section class="screen" id="c8">
+  <div class="top"><button class="back" data-go="c7" data-ic="arrowleft"></button><div><div class="ttl">What is it?</div><div class="sb" style="font-size:13px">Step 2 of 5</div></div></div>
+  <div class="bd"><div class="eb">Select the garment type</div><div class="gg" id="garments"></div></div>
+  <div class="ft">
+    <div class="row" style="margin-bottom:10px"><span class="sb" style="font-size:13.5px">Selected</span><b class="mn" style="font-size:15px" id="gSel">Pants / trousers</b></div>
+    <button class="btn b1" data-go="c9">Next — alteration type</button>
+  </div>
+</section>
+
+<section class="screen" id="c9">
+  <div class="top"><button class="back" data-go="c8" data-ic="arrowleft"></button><div><div class="ttl">What needs doing?</div><div class="sb" style="font-size:13px">Step 3 of 5</div></div></div>
+  <div class="bd">
+    <div class="eb">Alteration type — prices set by SnapStitch</div>
+    <div id="alterations"></div>
+    <div class="stitch"></div>
+    <div class="eb">How many</div>
+    <div class="row">
+      <div><div style="font-size:15.5px;font-weight:600" id="qLbl">Pants · Hemming</div><div class="sb" style="font-size:13px" id="qEach">$45 each</div></div>
+      <div style="display:flex;align-items:center;gap:12px;background:var(--mist);border-radius:12px;padding:6px 8px">
+        <button class="back" style="width:31px;height:31px;background:var(--chalk);font-size:15px" id="qm" data-ic="minus"></button>
+        <span class="mn" style="font-weight:700;font-size:17px;min-width:16px;text-align:center" id="qn">2</span>
+        <button class="back" style="width:31px;height:31px;background:var(--chalk);font-size:15px" id="qp" data-ic="plus"></button>
+      </div>
+    </div>
+  </div>
+  <div class="ft">
+    <div class="row" style="margin-bottom:10px"><span class="sb" style="font-size:13.5px">Service subtotal</span><b class="mn" style="font-size:21.5px;font-weight:700;color:var(--violet-deep)" id="aSub">$90</b></div>
+    <button class="btn b1" data-go="c10">Next — instructions</button>
+  </div>
+</section>
+
+<section class="screen" id="c10">
+  <div class="top"><button class="back" data-go="c9" data-ic="arrowleft"></button><div><div class="ttl">Instructions</div><div class="sb" style="font-size:13px">Step 4 of 5</div></div></div>
+  <div class="bd">
+    <div class="eb">Anything the tailor should know</div>
+    <textarea rows="6" id="notes">Take these up so they sit just on the shoe. Please keep the original hem finish — it's a blind stitch. The fabric is a lightweight wool.</textarea>
+    <div class="eb" style="margin-top:16px">Quick add</div>
+    <div style="display:flex;gap:7px;flex-wrap:wrap" id="quickAdd">
+      <span class="chip cv tog" data-add="Keep the original hem finish.">＋ Keep original hem</span>
+      <span class="chip cv tog" data-add="This is a delicate fabric — please handle with care.">＋ Delicate fabric</span>
+      <span class="chip cv tog" data-add="Please match the existing thread colour.">＋ Match existing thread</span>
+      <span class="chip cv tog" data-add="I'd like to try it on before you finish.">＋ I'll try it on</span>
+    </div>
+    <div class="stitch"></div>
+    <div class="info"><span data-ic="info"></span><div>Your photos and notes go straight to the tailor. They can message you before arriving if anything is unclear.</div></div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c11">Next — service type</button></div>
+</section>
+
+<section class="screen" id="c11">
+  <div class="top"><button class="back" data-go="c10" data-ic="arrowleft"></button><div><div class="ttl">How should we do it?</div><div class="sb" style="font-size:13px">Step 5 of 5</div></div></div>
+  <div class="bd">
+    <div class="eb">Service type</div>
+    <div class="opt pick" data-svc="onsite" data-fee="25">
+      <span class="opt-i" data-ic="home"></span>
+      <div style="flex:1"><div class="opt-n">On-site</div><div class="opt-d">Tailor comes to you and works there. Usually done within the hour.</div></div>
+      <div class="opt-p">+$25</div>
+    </div>
+    <div class="opt" data-svc="pickup" data-fee="35">
+      <span class="opt-i" data-ic="truck"></span>
+      <div style="flex:1"><div class="opt-n">Pickup and return</div><div class="opt-d">Tailor collects it, works at the shop, brings it back. 2–4 days.</div></div>
+      <div class="opt-p">+$35</div>
+    </div>
+    <div class="stitch"></div>
+    <div class="eb">Address</div>
+    <div class="card" style="display:flex;gap:12px;align-items:flex-start">
+      <span style="font-size:21px;color:var(--violet-deep)" data-ic="home"></span>
+      <div style="flex:1"><div style="font-size:15.5px;font-weight:700">Home</div><div class="sb" style="font-size:13.5px;margin-top:2px">418 Larkspur Lane, Apt 3B<br>Austin, TX 78704</div><span class="chip cv" style="margin-top:8px">Gate code 4402</span></div>
+      <button class="btn b2 bs" data-go="c5">Change</button>
+    </div>
+    <div class="eb" style="margin-top:16px">When</div>
+    <div style="display:flex;gap:8px" id="whenPick">
+      <div class="opt pick" data-when="Today, 2–4 PM" style="flex:1;flex-direction:column;align-items:flex-start;margin:0"><div class="opt-n">As soon as possible</div><div class="opt-d">Today, 2–4 PM</div></div>
+      <div class="opt" data-when="schedule" style="flex:1;flex-direction:column;align-items:flex-start;margin:0"><div class="opt-n">Schedule</div><div class="opt-d">Pick a date</div></div>
+    </div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c12">See my price</button></div>
+</section>
+
+<section class="screen" id="c12">
+  <div class="top"><button class="back" data-go="c11" data-ic="arrowleft"></button><div class="ttl">Your price</div></div>
+  <div class="bd">
+    <div class="quote">
+      <div class="eb" style="color:var(--violet-deep);opacity:.6">Fixed by SnapStitch · no haggling on the doorstep</div>
+      <div class="ql"><span id="p1l">Pants · Hemming × 2</span><b id="p1v">$90.00</b></div>
+      <div class="ql"><span id="p2l">On-site visit fee</span><b id="p2v">$25.00</b></div>
+      <div class="ql"><span>Sales tax (8.25%)</span><b id="p3v">$9.49</b></div>
+      <div class="qt"><span>Total</span><b id="ptot">$124.49</b></div>
+    </div>
+    <div class="ok" style="margin-top:14px"><span data-ic="lock"></span><div><b>Held safely until you approve.</b> We take the payment now and hold it in escrow. The tailor is paid only after you approve the finished work.</div></div>
+    <div class="stitch"></div>
+    <div class="eb">Your job</div>
+    <div class="card">
+      <div class="phs" id="phSummary" style="grid-template-columns:repeat(4,1fr);margin-bottom:11px"></div>
+      <div class="sb" style="font-size:13.5px" id="noteEcho">"Take these up so they sit just on the shoe. Keep the original blind-stitch hem. Lightweight wool."</div>
+      <div style="display:flex;gap:6px;margin-top:10px"><span class="chip cv" id="svcChip">On-site</span><span class="chip ck" id="whenChip">Today 2–4 PM</span></div>
+    </div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c13">Accept &amp; pay</button></div>
+</section>
+
+<section class="screen" id="c13">
+  <div class="top"><button class="back" data-go="c12" data-ic="arrowleft"></button><div class="ttl">Payment</div></div>
+  <div class="bd">
+    <div class="card tint" style="text-align:center;padding:20px">
+      <div class="eb" style="margin-bottom:6px">Amount to hold in escrow</div>
+      <div class="mn" style="font-size:38px;font-weight:700;letter-spacing:-1.4px;color:var(--violet-deep)" id="payAmt">$124.49</div>
+    </div>
+    <div class="eb" style="margin-top:18px">Pay with</div>
+    <div id="payList">
+      <div class="opt pick" data-pay="Visa ···· 4419"><span class="opt-i" data-ic="card"></span><div style="flex:1"><div class="opt-n">Visa ···· 4419</div><div class="opt-d">Expires 09/28</div></div><span class="chip cm">Default</span></div>
+      <div class="opt" data-pay="Apple Pay"><span class="opt-i" data-ic="apple"></span><div style="flex:1"><div class="opt-n">Apple Pay</div><div class="opt-d">Touch ID</div></div></div>
+      <div class="opt" data-pay="SnapStitch wallet"><span class="opt-i" data-ic="wallet"></span><div style="flex:1"><div class="opt-n">SnapStitch wallet</div><div class="opt-d">Balance $15.00 — referral credit</div></div></div>
+    </div>
+    <div class="opt" data-act="addcard"><span class="opt-i" data-ic="plus"></span><div style="flex:1"><div class="opt-n">Add a new card</div></div></div>
+    <div class="stitch"></div>
+    <div class="info"><span data-ic="lock"></span><div>Card details are handled by our payment processor. SnapStitch never stores your card number.</div></div>
+  </div>
+  <div class="ft"><button class="btn b1" id="doPay">Pay and hold in escrow</button></div>
+</section>
+
+<section class="screen" id="c14">
+  <div class="bd" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+    <div style="width:78px;height:78px;border-radius:26px;background:var(--mint-tint);display:grid;place-items:center;font-size:38px;margin-bottom:18px;color:var(--mint-deep)" data-ic="check"></div>
+    <div class="h1" style="font-size:28px">Payment held</div>
+    <div class="sb" style="margin-top:8px;max-width:265px" id="heldTxt">$124.49 is held safely by SnapStitch. Your tailor gets paid only once you approve the finished work.</div>
+    <div class="card tint" style="width:100%;margin-top:22px;text-align:left">
+      <div class="row" style="padding:5px 0"><span class="sb" style="font-size:14px">Order</span><b class="mn" style="font-size:14.5px">SS-9041</b></div>
+      <div class="row" style="padding:5px 0"><span class="sb" style="font-size:14px">Job</span><b style="font-size:14.5px" id="heldJob">Pants · Hemming × 2</b></div>
+      <div class="row" style="padding:5px 0"><span class="sb" style="font-size:14px">Service</span><b style="font-size:14.5px" id="heldSvc">On-site, today 2–4 PM</b></div>
+    </div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c15">Track my order</button></div>
+</section>
+
+<section class="screen" id="c15">
+  <div class="top"><div class="ttl" style="padding-left:5px">Finding a tailor</div></div>
+  <div class="bd">
+    <div class="radar"><div class="ring"></div><div class="ring" style="animation-delay:1s"></div><div class="ring" style="animation-delay:2s"></div><div class="rcore" data-ic="spool"></div></div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+      <div class="card tint" style="text-align:center;padding:11px"><div class="mn" style="font-size:19px;font-weight:700" id="elap">0:00</div><div class="sb" style="font-size:11.5px;font-weight:700">ELAPSED</div></div>
+      <div class="card tint" style="text-align:center;padding:11px"><div class="mn" style="font-size:19px;font-weight:700" id="rad">2 mi</div><div class="sb" style="font-size:11.5px;font-weight:700">RADIUS</div></div>
+      <div class="card tint" style="text-align:center;padding:11px"><div class="mn" style="font-size:19px;font-weight:700" id="askd">1</div><div class="sb" style="font-size:11.5px;font-weight:700">ASKED</div></div>
+    </div>
+    <div class="stitch"></div>
+    <div class="card">
+      <div class="eb">Order status</div>
+      <div class="track">
+        <div class="nd done"><div class="nd-t">Payment held in escrow</div><div class="nd-s">2:02 PM</div></div>
+        <div class="nd now"><div class="nd-t">Finding a nearby tailor</div><div class="nd-s">Only tailors approved for this work</div></div>
+        <div class="nd pend"><div class="nd-t">Tailor assigned</div></div>
+        <div class="nd pend"><div class="nd-t">Work in progress</div></div>
+        <div class="nd pend"><div class="nd-t">You approve, tailor is paid</div></div>
+      </div>
+    </div>
+    <button class="btn b2" style="margin-top:14px" data-go="c16">Skip ahead — tailor accepts</button>
+  </div>
+  <div class="nav">
+    <button class="nb" data-go="c6"><span class="i" data-ic="home"></span>Home</button>
+    <button class="nb on" data-go="c15"><span class="i" data-ic="clock"></span>Orders</button>
+    <button class="nb" data-go="c27"><span class="i" data-ic="list"></span>History</button>
+    <button class="nb" data-go="c28"><span class="i" data-ic="userc"></span>Profile</button>
+  </div>
+</section>
+
+<section class="screen" id="c16">
+  <div class="bd" style="padding-top:22px;text-align:center">
+    <div style="width:74px;height:74px;border-radius:24px;background:var(--mint-tint);display:grid;place-items:center;font-size:36px;margin:0 auto 16px;color:var(--mint-deep)" data-ic="party"></div>
+    <div class="h1" style="font-size:26px">Marcus is your tailor</div>
+    <div class="sb" style="margin-top:7px">He accepted in 14 seconds and is heading over now.</div>
+    <div class="card" style="margin-top:20px;text-align:left">
+      <div class="tlr"><img class="av" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Delaney" data-i="MD">
+        <div style="flex:1"><div style="font-size:18px;font-weight:700">Marcus Delaney</div><div class="st"><span data-ic="star" class="fill" style="font-size:12px"></span>4.9 · 340 jobs</div>
+          <div style="display:flex;gap:5px;margin-top:6px;flex-wrap:wrap"><span class="chip cv">Pants</span><span class="chip cm"><span data-ic="shield" style="font-size:12px"></span>Background checked</span></div></div>
+      </div>
+      <div class="stitch" style="margin:13px 0"></div>
+      <div class="row"><span class="sb" style="font-size:14px">Distance</span><b class="mn" style="font-size:14.5px">1.4 mi away</b></div>
+      <div class="row" style="margin-top:6px"><span class="sb" style="font-size:14px">Arriving</span><b class="mn" style="font-size:14.5px">2:14 PM</b></div>
+    </div>
+    <div style="display:flex;gap:9px;margin-top:14px">
+      <button class="btn b2" data-go="c19"><span data-ic="chat"></span>Message</button>
+      <button class="btn b2" data-act="call"><span data-ic="phone"></span>Call</button>
+    </div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c17">Track Marcus</button></div>
+</section>
+
+<section class="screen" id="c17">
+  <div style="height:200px;background:linear-gradient(155deg,var(--mint-tint),var(--sky-tint));position:relative;flex-shrink:0">
+    <svg width="100%" height="200" viewBox="0 0 390 200" style="position:absolute;inset:0" preserveAspectRatio="xMidYMid slice">
+      <path d="M-10 168 Q 90 148 148 116 T 296 56" stroke="#4FAE8C" stroke-width="3" stroke-dasharray="8 7" fill="none"/>
+      <circle cx="148" cy="116" r="9" fill="#8B6FC7"/><circle cx="148" cy="116" r="17" fill="#8B6FC7" opacity=".2"/>
+      <rect x="282" y="42" width="28" height="28" rx="9" fill="#35303D"/>
+      <path d="M289 57l7-6 7 6M291 56v6h10v-6" stroke="#fff" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div style="position:absolute;bottom:13px;left:20px;background:rgba(255,255,255,.94);padding:7px 13px;border-radius:11px;font-family:var(--mono);font-size:13.5px;font-weight:700">1.4 mi · 9 min</div>
+  </div>
+  <div class="bd" style="padding-top:16px">
+    <span class="chip cm live" style="margin-bottom:11px"><i></i>Marcus is on the way</span>
+    <div class="tlr">
+      <img class="av" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Delaney" data-i="MD">
+      <div style="flex:1"><div style="font-size:17.5px;font-weight:700">Marcus Delaney</div><div class="st"><span data-ic="star" class="fill" style="font-size:12px"></span>4.9 · 340 jobs</div></div>
+      <button class="back" data-go="c19" style="background:var(--violet-tint);color:var(--violet-deep)" data-ic="chat"></button>
+      <button class="back" data-act="call" style="background:var(--mint-tint);color:var(--mint-deep)" data-ic="phone"></button>
+    </div>
+    <div class="stitch"></div>
+    <div class="card tint">
+      <div class="row"><div style="font-size:15px;font-weight:700">Pants · Hemming × 2</div><div class="mn" style="font-size:15.5px;font-weight:700">$124.49</div></div>
+      <div class="sb" style="font-size:13.5px;margin-top:5px">Held in escrow · released when you approve the work</div>
+    </div>
+    <div class="stitch"></div>
+    <button class="btn b2" data-go="c18">Marcus has arrived</button>
+  </div>
+</section>
+
+<section class="screen" id="c18">
+  <div class="top"><div class="ttl" style="padding-left:5px">Marcus has arrived</div></div>
+  <div class="bd">
+    <div class="card" style="background:var(--mint-tint);border-color:transparent">
+      <div class="row"><div><div style="font-size:17px;font-weight:700">Inspecting your garments</div><div class="sb" style="font-size:14px;margin-top:2px;color:var(--mint-deep)">Arrived 2:12 PM</div></div><span style="font-size:28px;color:var(--mint-deep)" data-ic="search"></span></div>
+    </div>
+    <div class="stitch"></div>
+    <div class="eb">Photos taken on arrival</div>
+    <div class="phs">
+      <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?w=300&q=70&auto=format&fit=crop" alt="Trousers before alteration"></div>
+      <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1536867520774-5b4f2628a69b?w=300&q=70&auto=format&fit=crop" alt="Measuring tape on fabric"></div>
+      <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1578353022142-09264fd64295?w=300&q=70&auto=format&fit=crop" alt="Pins and thread"></div>
+    </div>
+    <div class="sb" style="font-size:13.5px;margin-top:8px">Marcus photographs everything before starting. You'll get matching photos when he's done.</div>
+    <div class="stitch"></div>
+    <div class="card">
+      <div class="eb">Order status</div>
+      <div class="track">
+        <div class="nd done"><div class="nd-t">Payment held</div><div class="nd-s">2:02 PM</div></div>
+        <div class="nd done"><div class="nd-t">Marcus accepted</div><div class="nd-s">2:03 PM</div></div>
+        <div class="nd done"><div class="nd-t">Arrived and inspecting</div><div class="nd-s">2:12 PM</div></div>
+        <div class="nd now"><div class="nd-t">Work in progress</div><div class="nd-s">Started 2:14 PM</div></div>
+        <div class="nd pend"><div class="nd-t">You approve the work</div></div>
+      </div>
+    </div>
+    <button class="btn b2" style="margin-top:14px" data-go="c20">Marcus found extra work</button>
+    <button class="btn bg" style="margin-top:9px" data-go="c22">Marcus finished the job</button>
+  </div>
+</section>
+
+<section class="screen" id="c19">
+  <div class="top"><button class="back" data-go="c17" data-ic="arrowleft"></button>
+    <img class="av" style="width:40px;height:40px;border-radius:13px" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Delaney" data-i="MD">
+    <div><div style="font-size:16.5px;font-weight:700">Marcus Delaney</div><div class="sb" style="font-size:12.5px;color:var(--mint-deep)">● Online · 1.4 mi away</div></div>
+    <button class="back" data-act="call" style="margin-left:auto;background:var(--mint-tint);color:var(--mint-deep)" data-ic="phone"></button></div>
+  <div class="bd" id="chatBody">
+    <div style="text-align:center;margin-bottom:14px"><span class="chip cg">Today</span></div>
+    <div class="msg them">Hi Jessica — on my way, about 10 minutes out. Quick question, are the trousers lined?</div>
+    <div class="msg me">Hi! No, unlined. They're the lightweight wool ones in the photo.</div>
+    <div class="msg them">Perfect, that's straightforward. Blind hem as you asked. See you shortly.</div>
+    <div class="msg me">Great, thank you. Gate code is 4402.</div>
+    <div class="stitch"></div>
+    <div class="info"><span data-ic="shield"></span><div>Your number stays private. Calls and messages go through SnapStitch.</div></div>
+  </div>
+  <div class="ft"><div style="display:flex;gap:8px;align-items:center">
+    <button class="back" data-act="attach" data-ic="clip"></button>
+    <input type="text" id="chatIn" placeholder="Message Marcus…" style="flex:1;border-radius:999px">
+    <button class="back" id="chatSend" style="background:var(--violet);color:#fff" data-ic="send"></button>
+  </div></div>
+</section>
+
+<section class="screen" id="c20">
+  <div class="top"><button class="back" data-go="c18" data-ic="arrowleft"></button><div class="ttl">Extra work request</div></div>
+  <div class="bd">
+    <span class="chip cs" style="margin-bottom:12px">Waiting on you · sent 2:38 PM</span>
+    <div class="card">
+      <div class="tlr" style="margin-bottom:13px"><img class="av" style="width:44px;height:44px;border-radius:14px" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Delaney" data-i="MD">
+        <div><div style="font-size:16px;font-weight:700">Marcus Delaney</div><div class="sb" style="font-size:13px">Found something while inspecting</div></div></div>
+      <div class="h2" style="font-size:17.5px;margin-bottom:6px">Torn lining on the right leg</div>
+      <div class="sb">The inner lining has split along the seam. If I don't repair it, the new hem will pull loose within a few wears. It adds about 20 minutes.</div>
+      <div class="phs" style="margin-top:13px">
+        <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1606501126768-b78d4569d3f9?w=300&q=70&auto=format&fit=crop" alt="Close-up of the torn lining"></div>
+        <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1542044801-30d3e45ae49a?w=300&q=70&auto=format&fit=crop" alt="Matching thread"></div>
+        <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1630930678172-63343537a00a?w=300&q=70&auto=format&fit=crop" alt="Repair in progress"></div>
+      </div>
+    </div>
+    <div class="note" style="margin-top:13px"><span data-ic="info"></span><div>Marcus picks extra work from SnapStitch's price list. He can't set his own amount.</div></div>
+  </div>
+  <div class="ft" style="display:flex;gap:9px">
+    <button class="btn b2" data-act="declineaddon">Decline</button>
+    <button class="btn b1" data-go="c21">See the price</button>
+  </div>
+</section>
+
+<section class="screen" id="c21">
+  <div class="top"><button class="back" data-go="c20" data-ic="arrowleft"></button><div class="ttl">Updated price</div></div>
+  <div class="bd">
+    <div class="quote">
+      <div class="eb" style="color:var(--violet-deep);opacity:.6">Revised total</div>
+      <div class="ql"><span>Pants · Hemming × 2</span><b>$90.00</b></div>
+      <div class="ql"><span>On-site visit fee</span><b>$25.00</b></div>
+      <div class="ql" style="color:var(--violet-deep);font-weight:700"><span>＋ Lining repair</span><b style="color:var(--violet-deep)">$40.00</b></div>
+      <div class="ql"><span>Sales tax (8.25%)</span><b>$12.79</b></div>
+      <div class="qt"><span>New total</span><b>$167.79</b></div>
+    </div>
+    <div class="card tint" style="margin-top:13px;display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:15px;font-weight:700">Additional charge</div><div class="sb" style="font-size:13px">Added to the amount held in escrow</div></div>
+      <div class="mn" style="font-size:21.5px;font-weight:700;color:var(--saffron-deep)">+$43.30</div>
+    </div>
+    <div class="stitch"></div>
+    <div class="ok"><span data-ic="lock"></span><div>The extra $43.30 joins the amount already held in escrow. Marcus is still paid only once you approve the finished work.</div></div>
+  </div>
+  <div class="ft"><button class="btn bg" id="acceptAddon">Accept +$43.30</button></div>
+</section>
+
+<section class="screen" id="c22">
+  <div class="top"><div class="ttl" style="padding-left:5px">Job completed</div></div>
+  <div class="bd">
+    <div class="card" style="background:var(--violet-tint);border-color:transparent">
+      <div style="font-size:17px;font-weight:700;margin-bottom:4px">Marcus has finished</div>
+      <div class="sb" style="color:var(--violet-deep);opacity:.85;font-size:14.5px">He's still with you — check the work now, before you approve. It's much easier to fix while he's in the room.</div>
+    </div>
+    <div class="stitch"></div>
+    <div class="eb">Before</div>
+    <div class="phs">
+      <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?w=300&q=70&auto=format&fit=crop" alt="Trousers before"></div>
+      <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1536867520774-5b4f2628a69b?w=300&q=70&auto=format&fit=crop" alt="Measuring before"></div>
+      <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1578353022142-09264fd64295?w=300&q=70&auto=format&fit=crop" alt="Pinned hem"></div>
+    </div>
+    <div class="eb" style="margin-top:14px">After</div>
+    <div class="phs">
+      <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1630930678172-63343537a00a?w=300&q=70&auto=format&fit=crop" alt="Finished hem"></div>
+      <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1606501126768-b78d4569d3f9?w=300&q=70&auto=format&fit=crop" alt="Stitching detail"></div>
+      <div class="ph has" data-act="viewphoto"><img src="https://images.unsplash.com/photo-1542044801-30d3e45ae49a?w=300&q=70&auto=format&fit=crop" alt="Thread match"></div>
+    </div>
+    <div class="stitch"></div>
+    <div class="card tint">
+      <div class="ql"><span>Pants · Hemming × 2</span><b>$90.00</b></div>
+      <div class="ql"><span>Lining repair</span><b>$40.00</b></div>
+      <div class="ql"><span>On-site visit fee</span><b>$25.00</b></div>
+      <div class="ql"><span>Sales tax</span><b>$12.79</b></div>
+      <div class="qt" style="border-top-color:var(--seam)"><span>Total held</span><b style="font-size:26px">$167.79</b></div>
+    </div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c23">Review and approve</button></div>
+</section>
+
+<section class="screen" id="c23">
+  <div class="top"><button class="back" data-go="c22" data-ic="arrowleft"></button><div class="ttl">Approve the work</div></div>
+  <div class="bd">
+    <div class="eb">Check these before approving</div>
+    <div class="card" style="padding:5px 15px" id="checks">
+      <div class="chk on"><span>Length sits right when worn</span><span class="box" data-ic="check"></span></div>
+      <div class="chk on"><span>Hem is even on both legs</span><span class="box" data-ic="check"></span></div>
+      <div class="chk on"><span>Stitching matches the original</span><span class="box" data-ic="check"></span></div>
+      <div class="chk on"><span>Lining repair is secure</span><span class="box" data-ic="check"></span></div>
+    </div>
+    <div class="stitch"></div>
+    <div class="note"><span data-ic="alert"></span><div><b>Approving releases the money.</b> $167.79 goes to Marcus, minus SnapStitch's commission. This can't be undone, so try the garment on first.</div></div>
+    <button class="btn b2" style="margin-top:13px" data-act="raiseissue">Something's not right</button>
+  </div>
+  <div class="ft"><button class="btn bg" id="approveBtn">Approve — release $167.79</button></div>
+</section>
+
+<section class="screen" id="c24">
+  <div class="bd" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+    <div style="width:78px;height:78px;border-radius:26px;background:var(--mint-tint);display:grid;place-items:center;font-size:38px;margin-bottom:18px;color:var(--mint-deep)" data-ic="check"></div>
+    <div class="h1" style="font-size:28px">Payment released</div>
+    <div class="sb" style="margin-top:8px;max-width:260px">$167.79 has been released from escrow to Marcus. Your receipt is on its way by email.</div>
+    <div class="card tint" style="width:100%;margin-top:22px;text-align:left">
+      <div class="row" style="padding:5px 0"><span class="sb" style="font-size:14px">Order</span><b class="mn" style="font-size:14.5px">SS-9041</b></div>
+      <div class="row" style="padding:5px 0"><span class="sb" style="font-size:14px">Released</span><b class="mn" style="font-size:14.5px">3:04 PM</b></div>
+      <div class="row" style="padding:5px 0"><span class="sb" style="font-size:14px">Paid to</span><b style="font-size:14.5px">Marcus Delaney</b></div>
+    </div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c25">Rate Marcus</button></div>
+</section>
+
+<section class="screen" id="c25">
+  <div class="bd" style="padding-top:20px">
+    <div style="text-align:center"><div class="h1" style="font-size:25px">How did Marcus do?</div><div class="sb" style="margin-top:6px">Your rating helps other customers</div></div>
+    <div class="stars" id="stars">
+      <span data-ic="star" class="fill lit"></span><span data-ic="star" class="fill lit"></span><span data-ic="star" class="fill lit"></span>
+      <span data-ic="star" class="fill lit"></span><span data-ic="star" class="fill lit"></span>
+    </div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-bottom:16px" id="praise">
+      <span class="chip cv tog">On time</span><span class="chip cm tog">Neat finish</span>
+      <span class="chip cs tog">Explained well</span><span class="chip cb tog">Tidy</span>
+    </div>
+    <div class="stitch"></div>
+    <div class="eb">Add a tip — Marcus keeps 100%</div>
+    <div class="tips" id="tips"><div class="tip" data-tip="5">$5</div><div class="tip pick" data-tip="10">$10</div><div class="tip" data-tip="15">$15</div><div class="tip" data-tip="other">Other</div></div>
+    <label class="fl">Write a review (optional)</label>
+    <textarea rows="3" id="review" placeholder="Marcus was punctual and the hem is perfect…"></textarea>
+  </div>
+  <div class="ft"><button class="btn b1" id="submitReview">Submit review</button>
+    <button class="btn b2" style="margin-top:9px" data-go="c26">Skip</button></div>
+</section>
+
+<section class="screen" id="c26">
+  <div class="top"><button class="back" data-go="c27" data-ic="arrowleft"></button><div><div class="ttl">Order summary</div><div class="sb" style="font-size:13px">SS-9041 · 3 Aug 2026</div></div></div>
+  <div class="bd">
+    <span class="chip cm" style="margin-bottom:12px"><span data-ic="check" style="font-size:12px"></span>Completed and paid</span>
+    <div class="card">
+      <div class="tlr"><img class="av" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Marcus Delaney" data-i="MD">
+        <div style="flex:1"><div style="font-size:16.5px;font-weight:700">Marcus Delaney</div><div class="st"><span data-ic="star" class="fill" style="font-size:12px"></span>4.9 · you rated 5.0</div></div></div>
+    </div>
+    <div class="stitch"></div>
+    <div class="eb">Work done</div>
+    <div class="card tint">
+      <div class="ql"><span>Pants · Hemming × 2</span><b>$90.00</b></div>
+      <div class="ql"><span>Lining repair (add-on)</span><b>$40.00</b></div>
+      <div class="ql"><span>On-site visit fee</span><b>$25.00</b></div>
+      <div class="ql"><span>Sales tax (8.25%)</span><b>$12.79</b></div>
+      <div class="ql"><span>Tip</span><b>$10.00</b></div>
+      <div class="qt" style="border-top-color:var(--seam)"><span>Total paid</span><b style="font-size:27px">$177.79</b></div>
+    </div>
+    <div class="stitch"></div>
+    <div class="eb">Timeline</div>
+    <div class="track">
+      <div class="nd done"><div class="nd-t">Order placed, payment held</div><div class="nd-s">2:02 PM</div></div>
+      <div class="nd done"><div class="nd-t">Marcus assigned</div><div class="nd-s">2:03 PM</div></div>
+      <div class="nd done"><div class="nd-t">Arrived and inspected</div><div class="nd-s">2:12 PM</div></div>
+      <div class="nd done"><div class="nd-t">Add-on approved by you</div><div class="nd-s">2:41 PM · $40.00</div></div>
+      <div class="nd done"><div class="nd-t">Work completed</div><div class="nd-s">2:58 PM</div></div>
+      <div class="nd done"><div class="nd-t">You approved, payment released</div><div class="nd-s">3:04 PM</div></div>
+    </div>
+    <div class="stitch"></div>
+    <div style="display:flex;gap:9px">
+      <button class="btn b2" style="flex:1" data-act="receipt"><span data-ic="download"></span>Receipt</button>
+      <button class="btn b1" style="flex:1" data-go="c7">Book again</button>
+    </div>
+  </div>
+</section>
+
+<section class="screen" id="c27">
+  <div class="top"><div class="ttl" style="padding-left:5px">Job history</div></div>
+  <div class="bd">
+    <div style="display:flex;gap:6px;margin-bottom:6px" id="hFilter">
+      <span class="chip cv tog" data-f="">All</span><span class="chip cg tog" data-f="onsite">On-site</span><span class="chip cg tog" data-f="pickup">Pickup</span>
+    </div>
+    <div class="hrow" data-go="c26" data-t="onsite"><div class="hic" style="background:var(--mint-tint);color:var(--mint-deep)" data-ic="pants"></div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:700">Pants · Hemming × 2</div><div class="sb" style="font-size:13px">Today · Marcus D. · ★ 5.0</div></div>
+      <div style="text-align:right"><div class="mn" style="font-size:15px;font-weight:700">$177.79</div><span class="chip cm" style="margin-top:3px">Completed</span></div></div>
+    <div class="hrow" data-go="c26" data-t="onsite"><div class="hic" style="background:var(--saffron-tint);color:var(--saffron-deep)" data-ic="suit"></div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:700">Blazer · Lining repair</div><div class="sb" style="font-size:13px">28 Jul · Emily C. · ★ 4.8</div></div>
+      <div style="text-align:right"><div class="mn" style="font-size:15px;font-weight:700">$146.11</div><span class="chip cm" style="margin-top:3px">Completed</span></div></div>
+    <div class="hrow" data-go="c26" data-t="pickup"><div class="hic" style="background:var(--sky-tint);color:var(--sky-deep)" data-ic="curtains"></div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:700">Curtains · Hemming</div><div class="sb" style="font-size:13px">14 Jul · pickup · Derek C. · ★ 5.0</div></div>
+      <div style="text-align:right"><div class="mn" style="font-size:15px;font-weight:700">$212.40</div><span class="chip cm" style="margin-top:3px">Completed</span></div></div>
+    <div class="hrow" data-go="c26" data-t="pickup"><div class="hic" style="background:var(--blush-tint);color:var(--blush-deep)" data-ic="shirt"></div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:700">Shirt · Zipper replacement</div><div class="sb" style="font-size:13px">2 Jul · Hannah B. · ★ 4.9</div></div>
+      <div style="text-align:right"><div class="mn" style="font-size:15px;font-weight:700">$71.31</div><span class="chip cm" style="margin-top:3px">Completed</span></div></div>
+    <div class="hrow" style="border:0" data-go="c26" data-t="onsite"><div class="hic" style="background:var(--violet-tint);color:var(--violet-deep)" data-ic="dress"></div>
+      <div style="flex:1"><div style="font-size:15px;font-weight:700">Dress · Resizing</div><div class="sb" style="font-size:13px">19 Jun · Marcus D. · ★ 5.0</div></div>
+      <div style="text-align:right"><div class="mn" style="font-size:15px;font-weight:700">$94.66</div><span class="chip cm" style="margin-top:3px">Completed</span></div></div>
+    <div class="sb" id="hEmpty" style="display:none;text-align:center;padding:26px 0">No jobs match this filter.</div>
+  </div>
+  <div class="nav">
+    <button class="nb" data-go="c6"><span class="i" data-ic="home"></span>Home</button>
+    <button class="nb" data-go="c15"><span class="i" data-ic="clock"></span>Orders</button>
+    <button class="nb on" data-go="c27"><span class="i" data-ic="list"></span>History</button>
+    <button class="nb" data-go="c28"><span class="i" data-ic="userc"></span>Profile</button>
+  </div>
+</section>
+
+<section class="screen" id="c28">
+  <div class="bd" style="padding-top:12px">
+    <div style="display:flex;gap:13px;align-items:center;margin-bottom:18px">
+      <img class="av" data-me src="https://randomuser.me/api/portraits/women/65.jpg" alt="Jessica Turner" data-i="JT">
+      <div style="flex:1"><div style="font-size:20.5px;font-weight:700" data-myname>Jessica Turner</div><div class="sb" style="font-size:14px">+1 (512) 555-0148</div><div class="sb" style="font-size:14px" data-mymail>jessica.turner@example.com</div></div>
+      <button class="btn b2 bs" data-go="c4">Edit</button>
+    </div>
+    <div class="stitch"></div>
+    <div class="eb">Saved addresses</div>
+    <div class="opt" data-go="c5"><span class="opt-i" data-ic="home"></span><div style="flex:1"><div class="opt-n">Home</div><div class="opt-d">418 Larkspur Lane, Apt 3B · 78704</div></div><span class="chip cm">Default</span></div>
+    <div class="opt" data-go="c5"><span class="opt-i" data-ic="briefcase"></span><div style="flex:1"><div class="opt-n">Work</div><div class="opt-d">1100 Congress Ave · 78701</div></div></div>
+    <div class="opt" data-go="c5"><span class="opt-i" data-ic="plus"></span><div style="flex:1"><div class="opt-n">Add a new address</div></div></div>
+    <div class="stitch"></div>
+    <div class="eb">Payment methods</div>
+    <div class="opt" data-go="c13"><span class="opt-i" data-ic="card"></span><div style="flex:1"><div class="opt-n">Visa ···· 4419</div><div class="opt-d">Expires 09/28</div></div><span class="chip cm">Default</span></div>
+    <div class="opt" data-go="c13"><span class="opt-i" data-ic="wallet"></span><div style="flex:1"><div class="opt-n">SnapStitch wallet</div><div class="opt-d">$15.00 referral credit</div></div></div>
+    <div class="stitch"></div>
+    <div class="opt" data-act="notifs"><span class="opt-i" data-ic="bell"></span><div style="flex:1"><div class="opt-n">Notifications</div></div><span style="color:var(--wisp)" data-ic="chevron"></span></div>
+    <div class="opt" data-act="privacy"><span class="opt-i" data-ic="shield"></span><div style="flex:1"><div class="opt-n">Privacy and data</div></div><span style="color:var(--wisp)" data-ic="chevron"></span></div>
+    <div class="opt" data-act="help"><span class="opt-i" data-ic="help"></span><div style="flex:1"><div class="opt-n">Help and support</div></div><span style="color:var(--wisp)" data-ic="chevron"></span></div>
+    <button class="btn bx" style="margin-top:12px" data-act="logout">Log out</button>
+  </div>
+  <div class="nav">
+    <button class="nb" data-go="c6"><span class="i" data-ic="home"></span>Home</button>
+    <button class="nb" data-go="c15"><span class="i" data-ic="clock"></span>Orders</button>
+    <button class="nb" data-go="c27"><span class="i" data-ic="list"></span>History</button>
+    <button class="nb on" data-go="c28"><span class="i" data-ic="userc"></span>Profile</button>
+  </div>
+</section>
+
+<!-- FPA FORGOT PASSWORD -->
+<section class="screen" id="fpa">
+  <div class="top"><button class="back" data-go="c2" data-ic="arrowleft"></button><div class="ttl">Forgot password</div></div>
+  <div class="bd">
+    <div class="rsicon" style="background:var(--violet-tint);color:var(--violet-deep)" data-ic="lock"></div>
+    <div class="h1" style="font-size:25px">Reset your password</div>
+    <div class="sb" style="margin-top:7px">Enter the email on your account and we'll send a 6-digit code to confirm it's you.</div>
+    <label class="fl">Email address</label>
+    <input type="email" id="fpMail" value="jessica.turner@example.com" placeholder="name@example.com">
+    <div class="stitch"></div>
+    <div class="info"><span data-ic="shield"></span><div>The code expires after 10 minutes and can only be used once. We'll never ask for it over the phone.</div></div>
+  </div>
+  <div class="ft"><button class="btn b1" id="fpSend">Send reset code</button></div>
+</section>
+
+<!-- FPB ENTER CODE -->
+<section class="screen" id="fpb">
+  <div class="top"><button class="back" data-go="fpa" data-ic="arrowleft"></button><div class="ttl">Enter the code</div></div>
+  <div class="bd">
+    <div class="sb">We sent a 6-digit code to <b style="color:var(--ink)" id="fpDest">jessica.turner@example.com</b>.</div>
+    <div class="otp" style="margin-top:22px" id="fpOtp">
+      <input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
+      <input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
+    </div>
+    <div style="text-align:center;margin-top:16px">
+      <div class="sb" style="font-size:13.5px">Didn't get it? <b class="lnk" id="fpResend">Resend code</b> <span class="mn" id="fpTimer" style="color:var(--wisp)"></span></div>
+    </div>
+    <div class="stitch"></div>
+    <div class="info"><span data-ic="info"></span><div>Check your spam folder if it hasn't arrived within a minute. For this prototype, any six digits will do.</div></div>
+  </div>
+  <div class="ft"><button class="btn b1" id="fpVerify">Verify code</button></div>
+</section>
+
+<!-- FPC NEW PASSWORD -->
+<section class="screen" id="fpc">
+  <div class="top"><button class="back" data-go="fpb" data-ic="arrowleft"></button><div class="ttl">New password</div></div>
+  <div class="bd">
+    <div class="sb">Choose a password you haven't used on this account before.</div>
+    <label class="fl">New password</label><input type="password" id="np1" placeholder="At least 10 characters">
+    <div class="bar" style="margin-top:9px"><i id="npBar" style="width:8%"></i></div>
+    <div class="sb" style="font-size:13px;margin-top:5px" id="npHint">Enter a password to see how strong it is</div>
+    <label class="fl">Confirm new password</label><input type="password" id="np2" placeholder="Type it again">
+    <div class="stitch"></div>
+    <div class="eb">Requirements</div>
+    <div class="rule" data-r="len"><span class="dot" data-ic="check"></span>At least 10 characters</div>
+    <div class="rule" data-r="num"><span class="dot" data-ic="check"></span>Contains a number</div>
+    <div class="rule" data-r="case"><span class="dot" data-ic="check"></span>Mixes upper and lower case</div>
+    <div class="rule" data-r="match"><span class="dot" data-ic="check"></span>Both entries match</div>
+  </div>
+  <div class="ft"><button class="btn b1" id="npSave" disabled>Update password</button></div>
+</section>
+
+<!-- FPD DONE -->
+<section class="screen" id="fpd">
+  <div class="bd" style="display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+    <div class="rsicon" style="width:78px;height:78px;border-radius:26px;font-size:38px;background:var(--mint-tint);color:var(--mint-deep)" data-ic="check"></div>
+    <div class="h1" style="font-size:27px">Password updated</div>
+    <div class="sb" style="margin-top:8px;max-width:265px">You can sign in with your new password from now on. We've signed you out everywhere else.</div>
+    <div class="card tint" style="width:100%;margin-top:20px;text-align:left">
+      <div class="row" style="padding:5px 0"><span class="sb" style="font-size:14px">Account</span><b style="font-size:14.5px" id="fpEcho">jessica.turner@example.com</b></div>
+      <div class="row" style="padding:5px 0"><span class="sb" style="font-size:14px">Changed</span><b class="mn" style="font-size:14.5px">Just now</b></div>
+      <div class="row" style="padding:5px 0"><span class="sb" style="font-size:14px">Other devices</span><b style="font-size:14.5px;color:var(--blush-deep)">Signed out</b></div>
+    </div>
+  </div>
+  <div class="ft"><button class="btn b1" data-go="c2">Back to sign in</button></div>
+</section>
+
+</div></div>
+
+<script>
+const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+
+/* ============ icon set ============ */
+const ICONS={
+ needle:'<path d="M4 18 20 6"/><path d="M6 20.5 7.5 17.5"/><path d="M11 15.5 12.5 12.5"/><path d="M16 10.5 17.5 7.5"/>',
+ camera:'<path d="M3 8.5A2 2 0 0 1 5 6.5h2l1.2-2h7.6L17 6.5h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><circle cx="12" cy="12.8" r="3.4"/>',
+ image:'<rect x="3" y="4.5" width="18" height="15" rx="3"/><circle cx="8.5" cy="10" r="1.5"/><path d="m4 17 4.5-4.5 3 3 3.5-3.5L20 16"/>',
+ rotate:'<path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/>',
+ user:'<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.7-4 3.9-6 7.5-6s6.8 2 7.5 6"/>',
+ userc:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="10" r="3"/><path d="M6.4 18.6c1-2.6 3.1-3.9 5.6-3.9s4.6 1.3 5.6 3.9"/>',
+ home:'<path d="m3.5 10.5 8.5-7 8.5 7"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5.5h4V20"/>',
+ briefcase:'<rect x="3" y="7.5" width="18" height="12.5" rx="2.5"/><path d="M9 7.5V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/>',
+ pin:'<path d="M12 21s7-6.2 7-11a7 7 0 1 0-14 0c0 4.8 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/>',
+ gift:'<rect x="3" y="9" width="18" height="4" rx="1"/><path d="M5 13v7h14v-7M12 9v11"/><path d="M12 9C10.5 6 9 4.5 7.5 5S6.5 8.6 9 9zM12 9c1.5-3 3-4.5 4.5-4s1 3.6-1.5 4z"/>',
+ clock:'<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',
+ list:'<path d="M4 7h16M4 12h16M4 17h10"/>',
+ shirt:'<path d="M8 3.5 4 6l1.5 4L8 9v11.5h8V9l2.5 1L20 6l-4-2.5-2 2h-4z"/>',
+ pants:'<path d="M7 3h10l1 18h-4l-1-9h-2l-1 9H6z"/>',
+ dress:'<path d="M9 3h6l-1 4 4 13H6l4-13z"/><path d="m9 3 3 2 3-2"/>',
+ suit:'<path d="M8 3.5 4.5 6 6 20h12l1.5-14L16 3.5l-4 4z"/><path d="M12 7.5V20"/>',
+ skirt:'<path d="M7.5 4h9l3.5 16H4z"/><path d="M7.5 8h9"/>',
+ coat:'<path d="M8 3.5 4 6v14h16V6l-4-2.5-4 3z"/><path d="M12 6.5V20"/>',
+ curtains:'<rect x="3" y="3.5" width="18" height="17" rx="2"/><path d="M8 3.5c1.5 5 1.5 12 0 17M16 3.5c-1.5 5-1.5 12 0 17M3 7.5h18"/>',
+ basket:'<path d="M4 9h16l-1.5 11h-13z"/><path d="M8.5 9 11 3.5M15.5 9 13 3.5"/>',
+ ruler:'<path d="M3.5 14.5 14.5 3.5l6 6-11 11z"/><path d="m8 9 2 2M11 6l2 2M5 12l2 2"/>',
+ card:'<rect x="2.5" y="5.5" width="19" height="13" rx="3"/><path d="M2.5 10h19M6.5 14.5h3"/>',
+ wallet:'<path d="M3 7.5A2.5 2.5 0 0 1 5.5 5H18v2.5"/><rect x="3" y="7.5" width="18" height="11.5" rx="2.5"/><circle cx="16.5" cy="13.2" r="1.2"/>',
+ apple:'<path d="M15.5 3.5c-.2 1.4-1.4 2.6-2.7 2.5-.2-1.3 1-2.6 2.7-2.5z"/><path d="M18.5 16.6c-.5 1.2-1.6 3.4-3 3.4-1 0-1.4-.6-2.6-.6s-1.6.6-2.6.6c-1.5 0-3.2-2.9-3.7-4.9-.6-2.6.2-5.6 2.4-6.3 1.2-.4 2.2.3 3 .3s1.8-.7 3.1-.5c1.1.1 2.1.6 2.7 1.5-2.3 1.4-2 4.5.7 6.5z"/>',
+ plus:'<path d="M12 5v14M5 12h14"/>',
+ minus:'<path d="M5 12h14"/>',
+ lock:'<rect x="4.5" y="10" width="15" height="10.5" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/>',
+ spool:'<rect x="5.5" y="3.5" width="13" height="3.5" rx="1.7"/><rect x="5.5" y="17" width="13" height="3.5" rx="1.7"/><path d="M8 7v10M16 7v10M8 10.5h8M8 13.5h8"/>',
+ party:'<path d="m4 20 4.5-11 6.5 6.5z"/><path d="M15 4.5v2M19.5 9h-2M18.4 5.6 17 7"/>',
+ chat:'<path d="M20.5 12c0 4.1-3.8 7.5-8.5 7.5-1 0-2-.15-2.9-.43L4 20.5l1.5-3.6C4.2 15.6 3.5 13.9 3.5 12c0-4.1 3.8-7.5 8.5-7.5s8.5 3.4 8.5 7.5z"/>',
+ phone:'<path d="M6.5 3.5h3l1.5 4-2 1.5a12 12 0 0 0 6 6l1.5-2 4 1.5v3a2 2 0 0 1-2.2 2C11.5 19 5 12.5 4.5 5.7a2 2 0 0 1 2-2.2z"/>',
+ search:'<circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/>',
+ shield:'<path d="M12 3 5 6v5.5c0 4.4 3 8.4 7 9.5 4-1.1 7-5.1 7-9.5V6z"/><path d="m9 12 2 2 4-4"/>',
+ star:'<path d="m12 3.5 2.7 5.6 6.1.9-4.4 4.3 1 6.1-5.4-2.9-5.4 2.9 1-6.1L3.2 10l6.1-.9z"/>',
+ check:'<path d="m5 12.5 4.5 4.5L19 7.5"/>',
+ chevron:'<path d="m9 5 7 7-7 7"/>',
+ arrowleft:'<path d="M19 12H5"/><path d="m11 5-7 7 7 7"/>',
+ clip:'<path d="M20 11.5 12 19.5a5 5 0 0 1-7-7l8.5-8.5a3.4 3.4 0 0 1 4.8 4.8L10 16.9a1.8 1.8 0 0 1-2.5-2.5l7.5-7.5"/>',
+ send:'<path d="M21 3 10.5 13.5"/><path d="m21 3-6.8 18-3.7-7.5L3 9.8z"/>',
+ bell:'<path d="M18 8.5a6 6 0 1 0-12 0c0 6-2.5 7.5-2.5 7.5h17S18 14.5 18 8.5z"/><path d="M13.7 19.5a2 2 0 0 1-3.4 0"/>',
+ help:'<circle cx="12" cy="12" r="8.5"/><path d="M9.6 9.4a2.5 2.5 0 1 1 3.4 2.3c-.6.3-1 .9-1 1.6v.4"/><path d="M12 17.2h.01"/>',
+ truck:'<path d="M3 6.5h11v10H3z"/><path d="M14 10h3.5l3 3.5v3H14z"/><circle cx="7" cy="18" r="1.9"/><circle cx="17" cy="18" r="1.9"/>',
+ alert:'<path d="M12 4.5 21 19.5H3z"/><path d="M12 10v4M12 17h.01"/>',
+ info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8h.01"/>',
+ download:'<path d="M12 3.5v11"/><path d="m8 11 4 4 4-4"/><path d="M4.5 19.5h15"/>',
+ signal:'<path d="M4 18v-3M9 18v-6M14 18v-9M19 18V6"/>',
+ wifi:'<path d="M2.5 9.5a14 14 0 0 1 19 0"/><path d="M6 13a9 9 0 0 1 12 0"/><path d="M9.5 16.5a4 4 0 0 1 5 0"/><path d="M12 20h.01"/>',
+ battery:'<rect x="2.5" y="8" width="16" height="8" rx="2.5"/><path d="M21 11v2"/><rect x="5" y="10.5" width="9" height="3" rx="1" fill="currentColor" stroke="none"/>',
+ x:'<path d="m6 6 12 12M18 6 6 18"/>',
+ edit:'<path d="M4 20h4L19 9a2.83 2.83 0 0 0-4-4L4 16z"/>'
+};
+function icons(root){
+  $$('[data-ic]',root||document).forEach(el=>{
+    if(el.dataset.icd)return;
+    const n=el.dataset.ic; if(!ICONS[n])return;
+    el.dataset.icd='1';
+    el.insertAdjacentHTML('afterbegin','<svg viewBox="0 0 24 24" aria-hidden="true">'+ICONS[n]+'</svg>');
+  });
+}
+function avatars(root){
+  $$('img.av',root||document).forEach(img=>{
+    if(img.dataset.b)return; img.dataset.b='1';
+    img.addEventListener('error',()=>{
+      const d=document.createElement('div');
+      d.className=img.className+' avf'; d.style.cssText=img.style.cssText;
+      d.textContent=img.dataset.i||(img.alt||'?').split(' ').map(w=>w[0]).join('').slice(0,2);
+      img.replaceWith(d);
+    },{once:true});
+  });
+}
+
+/* ============ toast ============ */
+const TICO={ok:'check',info:'info',warn:'alert',err:'x'};
+function toast(msg,o){
+  o=o||{}; const type=o.type||'ok';
+  const t=document.createElement('div'); t.className='tst '+type;
+  t.innerHTML='<span class="ti" data-ic="'+(TICO[type]||'check')+'" style="font-size:12px"></span><div><b></b>'+(o.sub?'<small></small>':'')+'</div>';
+  $('b',t).textContent=msg; if(o.sub)$('small',t).textContent=o.sub;
+  const w=$('#toasts'); w.appendChild(t); icons(t);
+  const kill=()=>{if(!t.parentNode)return;t.classList.add('out');setTimeout(()=>t.remove(),300);};
+  const tm=setTimeout(kill,o.hold||3000);
+  t.onclick=()=>{clearTimeout(tm);kill();};
+  while(w.children.length>3)w.firstChild.remove();
+}
+
+/* ============ bottom sheet ============ */
+let sheetClose=null;
+function sheet(o){
+  const s=$('#sheet');
+  s.innerHTML='<div class="grab"></div><h3></h3>'+(o.sub?'<div class="sb"></div>':'')+
+    '<div id="shBody"></div><div class="sheet-a" id="shAct"></div>';
+  $('h3',s).textContent=o.title||'';
+  if(o.sub)$('.sb',s).textContent=o.sub;
+  $('#shBody',s).innerHTML=o.body||'';
+  const act=$('#shAct',s);
+  (o.actions||[{label:'Close',cls:'b2'}]).forEach(a=>{
+    const b=document.createElement('button');
+    b.className='btn '+(a.cls||'b2'); b.textContent=a.label;
+    b.onclick=()=>{ if(a.act&&a.act(s)===false)return; if(a.keep)return; closeSheet(); };
+    act.appendChild(b);
+  });
+  icons(s); avatars(s);
+  s.classList.remove('out'); s.classList.add('on'); $('#scrim').classList.add('on');
+  sheetClose=o.onClose||null;
+  const f=$('#shBody input,#shBody textarea',s); if(f)setTimeout(()=>f.focus(),260);
+}
+function closeSheet(){
+  const s=$('#sheet'); if(!s.classList.contains('on'))return;
+  s.classList.remove('on'); s.classList.add('out'); $('#scrim').classList.remove('on');
+  setTimeout(()=>{s.classList.remove('out');s.innerHTML='';if(sheetClose){sheetClose();sheetClose=null;}},300);
+}
+$('#scrim').onclick=closeSheet;
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet();});
+
+/* ============ ripple ============ */
+document.addEventListener('pointerdown',e=>{
+  const b=e.target.closest('.btn'); if(!b||b.disabled)return;
+  const r=b.getBoundingClientRect(), s=Math.max(r.width,r.height);
+  const i=document.createElement('span'); i.className='ripple';
+  i.style.cssText='width:'+s+'px;height:'+s+'px;left:'+(e.clientX-r.left-s/2)+'px;top:'+(e.clientY-r.top-s/2)+'px';
+  b.appendChild(i); setTimeout(()=>i.remove(),620);
+});
+
+/* ============ data ============ */
+const GARMENTS=[
+ ['shirt','Shirt / blouse','shirt',40],['pants','Pants / trousers','pants',45],
+ ['dress','Dress','dress',60],['suit','Suit / blazer','suit',75],
+ ['skirt','Skirt','skirt',40],['coat','Coat / jacket','coat',70],
+ ['curtains','Curtains / drapes','curtains',55],['other','Something else','basket',50]
+];
+const ALTERS=[
+ ['hem','Hemming','Shorten or lengthen, original finish kept',1.0],
+ ['resize','Resizing / take in','Waist, sides or seat, up to 2 inches',1.3],
+ ['zip','Zipper replacement','New zipper fitted and finished',1.15],
+ ['seam','Stitching / seam repair','Split or pulled seams closed',0.9],
+ ['button','Button work','Replace or reposition, up to 8',0.7],
+ ['lining','Lining repair','Torn or worn lining replaced',1.6],
+ ['full','Full stitching','Made to your measurements',2.2]
+];
+const SHOTS=['https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?w=300&q=70&auto=format&fit=crop',
+ 'https://images.unsplash.com/photo-1536867520774-5b4f2628a69b?w=300&q=70&auto=format&fit=crop',
+ 'https://images.unsplash.com/photo-1578353022142-09264fd64295?w=300&q=70&auto=format&fit=crop',
+ 'https://images.unsplash.com/photo-1630930678172-63343537a00a?w=300&q=70&auto=format&fit=crop',
+ 'https://images.unsplash.com/photo-1542044801-30d3e45ae49a?w=300&q=70&auto=format&fit=crop',
+ 'https://images.unsplash.com/photo-1606501126768-b78d4569d3f9?w=300&q=70&auto=format&fit=crop'];
+
+let G=GARMENTS[1],A=ALTERS[0],QTY=2,FEE=25,WHEN='Today, 2–4 PM',PAY='Visa ···· 4419';
+let PHOTOS=[SHOTS[0],SHOTS[1]];
+const ME={name:'Jessica Turner',mail:'jessica.turner@example.com',pic:'women/65'};
+const r5=n=>Math.round(n/5)*5;
+
+function drawGarments(){
+  $('#garments').innerHTML=GARMENTS.map(g=>
+    '<button class="gi'+(g[0]===G[0]?' pick':'')+'" data-g="'+g[0]+'"><span class="ic" data-ic="'+g[2]+'"></span><div class="nm">'+g[1]+'</div><div class="ds">from $'+r5(g[3]*0.7)+'</div></button>').join('');
+  icons($('#garments'));
+  $$('#garments .gi').forEach(el=>el.onclick=()=>{
+    G=GARMENTS.find(x=>x[0]===el.dataset.g); drawGarments(); drawAlters(); sync();
+    toast(G[1]+' selected',{sub:'Prices update to match this garment',type:'info',hold:1900});
+  });
+  $('#gSel').textContent=G[1];
+}
+function drawAlters(){
+  $('#alterations').innerHTML=ALTERS.map(a=>
+    '<div class="opt'+(a[0]===A[0]?' pick':'')+'" data-a="'+a[0]+'"><div><div class="opt-n">'+a[1]+'</div><div class="opt-d">'+a[2]+'</div></div><div class="opt-p">$'+r5(G[3]*a[3])+'</div></div>').join('');
+  $$('#alterations .opt').forEach(el=>el.onclick=()=>{
+    A=ALTERS.find(x=>x[0]===el.dataset.a); drawAlters(); sync();
+    toast(A[1]+' · $'+r5(G[3]*A[3])+' each',{type:'info',hold:1900});
+  });
+}
+function drawPhotos(){
+  const grid=$('#phGrid'); if(!grid)return;
+  grid.innerHTML=PHOTOS.map((p,i)=>'<div class="ph has" data-rm="'+i+'"><img src="'+p+'" alt="Garment photo '+(i+1)+'"></div>').join('')+
+    (PHOTOS.length<6?'<div class="ph add" style="font-size:26px" data-ic="plus" data-act="shoot"></div>':'');
+  $('#phCount').textContent=PHOTOS.length;
+  icons(grid);
+  const sum=$('#phSummary');
+  if(sum){sum.innerHTML=PHOTOS.slice(0,4).map(p=>'<div class="ph has"><img src="'+p+'" alt="Job photo"></div>').join('');}
+}
+function addPhoto(){
+  if(PHOTOS.length>=6)return toast('That is the maximum',{sub:'Six photos is plenty for the tailor',type:'warn'});
+  PHOTOS.push(SHOTS[PHOTOS.length%SHOTS.length]); drawPhotos();
+  const last=$$('#phGrid .ph.has').pop(); if(last)last.classList.add('new');
+  toast('Photo added',{sub:PHOTOS.length+' of 6 · tap a photo to remove it',type:'ok',hold:2200});
+}
+function sync(){
+  const u=r5(G[3]*A[3]),sub=u*QTY,tax=(sub+FEE)*0.0825,tot=sub+FEE+tax;
+  const label=G[1].split(' /')[0]+' · '+A[1];
+  $('#qLbl').textContent=label; $('#qEach').textContent='$'+u+' each'; $('#qn').textContent=QTY;
+  $('#aSub').textContent='$'+sub;
+  $('#p1l').textContent=label+' × '+QTY; $('#p1v').textContent='$'+sub.toFixed(2);
+  $('#p2l').textContent=FEE===25?'On-site visit fee':'Pickup and return charge';
+  $('#p2v').textContent='$'+FEE.toFixed(2);
+  $('#p3v').textContent='$'+tax.toFixed(2);
+  $('#ptot').textContent='$'+tot.toFixed(2);
+  $('#payAmt').textContent='$'+tot.toFixed(2);
+  $('#svcChip').textContent=FEE===25?'On-site':'Pickup and return';
+  $('#whenChip').textContent=WHEN;
+  $('#heldJob').textContent=label+' × '+QTY;
+  $('#heldSvc').textContent=(FEE===25?'On-site':'Pickup')+', '+WHEN.toLowerCase();
+  $('#heldTxt').textContent='$'+tot.toFixed(2)+' is held safely by SnapStitch. Your tailor gets paid only once you approve the finished work.';
+  const n=$('#notes'); if(n&&$('#noteEcho'))$('#noteEcho').textContent='"'+n.value.trim()+'"';
+}
+
+/* ============ navigation ============ */
+let HIST=[];
+function go(id,push){
+  const cur=$('.screen.on');
+  if(!document.getElementById(id)){ console.warn('go(): no screen '+id); return; }   // never blank the phone on a bad target
+  if(push!==false && cur && cur.id!==id){ HIST.push(cur.id); if(HIST.length>40)HIST.shift(); }
+  $$('.screen').forEach(s=>s.classList.toggle('on',s.id===id));
+  $$('.rbtn').forEach(b=>b.classList.toggle('on',b.dataset.go===id));
+  $$('#railTop button').forEach(b=>b.classList.toggle('cv',b.dataset.go===id));
+  $$('#railTop button').forEach(b=>b.classList.toggle('cg',b.dataset.go!==id));
+  const sc=$('#'+id); if(sc){sc.scrollTop=0;const bdy=$('.bd',sc);if(bdy)bdy.scrollTop=0;}
+  closeSheet();
+  const act=$('#railTop button.cv'); if(act)act.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  if(id==='c15')search(); else stopSearch();
+}
+/* real back stack — returns to wherever you actually came from */
+function back(){
+  const cur=$('.screen.on');
+  let prev=HIST.pop();
+  if(!prev){
+    const b=cur&&$('[data-back]',cur);
+    prev=(b&&b.dataset.fallback)||'c1';
+  }
+  if(prev===cur.id)prev=HIST.pop()||'c1';
+  go(prev,false);
+}
+/* give every screen a back control, in one consistent style */
+function installBack(){
+  $$('.screen').forEach(sc=>{
+    if(sc.id==='c1')return;                    // splash is the entry point
+    const existing=$('.top .back',sc);
+    if(existing){                              // reuse the header button, hand it the stack
+      existing.dataset.fallback=existing.dataset.go||'';
+      existing.removeAttribute('data-go');
+      existing.setAttribute('data-back','');
+      existing.setAttribute('aria-label','Go back');
+      return;
+    }
+    const first=sc.firstElementChild;
+    const isHero=first&&!first.classList.contains('bd')&&!first.classList.contains('top')&&!first.classList.contains('ft');
+    if(isHero){                                // screen opens on artwork → floating glass button
+      first.style.position='relative';
+      const fb=document.createElement('button');
+      fb.className='back glass float'; fb.dataset.ic='arrowleft';
+      fb.setAttribute('data-back',''); fb.setAttribute('aria-label','Go back');
+      first.appendChild(fb);
+    } else {                                   // otherwise a slim header bar
+      const bar=document.createElement('div');
+      bar.className='top backonly';
+      bar.innerHTML='<button class="back" data-back data-ic="arrowleft" aria-label="Go back"></button>';
+      sc.insertBefore(bar,sc.firstChild);
+    }
+  });
+  icons(document);
+}
+let sTimer=null;
+function search(){
+  stopSearch(); let t=0,asked=1;
+  sTimer=setInterval(()=>{
+    t++;
+    $('#elap').textContent=Math.floor(t/60)+':'+String(t%60).padStart(2,'0');
+    $('#rad').textContent=(t>=110?8:t>=45?4:2)+' mi';
+    if(t%12===0){asked++;$('#askd').textContent=asked;}
+    if(t===18){stopSearch();go('c16');toast('Marcus Delaney accepted',{sub:'1.4 mi away · arriving about 2:14 PM',type:'ok',hold:4000});}
+  },1000);
+}
+function stopSearch(){if(sTimer)clearInterval(sTimer);sTimer=null;}
+</script>
+
+<style>
+.lnk{color:var(--violet-deep);cursor:pointer;font-weight:700}
+.lnk:hover{text-decoration:underline}
+.shimg{width:100%;border-radius:18px;display:block;background:var(--mist)}
+.swrow{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px 0;border-bottom:1px dashed var(--seam)}
+.swrow:last-child{border-bottom:0}
+.swrow .t{font-size:14.5px;font-weight:600}
+.swrow .d{font-size:12.5px;color:var(--graphite);margin-top:1px}
+.tgl{width:48px;height:27px;border-radius:999px;background:var(--mint);position:relative;cursor:pointer;flex-shrink:0;border:0;transition:background .28s}
+.tgl.off{background:#D6D1DC}
+.tgl i{position:absolute;top:3px;left:24px;width:21px;height:21px;border-radius:50%;background:#fff;transition:left .3s var(--spring);box-shadow:0 1px 4px rgba(0,0,0,.2)}
+.tgl.off i{left:3px}
+.code{font-family:var(--mono);font-size:20px;font-weight:700;letter-spacing:.16em;color:var(--violet-deep);background:var(--violet-tint);border-radius:14px;padding:15px;text-align:center}
+</style>
+<script>
+/* ============ actions ============ */
+const TAILOR='Marcus Delaney';
+
+function spin(btn,label,done){
+  const html=btn.innerHTML; btn.disabled=true;
+  btn.innerHTML='<span class="spin"></span>'+label;
+  setTimeout(()=>{btn.disabled=false;btn.innerHTML=html;icons(btn);done&&done();},750);
+}
+
+const ACT={
+  dragmap:()=>toast('Pin moved',{sub:'418 Larkspur Lane · accurate to the building',type:'info',hold:2200}),
+  bookagain:el=>{
+    const job=el.dataset.job;
+    sheet({title:'Book this again?',sub:job,
+      body:'<div class="sb">We\'ll pre-fill the garment, alteration and your notes from last time. You can still change anything before paying.</div>',
+      actions:[{label:'Start with these details',cls:'b1',act:()=>{go('c7');toast('Details pre-filled',{sub:job+' · check the photos and continue',type:'ok'});}},
+               {label:'Cancel',cls:'b2'}]});
+  },
+  gallery:()=>sheet({title:'Choose from your library',sub:'Recent photos',
+    body:'<div class="phs">'+SHOTS.slice(0,6).map((s,i)=>'<div class="ph has" data-pickimg="'+i+'"><img src="'+s+'" alt="Library photo"></div>').join('')+'</div>',
+    actions:[{label:'Cancel',cls:'b2'}]}),
+  flip:()=>toast('Camera flipped',{sub:'Now using the front camera',type:'info',hold:1800}),
+  shoot:()=>addPhoto(),
+  viewphoto:el=>{
+    const img=$('img',el); if(!img)return;
+    sheet({title:'Photo',sub:img.alt||'Job photo',body:'<img class="shimg" src="'+img.src+'" alt="'+(img.alt||'')+'">',
+      actions:[{label:'Close',cls:'b2'}]});
+  },
+  call:()=>sheet({title:'Calling '+TAILOR,sub:'Connecting through SnapStitch — your number stays private.',
+    body:'<div style="text-align:center;padding:8px 0"><img class="av" style="width:84px;height:84px;border-radius:28px;margin:0 auto" src="https://randomuser.me/api/portraits/men/32.jpg" alt="'+TAILOR+'"><div class="sb" style="margin-top:12px">Ringing…</div></div>',
+    actions:[{label:'End call',cls:'bx',act:()=>toast('Call ended',{type:'info',hold:1800})}]}),
+  attach:()=>sheet({title:'Send an attachment',
+    body:'<div class="phs">'+SHOTS.slice(0,3).map(s=>'<div class="ph has" data-sendimg="'+s+'"><img src="'+s+'" alt="Attachment"></div>').join('')+'</div>',
+    actions:[{label:'Cancel',cls:'b2'}]}),
+  addcard:()=>sheet({title:'Add a card',sub:'Your details go straight to our payment processor.',
+    body:'<label class="fl">Card number</label><input type="text" id="ccNum" placeholder="1234 5678 9012 3456" inputmode="numeric">'+
+         '<div style="display:flex;gap:9px"><div style="flex:1"><label class="fl">Expiry</label><input type="text" id="ccExp" placeholder="MM/YY"></div>'+
+         '<div style="flex:1"><label class="fl">CVC</label><input type="text" id="ccCvc" placeholder="123" inputmode="numeric"></div></div>',
+    actions:[{label:'Add card',cls:'b1',keep:true,act:()=>{
+        const n=($('#ccNum').value||'').replace(/\s/g,'');
+        if(n.length<15)return toast('Check the card number',{sub:'It should be 15 or 16 digits',type:'err'});
+        if(!/^\d{2}\/\d{2}$/.test($('#ccExp').value||''))return toast('Check the expiry',{sub:'Use MM/YY',type:'err'});
+        if(($('#ccCvc').value||'').length<3)return toast('Check the CVC',{type:'err'});
+        closeSheet(); toast('Card added',{sub:'···· '+n.slice(-4)+' is ready to use',type:'ok'});
+      }},{label:'Cancel',cls:'b2'}]}),
+  declineaddon:()=>sheet({title:'Decline the extra work?',sub:TAILOR+' will finish the original job only.',
+    body:'<div class="note"><span data-ic="alert"></span><div>The hem may pull loose sooner without the lining repair. You can always book it separately later.</div></div>',
+    actions:[{label:'Decline it',cls:'bx',act:()=>{go('c18');toast('Extra work declined',{sub:TAILOR+' will carry on with the hemming',type:'warn'});}},
+             {label:'Go back',cls:'b2'}]}),
+  raiseissue:()=>sheet({title:"What's wrong?",sub:'Tell us while Marcus is still with you — most things are fixed on the spot.',
+    body:'<div class="opt" data-issue="The length is not right"><div style="flex:1"><div class="opt-n">The length is not right</div></div></div>'+
+         '<div class="opt" data-issue="The stitching does not match"><div style="flex:1"><div class="opt-n">The stitching does not match</div></div></div>'+
+         '<div class="opt" data-issue="Something is damaged"><div style="flex:1"><div class="opt-n">Something is damaged</div></div></div>'+
+         '<div class="opt" data-issue="Other"><div style="flex:1"><div class="opt-n">Something else</div></div></div>',
+    actions:[{label:'Cancel',cls:'b2'}]}),
+  receipt:el=>spin(el,'Preparing…',()=>toast('Receipt downloaded',{sub:'snapstitch-SS-9041.pdf',type:'ok'})),
+  notifs:()=>sheet({title:'Notifications',
+    body:'<div class="swrow"><div><div class="t">Job updates</div><div class="d">Tailor accepted, arrived, finished</div></div><button class="tgl" data-tg="Job updates"><i></i></button></div>'+
+         '<div class="swrow"><div><div class="t">Messages</div><div class="d">When your tailor writes to you</div></div><button class="tgl" data-tg="Messages"><i></i></button></div>'+
+         '<div class="swrow"><div><div class="t">Offers and credit</div><div class="d">Referral rewards and promotions</div></div><button class="tgl off" data-tg="Offers"><i></i></button></div>',
+    actions:[{label:'Done',cls:'b1'}]}),
+  privacy:()=>sheet({title:'Privacy and data',
+    body:'<div class="swrow"><div><div class="t">Share job photos with the tailor</div><div class="d">Required to get an accurate price</div></div><button class="tgl" data-tg="Photo sharing"><i></i></button></div>'+
+         '<div class="swrow"><div><div class="t">Save my address history</div><div class="d">Faster booking next time</div></div><button class="tgl" data-tg="Address history"><i></i></button></div>'+
+         '<div class="sb" style="margin-top:14px">Your phone number is never shown to a tailor. Calls and messages are relayed by SnapStitch.</div>',
+    actions:[{label:'Download my data',cls:'b2',act:()=>toast('Export requested',{sub:"We'll email a copy within 24 hours",type:'info'})},{label:'Done',cls:'b1'}]}),
+  help:()=>sheet({title:'Help and support',sub:'Most questions are answered in a minute or two.',
+    body:'<div class="opt" data-help="Chat with support"><span class="opt-i" data-ic="chat"></span><div style="flex:1"><div class="opt-n">Chat with support</div><div class="opt-d">Typically replies in 2 minutes</div></div></div>'+
+         '<div class="opt" data-help="Call support"><span class="opt-i" data-ic="phone"></span><div style="flex:1"><div class="opt-n">Call us</div><div class="opt-d">7 AM – 9 PM, seven days</div></div></div>'+
+         '<div class="opt" data-help="Read the FAQ"><span class="opt-i" data-ic="help"></span><div style="flex:1"><div class="opt-n">Read the FAQ</div></div></div>',
+    actions:[{label:'Close',cls:'b2'}]}),
+  logout:()=>sheet({title:'Log out?',sub:ME.mail,
+    body:'<div class="sb">Your saved addresses and cards stay on your account. You\'ll need your code to sign back in.</div>',
+    actions:[{label:'Log out',cls:'bx',act:()=>{go('c1');toast('Logged out',{sub:'See you soon, '+ME.name.split(' ')[0],type:'info'});}},
+             {label:'Stay logged in',cls:'b2'}]})
+};
+
+document.addEventListener('click',e=>{
+  if(e.target.closest('[data-back]')){back();return;}
+  const g=e.target.closest('[data-go]'); if(g){go(g.dataset.go);return;}
+  const a=e.target.closest('[data-act]'); if(a&&ACT[a.dataset.act]){ACT[a.dataset.act](a);return;}
+  const rm=e.target.closest('[data-rm]');
+  if(rm){const i=+rm.dataset.rm;const removed=PHOTOS.splice(i,1);if(removed.length){drawPhotos();toast('Photo removed',{sub:PHOTOS.length+' of 6 remaining',type:'info',hold:1900});}return;}
+  const pi=e.target.closest('[data-pickimg]');
+  if(pi){if(PHOTOS.length>=6){toast('That is the maximum',{type:'warn'});return;}PHOTOS.push(SHOTS[+pi.dataset.pickimg]);drawPhotos();closeSheet();toast('Photo added from library',{sub:PHOTOS.length+' of 6',type:'ok'});return;}
+  const si=e.target.closest('[data-sendimg]');
+  if(si){closeSheet();addMsg('me','<img class="shimg" src="'+si.dataset.sendimg+'" alt="Photo sent" style="max-width:180px">');toast('Photo sent',{type:'ok',hold:1800});return;}
+  const iss=e.target.closest('[data-issue]');
+  if(iss){closeSheet();toast('Reported: '+iss.dataset.issue,{sub:'Marcus has been told — he can fix it before you approve',type:'warn',hold:4000});return;}
+  const hp=e.target.closest('[data-help]');
+  if(hp){closeSheet();toast(hp.dataset.help,{sub:'A support agent will be with you shortly',type:'info'});return;}
+  const lg=e.target.closest('[data-legal]');
+  if(lg){toast(lg.dataset.legal,{sub:'Opens in your browser',type:'info',hold:2000});return;}
+  const tg=e.target.closest('[data-tg]');
+  if(tg){tg.classList.toggle('off');toast(tg.dataset.tg+(tg.classList.contains('off')?' turned off':' turned on'),{type:tg.classList.contains('off')?'warn':'ok',hold:1900});return;}
+  const sv=e.target.closest('[data-svc]');
+  if(sv){$$('[data-svc]').forEach(x=>x.classList.remove('pick'));sv.classList.add('pick');FEE=+sv.dataset.fee;sync();
+    toast((FEE===25?'On-site visit':'Pickup and return')+' selected',{sub:'Service fee $'+FEE+'.00',type:'info',hold:2000});return;}
+  const lb=e.target.closest('#addrLabel [data-lbl]');
+  if(lb){$$('#addrLabel .opt').forEach(x=>x.classList.remove('pick'));lb.classList.add('pick');return;}
+  const wp=e.target.closest('#whenPick [data-when]');
+  if(wp){
+    $$('#whenPick .opt').forEach(x=>x.classList.remove('pick'));wp.classList.add('pick');
+    if(wp.dataset.when==='schedule'){
+      sheet({title:'Schedule a visit',body:'<label class="fl">Date</label><input type="text" id="scD" value="Tue 5 Aug">'+
+        '<label class="fl">Time window</label><input type="text" id="scT" value="10 AM – 12 PM">',
+        actions:[{label:'Set this time',cls:'b1',act:()=>{WHEN=$('#scD').value+', '+$('#scT').value;sync();toast('Visit scheduled',{sub:WHEN,type:'ok'});}},
+                 {label:'Cancel',cls:'b2',act:()=>{$$('#whenPick .opt').forEach((x,i)=>x.classList.toggle('pick',i===0));}}]});
+    } else {WHEN='Today, 2–4 PM';sync();}
+    return;}
+  const pm=e.target.closest('#payList [data-pay]');
+  if(pm){$$('#payList .opt').forEach(x=>x.classList.remove('pick'));pm.classList.add('pick');PAY=pm.dataset.pay;
+    toast(PAY+' selected',{type:'info',hold:1800});return;}
+  const qa=e.target.closest('#quickAdd [data-add]');
+  if(qa){
+    const box=$('#notes'); const txt=qa.dataset.add;
+    if(box.value.includes(txt)){toast('Already added',{type:'warn',hold:1700});return;}
+    box.value=(box.value.trim()+' '+txt).trim(); qa.classList.remove('cv'); qa.classList.add('cm'); sync();
+    toast('Added to your instructions',{type:'ok',hold:1900});return;}
+  const pr=e.target.closest('#praise .tog');
+  if(pr){pr.classList.toggle('cg');pr.classList.add('bump');setTimeout(()=>pr.classList.remove('bump'),450);return;}
+  const ck=e.target.closest('#checks .chk');
+  if(ck){ck.classList.toggle('on');updateApprove();return;}
+  const hf=e.target.closest('#hFilter .tog');
+  if(hf){
+    $$('#hFilter .tog').forEach(x=>{x.classList.remove('cv');x.classList.add('cg');});
+    hf.classList.remove('cg');hf.classList.add('cv');
+    const f=hf.dataset.f;let n=0;
+    $$('#c27 .hrow').forEach(r=>{const hit=!f||r.dataset.t===f;r.classList.toggle('hide',!hit);if(hit)n++;});
+    $('#hEmpty').style.display=n?'none':'block';
+    toast(n?n+' job'+(n===1?'':'s')+' shown:'==='x'?'':n+' job'+(n===1?'':'s'):'No jobs',{sub:f?'Filtered by '+hf.textContent.toLowerCase():'Showing everything',type:n?'info':'warn',hold:1900});
+    return;}
+});
+
+/* ---- steppers, tabs, otp ---- */
+$('#qp').onclick=e=>{e.stopPropagation();QTY++;sync();};
+$('#qm').onclick=e=>{e.stopPropagation();if(QTY>1){QTY--;sync();}else toast('At least one garment',{type:'warn',hold:1700});};
+function tab(which){
+  const p=which==='phone';
+  $('#panelPhone').style.display=p?'block':'none';
+  $('#panelMail').style.display=p?'none':'block';
+  $('#tabPhone').style.cssText='flex:1;'+(p?'background:var(--chalk);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.07)':'background:none;color:var(--graphite)');
+  $('#tabMail').style.cssText='flex:1;'+(p?'background:none;color:var(--graphite)':'background:var(--chalk);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.07)');
+}
+$('#tabPhone').onclick=()=>tab('phone');
+$('#tabMail').onclick=()=>tab('mail');
+
+$$('#otp input').forEach((inp,i,all)=>{
+  inp.classList.add('filled');
+  inp.addEventListener('input',()=>{
+    inp.value=inp.value.replace(/\D/g,'').slice(0,1);
+    inp.classList.toggle('filled',!!inp.value);
+    if(inp.value&&all[i+1])all[i+1].focus();
+  });
+  inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value&&all[i-1])all[i-1].focus();});
+});
+$('#resend').onclick=()=>toast('New code sent',{sub:'It can take up to 30 seconds to arrive',type:'info'});
+
+/* ---- flow buttons ---- */
+$('#sendCode').onclick=function(){
+  const usingPhone=$('#panelPhone').style.display!=='none';
+  if(usingPhone){
+    const d=($('#liPhone').value||'').replace(/\D/g,'');
+    if(d.length<10)return toast('Check your mobile number',{sub:'Use a 10-digit US number',type:'err'});
+    $('#otpDest').textContent='+1 '+$('#liPhone').value;
+  } else {
+    const m=$('#liMail').value.trim();
+    if(!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(m))return toast('Check your email address',{type:'err'});
+    $('#otpDest').textContent=m;
+  }
+  spin(this,'Sending…',()=>{go('c3');toast('Code sent',{sub:'Check your messages for the 6-digit code',type:'ok'});});
+};
+$('#doVerify').onclick=function(){
+  const code=$$('#otp input').map(i=>i.value).join('');
+  if(code.length<6)return toast('Enter all six digits',{type:'err'});
+  spin(this,'Verifying…',()=>{go('c4');toast('Verified',{sub:'Welcome to SnapStitch',type:'ok'});});
+};
+$('#avPick').onclick=()=>sheet({title:'Profile photo',
+  body:'<div class="phs">'+['women/65','women/44','women/33','men/32','men/60','men/86'].map(p=>'<div class="ph has" data-avpick="'+p+'"><img src="https://randomuser.me/api/portraits/'+p+'.jpg" alt="Photo option"></div>').join('')+'</div>',
+  actions:[{label:'Cancel',cls:'b2'}]});
+document.addEventListener('click',e=>{
+  const p=e.target.closest('[data-avpick]'); if(!p)return;
+  ME.pic=p.dataset.avpick; paintMe(); closeSheet(); toast('Photo updated',{type:'ok'});
+});
+$('#saveProfile').onclick=function(){
+  const n=$('#pfName').value.trim(), m=$('#pfMail').value.trim();
+  if(n.split(' ').filter(Boolean).length<2)return toast('Enter your first and last name',{type:'err'});
+  if(!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(m))return toast('Check your email address',{type:'err'});
+  ME.name=n; ME.mail=m; paintMe();
+  spin(this,'Saving…',()=>{go('c5');toast('Profile saved',{sub:'One more step — where should we come?',type:'ok'});});
+};
+$('#saveAddr').onclick=function(){
+  if(!$('#adStreet').value.trim())return toast('Add your street address',{type:'err'});
+  if(!/^\d{5}$/.test($('#adZip').value.trim()))return toast('Check the ZIP code',{sub:'Use 5 digits',type:'err'});
+  spin(this,'Saving…',()=>{go('c6');toast("You're all set",{sub:'Austin, TX · tap Create a job to begin',type:'ok'});});
+};
+$('#doPay').onclick=function(){
+  spin(this,'Holding funds…',()=>{go('c14');toast('Payment held in escrow',{sub:PAY+' · released only when you approve',type:'ok',hold:4000});});
+};
+$('#acceptAddon').onclick=function(){
+  spin(this,'Updating…',()=>{go('c22');toast('Extra work approved',{sub:'+$43.30 added to escrow · Marcus is carrying on',type:'ok',hold:3800});});
+};
+function updateApprove(){
+  const total=$$('#checks .chk').length, on=$$('#checks .chk.on').length;
+  const b=$('#approveBtn');
+  b.disabled=on<total;
+  b.textContent=on<total?'Tick all '+total+' checks first ('+on+'/'+total+')':'Approve — release $167.79';
+}
+$('#approveBtn').onclick=()=>sheet({title:'Release $167.79?',sub:'This pays '+TAILOR+' and cannot be undone.',
+  body:'<div class="note"><span data-ic="alert"></span><div>Try the garment on first. Once released, changes have to be booked as a new job.</div></div>',
+  actions:[{label:'Yes, release the payment',cls:'bg',act:()=>{go('c24');toast('Payment released',{sub:'$167.79 sent to '+TAILOR,type:'ok',hold:4000});}},
+           {label:'Not yet',cls:'b2'}]});
+$$('#tips .tip').forEach(t=>t.onclick=()=>{
+  if(t.dataset.tip==='other'){
+    sheet({title:'Custom tip',sub:TAILOR+' keeps 100% of every tip.',
+      body:'<label class="fl">Tip amount</label><input type="text" id="tipAmt" value="20" inputmode="numeric">',
+      actions:[{label:'Add tip',cls:'b1',keep:true,act:()=>{
+          const v=parseFloat($('#tipAmt').value); if(!(v>0))return toast('Enter an amount',{type:'err'});
+          $$('#tips .tip').forEach(x=>x.classList.remove('pick')); t.classList.add('pick'); t.textContent='$'+v;
+          closeSheet(); toast('$'+v+' tip added',{type:'ok'});
+        }},{label:'Cancel',cls:'b2'}]});
+    return;
+  }
+  $$('#tips .tip').forEach(x=>x.classList.remove('pick')); t.classList.add('pick');
+  toast('$'+t.dataset.tip+' tip added',{sub:TAILOR+' keeps every cent',type:'ok',hold:2000});
+});
+$$('#stars [data-ic]').forEach((s,i,all)=>s.onclick=()=>{
+  all.forEach((x,j)=>x.classList.toggle('lit',j<=i));
+  toast((i+1)+' star'+(i?'s':'')+' selected',{type:'info',hold:1600});
+});
+$('#submitReview').onclick=function(){
+  const lit=$$('#stars [data-ic].lit').length;
+  if(!lit)return toast('Pick a star rating first',{type:'err'});
+  spin(this,'Sending…',()=>{go('c26');toast('Thanks for the review',{sub:lit+' stars for '+TAILOR,type:'ok'});});
+};
+
+/* ---- chat ---- */
+function addMsg(who,html){
+  const b=$('#chatBody'), m=document.createElement('div');
+  m.className='msg '+(who==='me'?'me':'them'); m.innerHTML=html;
+  b.insertBefore(m,$('#chatBody .stitch'));
+  b.scrollTop=b.scrollHeight;
+  b.scrollTop=b.scrollHeight;
+}
+function sendMsg(){
+  const inp=$('#chatIn'), v=inp.value.trim();
+  if(!v)return toast('Type a message first',{type:'warn',hold:1600});
+  addMsg('me',v.replace(/[<>]/g,'')); inp.value='';
+  setTimeout(()=>{addMsg('them','Got it — thanks Jessica. See you in a few minutes.');toast('Marcus replied',{type:'info',hold:2000});},1400);
+}
+$('#chatSend').onclick=sendMsg;
+$('#chatIn').addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
+$('#shutter').onclick=function(){this.style.transform='scale(.88)';setTimeout(()=>this.style.transform='',150);addPhoto();};
+$('#notes').addEventListener('input',sync);
+
+/* ---- profile paint ---- */
+function paintMe(){
+  $$('[data-myname]').forEach(e=>e.textContent=ME.name);
+  $$('[data-myfirst]').forEach(e=>e.textContent=ME.name.split(' ')[0]);
+  $$('[data-mymail]').forEach(e=>e.textContent=ME.mail);
+  $$('img[data-me]').forEach(e=>e.src='https://randomuser.me/api/portraits/'+ME.pic+'.jpg');
+}
+
+/* ---- compact rail for small screens ---- */
+(function buildRailTop(){
+  const wrap=$('#railTop');
+  wrap.innerHTML=$$('.rail .rbtn').map(b=>{
+    const label=b.textContent.replace(/^\d+/,'').trim();
+    return '<button class="chip '+(b.classList.contains('on')?'cv':'cg')+'" data-go="'+b.dataset.go+'" style="cursor:pointer;white-space:nowrap">'+label+'</button>';
+  }).join('');
+})();
+
+
+/* ============ password reset flow ============ */
+let fpTick=null;
+function fpTimer(){
+  clearInterval(fpTick); let n=30;
+  const el=$('#fpTimer'), btn=$('#fpResend');
+  btn.style.opacity='.4'; btn.style.pointerEvents='none';
+  const paint=()=>{ el.textContent=n?'in '+n+'s':''; if(n<=0){btn.style.opacity='';btn.style.pointerEvents='';clearInterval(fpTick);} };
+  paint(); fpTick=setInterval(()=>{n--;paint();},1000);
+}
+$$('#fpOtp input').forEach((inp,i,all)=>{
+  inp.addEventListener('input',()=>{
+    inp.value=inp.value.replace(/\D/g,'').slice(0,1);
+    inp.classList.toggle('filled',!!inp.value);
+    if(inp.value&&all[i+1])all[i+1].focus();
+  });
+  inp.addEventListener('keydown',e=>{if(e.key==='Backspace'&&!inp.value&&all[i-1])all[i-1].focus();});
+});
+$('#fpSend').onclick=function(){
+  const m=$('#fpMail').value.trim();
+  if(!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(m))return toast('Check your email address',{sub:'Use the address on your account',type:'err'});
+  $('#fpDest').textContent=m; $('#fpEcho').textContent=m;
+  spin(this,'Sending…',()=>{
+    go('fpb');
+    $$('#fpOtp input').forEach(i=>{i.value='';i.classList.remove('filled');});
+    const f=$$('#fpOtp input')[0]; if(f)f.focus();
+    fpTimer();
+    toast('Code sent',{sub:'Check '+m+' — it expires in 10 minutes',type:'ok'});
+  });
+};
+$('#fpResend').onclick=()=>{fpTimer();toast('New code sent',{sub:'The previous code no longer works',type:'info'});};
+$('#fpVerify').onclick=function(){
+  const code=$$('#fpOtp input').map(i=>i.value).join('');
+  if(code.length<6)return toast('Enter all six digits',{sub:(6-code.length)+' still missing',type:'err'});
+  spin(this,'Verifying…',()=>{
+    clearInterval(fpTick);
+    go('fpc'); $('#np1').value=''; $('#np2').value=''; npCheck();
+    toast('Code verified',{sub:'Now choose a new password',type:'ok'});
+  });
+};
+function npCheck(){
+  const v=$('#np1').value||'', c=$('#np2').value||'';
+  const r={len:v.length>=10,num:/\d/.test(v),case:/[a-z]/.test(v)&&/[A-Z]/.test(v),match:!!v&&v===c};
+  Object.keys(r).forEach(k=>{const el=$('.rule[data-r='+k+']'); if(el)el.classList.toggle('ok',r[k]);});
+  const score=[r.len,r.num,r.case].filter(Boolean).length;
+  const bar=$('#npBar');
+  bar.style.width=[8,34,64,100][score]+'%';
+  bar.style.background=score<2?'var(--blush)':score<3?'var(--saffron)':'var(--mint)';
+  $('#npHint').textContent=!v?'Enter a password to see how strong it is':score<2?'Too weak':score<3?'Getting there':'Strong password';
+  const ok=r.len&&r.num&&r.case&&r.match;
+  $('#npSave').disabled=!ok;
+  return r;
+}
+$('#np1').addEventListener('input',npCheck);
+$('#np2').addEventListener('input',npCheck);
+$('#npSave').onclick=function(){
+  const r=npCheck();
+  if(!r.len)return toast('Password is too short',{sub:'Use at least 10 characters',type:'err'});
+  if(!r.num)return toast('Add at least one number',{type:'err'});
+  if(!r.case)return toast('Mix upper and lower case',{type:'err'});
+  if(!r.match)return toast('The two entries do not match',{type:'err'});
+  spin(this,'Updating…',()=>{go('fpd');toast('Password updated',{sub:'Sign in with your new password',type:'ok',hold:4000});});
+};
+
+/* ---- boot ---- */
+installBack();
+icons(document); avatars(document);
+drawGarments(); drawAlters(); drawPhotos(); sync(); paintMe(); updateApprove();
+</script>
+</body>
+</html>

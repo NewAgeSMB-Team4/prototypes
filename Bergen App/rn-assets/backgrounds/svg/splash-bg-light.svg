@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="393" height="852" viewBox="0 0 393 852">
+  <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#fffdf7"/><stop offset="38%" stop-color="#fdf9f0"/><stop offset="66%" stop-color="#f7faee"/><stop offset="100%" stop-color="#eff8ea"/></linearGradient>
+    <clipPath id="scene"><rect x="0" y="582" width="393" height="270"/></clipPath></defs>
+  <rect width="393" height="852" fill="url(#sky)"/>
+</svg>

@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="NASDrive PRO — the operating system for modern driving schools.">
+    <title>NASDrive PRO — Drive Your School Forward</title>
+
+    <script>
+        tailwind = {
+            config: {
+                darkMode: 'class',
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                            display: ['DM Sans', 'Inter', 'sans-serif']
+                        },
+                        colors: {
+                            ink: '#0B1020',
+                            blue: '#4F6BFF',
+                            cyan: '#3DD9FF',
+                            violet: '#8B5CF6'
+                        },
+                        boxShadow: {
+                            card: '0 24px 70px rgba(12, 18, 38, .08)',
+                            cardDark: '0 24px 80px rgba(0, 0, 0, .32)',
+                            blue: '0 20px 60px rgba(79, 107, 255, .28)'
+                        },
+                        keyframes: {
+                            drift: {
+                                '0%,100%': { transform: 'translate3d(0,0,0) scale(1)' },
+                                '50%': { transform: 'translate3d(0,-18px,0) scale(1.03)' }
+                            },
+                            driftReverse: {
+                                '0%,100%': { transform: 'translate3d(0,0,0) scale(1.02)' },
+                                '50%': { transform: 'translate3d(18px,12px,0) scale(1)' }
+                            },
+                            marquee: {
+                                from: { transform: 'translateX(0)' },
+                                to: { transform: 'translateX(-50%)' }
+                            },
+                            shimmer: {
+                                '0%': { transform: 'translateX(-140%) skewX(-18deg)' },
+                                '100%': { transform: 'translateX(260%) skewX(-18deg)' }
+                            },
+                            pulseGlow: {
+                                '0%,100%': { opacity: '.35', transform: 'scale(1)' },
+                                '50%': { opacity: '.75', transform: 'scale(1.08)' }
+                            }
+                        },
+                        animation: {
+                            drift: 'drift 8s ease-in-out infinite',
+                            driftReverse: 'driftReverse 10s ease-in-out infinite',
+                            marquee: 'marquee 30s linear infinite',
+                            shimmer: 'shimmer 2.2s ease-in-out infinite',
+                            pulseGlow: 'pulseGlow 4s ease-in-out infinite'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #f7f9fd;
+            --surface: #ffffff;
+            --surface-2: #f0f4fb;
+            --text: #0b1020;
+            --muted: #68738a;
+            --line: rgba(11, 16, 32, .09);
+            --accent: #4f6bff;
+            --accent-2: #3dd9ff;
+        }
+
+        html.dark {
+            --bg: #070a12;
+            --surface: #0d1220;
+            --surface-2: #111827;
+            --text: #f6f8ff;
+            --muted: #8d98ae;
+            --line: rgba(255, 255, 255, .09);
+            --accent: #7085ff;
+            --accent-2: #4bdcff;
+        }
+
+        body {
+            font-family: Inter, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow-x: hidden;
+            transition: background .5s ease, color .5s ease;
+        }
+
+        .font-display {
+            font-family: "DM Sans", sans-serif;
+        }
+
+        /* Background system */
+        .ambient {
+            background:
+                radial-gradient(circle at 20% 10%, rgba(79, 107, 255, .13), transparent 28%),
+                radial-gradient(circle at 85% 15%, rgba(61, 217, 255, .09), transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(139, 92, 246, .07), transparent 30%);
+        }
+
+        .dark .ambient {
+            background:
+                radial-gradient(circle at 20% 10%, rgba(79, 107, 255, .18), transparent 28%),
+                radial-gradient(circle at 85% 15%, rgba(61, 217, 255, .10), transparent 25%),
+                radial-gradient(circle at 50% 80%, rgba(139, 92, 246, .10), transparent 30%);
+        }
+
+        .noise {
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+        }
+
+        .video-fallback {
+            background:
+                linear-gradient(120deg, rgba(4, 8, 18, .96), rgba(12, 20, 48, .90) 48%, rgba(13, 18, 34, .96)),
+                radial-gradient(circle at 20% 50%, rgba(79, 107, 255, .55), transparent 28%),
+                radial-gradient(circle at 78% 28%, rgba(61, 217, 255, .32), transparent 25%);
+        }
+
+        .hero-video {
+            filter: saturate(.85) contrast(1.04);
+            transform: scale(1.035);
+        }
+
+        .hero-overlay {
+            background:
+                linear-gradient(90deg, rgba(5, 8, 18, .94) 0%, rgba(5, 8, 18, .72) 42%, rgba(5, 8, 18, .38) 72%, rgba(5, 8, 18, .82) 100%),
+                linear-gradient(0deg, rgba(5, 8, 18, .72), transparent 50%, rgba(5, 8, 18, .35));
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, .72);
+            border: 1px solid rgba(255, 255, 255, .55);
+            box-shadow: 0 18px 55px rgba(4, 8, 18, .10);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+        }
+
+        .dark .glass {
+            background: rgba(13, 18, 32, .70);
+            border-color: rgba(255, 255, 255, .09);
+            box-shadow: 0 18px 70px rgba(0, 0, 0, .32);
+        }
+
+        /* New button system */
+        .btn {
+            position: relative;
+            isolation: isolate;
+            overflow: hidden;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: .55rem;
+            border-radius: 999px;
+            transition: transform .35s cubic-bezier(.2, .8, .2, 1), box-shadow .35s ease, background .35s ease;
+        }
+
+        .btn::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            transform: translateX(-120%) skewX(-18deg);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .30), transparent);
+        }
+
+        .btn:hover::before {
+            animation: shimmer .8s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-primary {
+            color: #fff;
+            background: linear-gradient(135deg, #4f6bff, #6578ff);
+            box-shadow: 0 16px 40px rgba(79, 107, 255, .27);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 22px 55px rgba(79, 107, 255, .40);
+        }
+
+        .btn-dark {
+            color: #fff;
+            background: #101728;
+            border: 1px solid rgba(255, 255, 255, .10);
+        }
+
+        .btn-light {
+            color: #11182a;
+            background: rgba(255, 255, 255, .92);
+            border: 1px solid rgba(11, 16, 32, .08);
+            box-shadow: 0 10px 35px rgba(0, 0, 0, .08);
+        }
+
+        .dark .btn-light {
+            color: #fff;
+            background: rgba(255, 255, 255, .07);
+            border-color: rgba(255, 255, 255, .10);
+        }
+
+        /* Cards */
+        .modern-card {
+            border: 1px solid var(--line);
+            background: var(--surface);
+            border-radius: 28px;
+            box-shadow: 0 18px 55px rgba(12, 18, 38, .055);
+            transition: transform .45s cubic-bezier(.2, .8, .2, 1), box-shadow .45s ease, border-color .45s ease;
+        }
+
+        .dark .modern-card {
+            box-shadow: 0 24px 70px rgba(0, 0, 0, .24);
+        }
+
+        .modern-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 28px 75px rgba(12, 18, 38, .11);
+            border-color: rgba(79, 107, 255, .25);
+        }
+
+        .dark .modern-card:hover {
+            box-shadow: 0 30px 80px rgba(0, 0, 0, .38);
+            border-color: rgba(112, 133, 255, .28);
+        }
+
+        .shine-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shine-card::after {
+            content: "";
+            position: absolute;
+            width: 150%;
+            height: 100%;
+            top: 0;
+            left: -180%;
+            transform: skewX(-18deg);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .10), transparent);
+            pointer-events: none;
+        }
+
+        .shine-card:hover::after {
+            left: 130%;
+            transition: left 1s ease;
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(34px) scale(.985);
+            transition:
+                opacity .85s cubic-bezier(.2, .7, .2, 1),
+                transform .85s cubic-bezier(.2, .7, .2, 1);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-42px);
+            transition: opacity .85s ease, transform .85s cubic-bezier(.2, .7, .2, 1);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(42px);
+            transition: opacity .85s ease, transform .85s cubic-bezier(.2, .7, .2, 1);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(.91);
+            transition: opacity .85s ease, transform .85s cubic-bezier(.2, .7, .2, 1);
+        }
+
+        .visible {
+            opacity: 1 !important;
+            transform: none !important;
+        }
+
+        /* Marquee */
+        .marquee-track {
+            display: flex;
+            width: max-content;
+            animation: marquee 28s linear infinite;
+        }
+
+        .marquee:hover .marquee-track {
+            animation-play-state: paused;
+        }
+
+        /* Carousels */
+        .carousel-track {
+            scrollbar-width: none;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-slide {
+            scroll-snap-align: center;
+            flex: 0 0 88%;
+        }
+
+        @media (min-width: 768px) {
+            .carousel-slide {
+                flex-basis: 62%;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .carousel-slide {
+                flex-basis: 48%;
+            }
+        }
+
+        /* Product showcase */
+        .product-screen {
+            transition: opacity .45s ease, transform .55s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .product-screen.switching {
+            opacity: 0;
+            transform: translateY(15px) scale(.98);
+        }
+
+        /* Progress line */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            height: 2px;
+            width: 0%;
+            background: linear-gradient(90deg, #4f6bff, #3dd9ff);
+            box-shadow: 0 0 18px rgba(79, 107, 255, .7);
+        }
+
+        /* Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                scroll-behavior: auto !important;
+                transition-duration: .01ms !important;
+            }
+
+            .reveal,
+            .reveal-left,
+            .reveal-right,
+            .reveal-scale {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+        /* NASDrive visual refresh: soft green daylight mode with a grounded night mode. */
+        :root {
+            --bg: #f3f8f1;
+            --surface: #ffffff;
+            --surface-2: #e8f2e8;
+            --text: #18382b;
+            --muted: #60776a;
+            --line: #d6e5d8;
+            --accent: #2f7658;
+            --accent-2: #8bc8a4;
+        }
+
+        html.dark {
+            --bg: #101a15;
+            --surface: #18251d;
+            --surface-2: #203127;
+            --text: #f2f8f1;
+            --muted: #a8bbae;
+            --line: rgba(214, 236, 218, .14);
+            --accent: #8dcca4;
+            --accent-2: #b7e4c4;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .ambient {
+            background-color: var(--bg);
+            background-image:
+                linear-gradient(135deg, rgba(255, 255, 255, .72), transparent 42%),
+                radial-gradient(circle at 8% 12%, rgba(139, 200, 164, .25), transparent 27%),
+                radial-gradient(circle at 92% 22%, rgba(221, 241, 219, .82), transparent 30%),
+                linear-gradient(rgba(47, 118, 88, .035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(47, 118, 88, .035) 1px, transparent 1px);
+            background-size: auto, auto, auto, 32px 32px, 32px 32px;
+        }
+
+        .dark .ambient {
+            background-color: var(--bg);
+            background-image:
+                radial-gradient(circle at 8% 12%, rgba(82, 148, 105, .18), transparent 27%),
+                radial-gradient(circle at 92% 22%, rgba(50, 102, 71, .16), transparent 30%),
+                linear-gradient(rgba(180, 221, 190, .025) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(180, 221, 190, .025) 1px, transparent 1px);
+            background-size: auto, auto, 32px 32px, 32px 32px;
+        }
+
+        #navShell {
+            color: var(--text);
+            background: rgba(255, 255, 255, .82) !important;
+            border-color: rgba(47, 118, 88, .16) !important;
+            box-shadow: 0 16px 45px rgba(41, 83, 57, .12) !important;
+        }
+
+        .dark #navShell {
+            color: #f2f8f1;
+            background: rgba(24, 37, 29, .88) !important;
+            border-color: rgba(214, 236, 218, .14) !important;
+            box-shadow: 0 20px 65px rgba(0, 0, 0, .28) !important;
+        }
+
+        #navShell .text-slate-300,
+        #navShell .text-slate-400 {
+            color: #557064 !important;
+        }
+
+        .dark #navShell .text-slate-300,
+        .dark #navShell .text-slate-400 {
+            color: #b9c9bd !important;
+        }
+
+        #mobileMenu {
+            background: rgba(255, 255, 255, .96) !important;
+            color: var(--text) !important;
+            border-color: var(--line) !important;
+        }
+
+        .dark #mobileMenu {
+            background: rgba(24, 37, 29, .97) !important;
+            border-color: var(--line) !important;
+        }
+
+        #mobileMenu a {
+            color: var(--muted) !important;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2f7658, #4f9b72);
+            box-shadow: 0 14px 32px rgba(47, 118, 88, .25);
+        }
+
+        .btn-primary:hover {
+            box-shadow: 0 20px 44px rgba(47, 118, 88, .35);
+        }
+
+        .btn-light {
+            color: #214b37;
+            background: #fff;
+            border-color: rgba(47, 118, 88, .16);
+        }
+
+        .dark .btn-light {
+            color: #edf8ee;
+            background: rgba(255, 255, 255, .08);
+            border-color: var(--line);
+        }
+
+        .btn-dark {
+            color: #edf8ee;
+            background: #214d39;
+            border-color: rgba(255, 255, 255, .12);
+        }
+
+        .modern-card {
+            border-color: var(--line);
+            box-shadow: 0 18px 45px rgba(43, 83, 56, .08);
+        }
+
+        .modern-card:hover {
+            border-color: rgba(47, 118, 88, .35);
+            box-shadow: 0 26px 62px rgba(43, 83, 56, .14);
+        }
+
+        .dark .modern-card {
+            box-shadow: 0 24px 65px rgba(0, 0, 0, .24);
+        }
+
+        main>section[class*="bg-[#080c16]"],
+        main>section[class*="bg-[#060914]"] {
+            background: linear-gradient(135deg, #e6f1e6 0%, #f9fcf7 54%, #dcecdf 100%) !important;
+            color: var(--text) !important;
+        }
+
+        .dark main>section[class*="bg-[#080c16]"],
+        .dark main>section[class*="bg-[#060914]"] {
+            background: linear-gradient(135deg, #122119 0%, #17291f 54%, #0d1712 100%) !important;
+            color: var(--text) !important;
+        }
+
+        main>section[class*="bg-[#080c16]"] .text-slate-400,
+        main>section[class*="bg-[#080c16]"] .text-slate-500,
+        main>section[class*="bg-[#060914]"] .text-slate-300,
+        main>section[class*="bg-[#060914]"] .text-slate-400 {
+            color: var(--muted) !important;
+        }
+
+        .dark main>section[class*="bg-[#080c16]"] .text-slate-400,
+        .dark main>section[class*="bg-[#080c16]"] .text-slate-500,
+        .dark main>section[class*="bg-[#060914]"] .text-slate-300,
+        .dark main>section[class*="bg-[#060914]"] .text-slate-400 {
+            color: #a8bbae !important;
+        }
+
+        main>section[class*="bg-[#060914]"] .video-fallback,
+        main>section[class*="bg-[#060914]"] .hero-overlay {
+            opacity: 0 !important;
+        }
+
+        main>section[class*="bg-[#060914]"] .hero-video {
+            opacity: .82 !important;
+            filter: saturate(.78) contrast(1.02) !important;
+        }
+
+        main>section[class*="bg-[#060914]"] .hero-overlay {
+            display: block !important;
+            opacity: 1 !important;
+            background: linear-gradient(90deg, rgba(17, 55, 39, .92) 0%, rgba(24, 76, 52, .68) 42%, rgba(27, 82, 56, .28) 74%, rgba(17, 55, 39, .68) 100%), linear-gradient(0deg, rgba(17, 55, 39, .72), transparent 58%) !important;
+        }
+
+        .dark main>section[class*="bg-[#060914]"] .hero-overlay {
+            background: linear-gradient(90deg, rgba(8, 28, 19, .94) 0%, rgba(13, 49, 32, .72) 42%, rgba(13, 49, 32, .34) 74%, rgba(8, 28, 19, .76) 100%), linear-gradient(0deg, rgba(8, 28, 19, .76), transparent 58%) !important;
+        }
+
+        main>section[class*="bg-[#060914]"] .video-fallback {
+            display: block !important;
+            opacity: 1 !important;
+            background: linear-gradient(120deg, #214d39, #5b9270 48%, #183c2a) !important;
+            z-index: 0 !important;
+        }
+
+        main>section[class*="bg-[#060914]"] #heroVideo {
+            z-index: 0 !important;
+        }
+
+        main>section[class*="bg-[#060914]"] .hero-overlay,
+        main>section[class*="bg-[#060914]"] .noise {
+            z-index: 1 !important;
+        }
+
+        main>section[class*="bg-[#060914]"]>.relative.mx-auto {
+            position: relative;
+            z-index: 2;
+        }
+
+        main>section[class*="bg-[#060914]"] .grid.w-full {
+            grid-template-columns: minmax(0, 1fr) !important;
+        }
+
+        main>section[class*="bg-[#060914]"] .grid.w-full>div:first-child {
+            max-width: 680px;
+            padding: clamp(1.5rem, 4vw, 3.5rem);
+            border: 1px solid rgba(255, 255, 255, .22);
+            border-radius: 32px;
+            background: rgba(16, 61, 41, .46);
+            box-shadow: 0 24px 75px rgba(8, 35, 23, .28);
+            backdrop-filter: blur(14px);
+        }
+
+        main>section[class*="bg-[#060914]"] .grid.w-full>div.reveal-scale {
+            display: none !important;
+        }
+
+        main>section[class*="bg-[#060914]"] h1,
+        main>section[class*="bg-[#060914]"] .text-white {
+            color: #f4fbf4 !important;
+        }
+
+        main>section[class*="bg-[#060914]"] h1 span {
+            background: linear-gradient(90deg, #d9f4dc, #9ed6ad) !important;
+            background-clip: text !important;
+        }
+
+        main>section[class*="bg-[#060914]"] .text-slate-300,
+        main>section[class*="bg-[#060914]"] .text-slate-400 {
+            color: #d0e5d4 !important;
+        }
+
+        @media (max-width: 767px) {
+            main>section[class*="bg-[#060914]"] .grid.w-full>div:first-child {
+                border-radius: 24px;
+                background: rgba(16, 61, 41, .64);
+            }
+        }
+
+        main>section[class*="bg-[#060914]"] h1 {
+            color: var(--text);
+        }
+
+        main>section[class*="bg-[#060914]"] h1 span {
+            background: linear-gradient(90deg, #2f7658, #75af83) !important;
+            background-clip: text !important;
+        }
+
+        main>section[class*="bg-[#060914]"] .text-white {
+            color: var(--text) !important;
+        }
+
+        main>section[class*="bg-[#060914]"] .border-white\/15,
+        main>section[class*="bg-[#060914]"] .border-white\/10 {
+            border-color: rgba(47, 118, 88, .16) !important;
+        }
+
+        .scroll-progress {
+            background: linear-gradient(90deg, #2f7658, #9bcea8);
+            box-shadow: 0 0 18px rgba(47, 118, 88, .45);
+        }
+
+        .dark .scroll-progress {
+            background: linear-gradient(90deg, #75b98d, #c0e7c8);
+        }
+
+        footer {
+            background: #173224 !important;
+        }
+
+        .dark footer {
+            background: #0c1510 !important;
+        }
+    </style>
+</head>
+
+<body class="ambient">
+
+    <div id="scrollProgress" class="scroll-progress"></div>
+
+    <!-- HEADER -->
+    <header id="siteHeader"
+        class="fixed left-1/2 top-3 z-50 w-[calc(100%-20px)] max-w-7xl -translate-x-1/2 transition-all duration-500">
+        <nav id="navShell"
+            class="flex items-center justify-between rounded-[22px] border border-white/15 bg-[#0a0f1c]/65 px-3 py-3 text-white shadow-[0_18px_55px_rgba(0,0,0,.18)] backdrop-blur-2xl transition-all duration-500 sm:px-4">
+            <a href="#" class="group flex items-center gap-2.5">
+                <span
+                    class="relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-[13px] bg-gradient-to-br from-[#5b74ff] to-[#3c55d9] text-sm font-extrabold text-white shadow-lg shadow-[#4f6bff]/30">
+                    N
+                    <span
+                        class="absolute inset-x-0 bottom-0 h-1/2 translate-y-full bg-white/20 transition-transform duration-300 group-hover:translate-y-0"></span>
+                </span>
+                <span class="font-display text-lg font-extrabold tracking-[-.055em]">NAS<span
+                        class="text-[#7f91ff]">Drive</span><sup
+                        class="ml-0.5 text-[7px] tracking-normal text-slate-400">PRO</sup></span>
+            </a>
+
+            <div class="hidden items-center gap-1 lg:flex">
+                <a href="#platform"
+                    class="nav-link rounded-xl px-3.5 py-2 text-[12px] font-medium text-slate-300 transition hover:bg-white/7 hover:text-white">Platform</a>
+                <a href="#workflow"
+                    class="nav-link rounded-xl px-3.5 py-2 text-[12px] font-medium text-slate-300 transition hover:bg-white/7 hover:text-white">Workflow</a>
+                <a href="#stories"
+                    class="nav-link rounded-xl px-3.5 py-2 text-[12px] font-medium text-slate-300 transition hover:bg-white/7 hover:text-white">Customers</a>
+                <a href="#ownership"
+                    class="nav-link rounded-xl px-3.5 py-2 text-[12px] font-medium text-slate-300 transition hover:bg-white/7 hover:text-white">Ownership</a>
+                <a href="#faq"
+                    class="nav-link rounded-xl px-3.5 py-2 text-[12px] font-medium text-slate-300 transition hover:bg-white/7 hover:text-white">FAQ</a>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button id="themeToggle" aria-label="Toggle theme"
+                    class="group flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-300 transition hover:-rotate-6 hover:bg-white/10">
+                    <i data-lucide="sun" class="h-4 w-4 dark:hidden"></i>
+                    <i data-lucide="moon" class="hidden h-4 w-4 dark:block"></i>
+                </button>
+                <a href="#contact" class="btn btn-primary hidden px-5 py-2.5 text-[12px] font-bold sm:inline-flex">Book
+                    a demo <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i></a>
+                <button id="mobileMenuBtn"
+                    class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 lg:hidden">
+                    <i data-lucide="menu" class="h-4 w-4"></i>
+                </button>
+            </div>
+        </nav>
+
+        <div id="mobileMenu"
+            class="mt-2 hidden rounded-[24px] border border-white/10 bg-[#0b1020]/95 p-3 text-white shadow-2xl backdrop-blur-2xl lg:hidden">
+            <div class="grid gap-1">
+                <a href="#platform" class="rounded-xl px-4 py-3 text-sm text-slate-300 hover:bg-white/5">Platform</a>
+                <a href="#workflow" class="rounded-xl px-4 py-3 text-sm text-slate-300 hover:bg-white/5">Workflow</a>
+                <a href="#stories" class="rounded-xl px-4 py-3 text-sm text-slate-300 hover:bg-white/5">Customers</a>
+                <a href="#ownership" class="rounded-xl px-4 py-3 text-sm text-slate-300 hover:bg-white/5">Ownership</a>
+                <a href="#faq" class="rounded-xl px-4 py-3 text-sm text-slate-300 hover:bg-white/5">FAQ</a>
+                <a href="#contact" class="mt-2 rounded-xl bg-[#4f6bff] px-4 py-3 text-center text-sm font-bold">Book a
+                    demo</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+
+        <!-- HERO WITH VIDEO-LIKE BACKGROUND -->
+        <section class="relative min-h-[900px] overflow-hidden bg-[#060914] text-white">
+            <!-- Put your real hero video at: assets/nasdrive-hero.mp4 -->
+            <video id="heroVideo" class="hero-video absolute inset-0 h-full w-full object-cover opacity-55" autoplay
+                muted loop playsinline poster="">
+                <source src="assets/nasdrive-hero.mp4" type="video/mp4">
+            </video>
+
+            <div class="video-fallback absolute inset-0 -z-10"></div>
+            <div class="hero-overlay absolute inset-0"></div>
+            <div class="noise pointer-events-none absolute inset-0 opacity-50"></div>
+
+            <!-- animated ambient lights -->
+            <div
+                class="pointer-events-none absolute -left-20 top-1/4 h-80 w-80 animate-drift rounded-full bg-[#4f6bff]/20 blur-[100px]">
+            </div>
+            <div
+                class="pointer-events-none absolute right-0 top-1/3 h-96 w-96 animate-driftReverse rounded-full bg-[#3dd9ff]/10 blur-[110px]">
+            </div>
+
+            <div class="relative mx-auto flex min-h-[900px] max-w-7xl items-center px-5 pb-24 pt-36 sm:px-8 lg:px-10">
+                <div class="grid w-full items-center gap-12 lg:grid-cols-[.85fr_1.15fr]">
+                    <div class="max-w-2xl">
+                        <div
+                            class="reveal inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/[.06] px-3.5 py-2 text-[10px] font-bold uppercase tracking-[.18em] text-slate-300 backdrop-blur-xl">
+                            <span
+                                class="h-1.5 w-1.5 animate-pulse rounded-full bg-[#54e3ff] shadow-[0_0_12px_#54e3ff]"></span>
+                            The operating system for driving schools
+                        </div>
+
+                        <h1
+                            class="reveal delay-1 font-display mt-7 text-[50px] font-extrabold leading-[.94] tracking-[-.065em] sm:text-7xl lg:text-[88px]">
+                            Drive your school
+                            <span
+                                class="block bg-gradient-to-r from-white via-[#b9c4ff] to-[#67dcff] bg-clip-text text-transparent">forward.</span>
+                        </h1>
+
+                        <p class="reveal delay-2 mt-7 max-w-xl text-base leading-7 text-slate-300 sm:text-lg">
+                            One intelligent platform for scheduling, students, instructors, payments, compliance and
+                            growth — without the operational chaos.
+                        </p>
+
+                        <div class="reveal delay-3 mt-9 flex flex-col gap-3 sm:flex-row">
+                            <a href="#contact" class="btn btn-primary px-6 py-3.5 text-sm font-bold">Book a demo <i
+                                    data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
+                            <a href="#platform" class="btn btn-light px-6 py-3.5 text-sm font-bold">Explore platform <i
+                                    data-lucide="play" class="h-3.5 w-3.5 fill-current"></i></a>
+                        </div>
+
+                        <div class="reveal delay-4 mt-7 flex flex-wrap gap-x-5 gap-y-2 text-[11px] text-slate-400">
+                            <span class="flex items-center gap-2"><i data-lucide="check-circle-2"
+                                    class="h-3.5 w-3.5 text-emerald-400"></i>Connected workflows</span>
+                            <span class="flex items-center gap-2"><i data-lucide="check-circle-2"
+                                    class="h-3.5 w-3.5 text-emerald-400"></i>Built for growth</span>
+                            <span class="flex items-center gap-2"><i data-lucide="check-circle-2"
+                                    class="h-3.5 w-3.5 text-emerald-400"></i>Role-based experiences</span>
+                        </div>
+                    </div>
+
+                    <!-- floating product visual -->
+                    <div class="reveal-scale relative hidden lg:block">
+                        <div class="absolute -inset-10 rounded-full bg-[#4f6bff]/15 blur-[90px]"></div>
+
+                        <div
+                            class="relative rounded-[30px] border border-white/15 bg-white/[.08] p-2 shadow-[0_35px_100px_rgba(0,0,0,.45)] backdrop-blur-xl">
+                            <div class="overflow-hidden rounded-[24px] border border-white/10 bg-[#0d1220]">
+                                <div class="flex items-center justify-between border-b border-white/7 px-5 py-3">
+                                    <div class="flex gap-1.5"><span
+                                            class="h-2 w-2 rounded-full bg-red-400/80"></span><span
+                                            class="h-2 w-2 rounded-full bg-yellow-400/80"></span><span
+                                            class="h-2 w-2 rounded-full bg-green-400/80"></span></div>
+                                    <span class="text-[9px] text-slate-500">NASDrive / Command Center</span>
+                                    <div class="h-6 w-6 rounded-full bg-gradient-to-br from-[#4f6bff] to-[#7c5cff]">
+                                    </div>
+                                </div>
+                                <div class="grid min-h-[500px] grid-cols-[145px_1fr]">
+                                    <aside class="border-r border-white/6 bg-white/[.02] p-3">
+                                        <div class="mb-6 flex items-center gap-2 px-2"><span
+                                                class="flex h-7 w-7 items-center justify-center rounded-lg bg-[#4f6bff] text-[10px] font-bold">N</span><span
+                                                class="text-[10px] font-bold">NASDrive</span></div>
+                                        <div class="space-y-1 text-[9px] text-slate-500">
+                                            <div class="rounded-lg bg-[#4f6bff]/15 px-2.5 py-2 text-[#9eacff]">Overview
+                                            </div>
+                                            <div class="px-2.5 py-2">Schedule</div>
+                                            <div class="px-2.5 py-2">Students</div>
+                                            <div class="px-2.5 py-2">Instructors</div>
+                                            <div class="px-2.5 py-2">Payments</div>
+                                            <div class="px-2.5 py-2">Reports</div>
+                                        </div>
+                                    </aside>
+                                    <div class="p-5">
+                                        <div class="flex items-end justify-between">
+                                            <div>
+                                                <p class="text-[9px] uppercase tracking-[.15em] text-slate-500">Monday,
+                                                    September 25</p>
+                                                <h3 class="mt-1 text-xl font-bold">Good morning, Jordan</h3>
+                                            </div><span
+                                                class="rounded-lg bg-white/5 px-3 py-2 text-[9px] text-slate-400">This
+                                                week</span>
+                                        </div>
+                                        <div class="mt-5 grid grid-cols-3 gap-2">
+                                            <div class="rounded-xl bg-white/[.04] p-3"><span
+                                                    class="text-[8px] text-slate-500">Lessons</span>
+                                                <p class="mt-2 text-lg font-bold">42</p>
+                                                <p class="text-[8px] text-emerald-400">+12%</p>
+                                            </div>
+                                            <div class="rounded-xl bg-white/[.04] p-3"><span
+                                                    class="text-[8px] text-slate-500">Students</span>
+                                                <p class="mt-2 text-lg font-bold">1,248</p>
+                                                <p class="text-[8px] text-emerald-400">+8.4%</p>
+                                            </div>
+                                            <div class="rounded-xl bg-[#4f6bff]/12 p-3"><span
+                                                    class="text-[8px] text-[#9eacff]">Revenue</span>
+                                                <p class="mt-2 text-lg font-bold">$84k</p>
+                                                <p class="text-[8px] text-emerald-400">+18.4%</p>
+                                            </div>
+                                        </div>
+                                        <div class="mt-3 grid grid-cols-[1.35fr_1fr] gap-3">
+                                            <div class="rounded-xl bg-white/[.04] p-4">
+                                                <div class="flex justify-between"><span
+                                                        class="text-[9px] font-semibold">Revenue</span><span
+                                                        class="text-[8px] text-emerald-400">+18.4%</span></div>
+                                                <div class="mt-7 flex h-44 items-end gap-2"><span
+                                                        class="h-[38%] flex-1 rounded-t bg-[#4f6bff]/15"></span><span
+                                                        class="h-[48%] flex-1 rounded-t bg-[#4f6bff]/25"></span><span
+                                                        class="h-[43%] flex-1 rounded-t bg-[#4f6bff]/30"></span><span
+                                                        class="h-[65%] flex-1 rounded-t bg-[#4f6bff]/45"></span><span
+                                                        class="h-[72%] flex-1 rounded-t bg-[#4f6bff]/55"></span><span
+                                                        class="h-[90%] flex-1 rounded-t bg-gradient-to-t from-[#4f6bff] to-[#3dd9ff]"></span>
+                                                </div>
+                                            </div>
+                                            <div class="rounded-xl bg-white/[.04] p-4"><span
+                                                    class="text-[9px] font-semibold">Today</span>
+                                                <div class="mt-4 space-y-2">
+                                                    <div class="rounded-lg bg-emerald-400/10 p-2">
+                                                        <p class="text-[8px]">09:00</p>
+                                                        <p class="mt-1 text-[9px] font-semibold">Emma Wilson</p>
+                                                    </div>
+                                                    <div class="rounded-lg bg-[#4f6bff]/10 p-2">
+                                                        <p class="text-[8px]">10:30</p>
+                                                        <p class="mt-1 text-[9px] font-semibold">Liam Carter</p>
+                                                    </div>
+                                                    <div class="rounded-lg bg-violet-400/10 p-2">
+                                                        <p class="text-[8px]">12:00</p>
+                                                        <p class="mt-1 text-[9px] font-semibold">Olivia Smith</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="absolute -bottom-7 -left-10 animate-drift rounded-2xl border border-white/15 bg-[#0d1220]/90 p-4 shadow-2xl backdrop-blur-xl">
+                            <div class="flex items-center gap-3"><span
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-400/10 text-emerald-400"><i
+                                        data-lucide="trending-up" class="h-4 w-4"></i></span>
+                                <div>
+                                    <p class="text-[9px] text-slate-500">Revenue growth</p>
+                                    <p class="text-sm font-bold">+18.4%</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="absolute -right-8 top-20 animate-driftReverse rounded-2xl border border-white/15 bg-[#0d1220]/90 p-4 shadow-2xl backdrop-blur-xl">
+                            <div class="flex items-center gap-3"><span
+                                    class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#4f6bff]/10 text-[#9eacff]"><i
+                                        data-lucide="calendar-check-2" class="h-4 w-4"></i></span>
+                                <div>
+                                    <p class="text-[9px] text-slate-500">Today's schedule</p>
+                                    <p class="text-sm font-bold">42 lessons</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#070a12] to-transparent"></div>
+        </section>
+
+        <!-- LOGOS -->
+        <section class="border-b border-[var(--line)] bg-[var(--surface)] py-9">
+            <div class="marquee overflow-hidden">
+                <div class="marquee-track">
+                    <div
+                        class="flex shrink-0 items-center gap-12 pr-12 text-sm font-bold tracking-tight text-slate-400">
+                        <span>stripe</span><span>aircall</span><span>twilio</span><span>zoom</span><span>Google
+                            Cloud</span><span>ADP</span><span>Microsoft</span><span>DriveSure</span>
+                    </div>
+                    <div class="flex shrink-0 items-center gap-12 pr-12 text-sm font-bold tracking-tight text-slate-400"
+                        aria-hidden="true">
+                        <span>stripe</span><span>aircall</span><span>twilio</span><span>zoom</span><span>Google
+                            Cloud</span><span>ADP</span><span>Microsoft</span><span>DriveSure</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PLATFORM -->
+        <section id="platform" class="relative overflow-hidden py-24 sm:py-32">
+            <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+                <div class="reveal mx-auto max-w-3xl text-center">
+                    <span class="text-[10px] font-bold uppercase tracking-[.2em] text-[#4f6bff]">The platform</span>
+                    <h2 class="font-display mt-4 text-4xl font-extrabold tracking-[-.05em] sm:text-5xl lg:text-6xl">One
+                        system.<br><span class="text-slate-400">Every moving part.</span></h2>
+                    <p class="mx-auto mt-5 max-w-2xl text-base leading-7 text-[var(--muted)]">Designed to make complex
+                        driving school operations feel simple, visible and connected.</p>
+                </div>
+
+                <div class="mt-14 grid gap-5 lg:grid-cols-12">
+                    <div
+                        class="modern-card shine-card reveal-left group relative overflow-hidden p-7 lg:col-span-7 lg:min-h-[420px]">
+                        <div class="relative z-10 max-w-sm">
+                            <span
+                                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#4f6bff]/10 text-[#4f6bff]"><i
+                                    data-lucide="calendar-range" class="h-5 w-5"></i></span>
+                            <h3 class="mt-6 text-2xl font-bold tracking-tight">Smart scheduling</h3>
+                            <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Match students, instructors, vehicles
+                                and availability without spreadsheet gymnastics.</p>
+                        </div>
+                        <div
+                            class="absolute bottom-0 right-0 w-[72%] translate-x-7 translate-y-7 rounded-tl-[28px] border border-[var(--line)] bg-[var(--surface-2)] p-4 shadow-2xl transition duration-500 group-hover:-translate-y-3">
+                            <div class="mb-3 flex justify-between text-[9px]"><span class="font-semibold">Weekly
+                                    schedule</span><span class="text-slate-400">42 lessons</span></div>
+                            <div class="grid grid-cols-7 gap-1">
+                                <div class="h-4 rounded bg-[#4f6bff]/15"></div>
+                                <div class="h-4 rounded bg-[#4f6bff]/10"></div>
+                                <div class="h-4 rounded bg-[#4f6bff]"></div>
+                                <div class="h-4 rounded bg-[#4f6bff]/25"></div>
+                                <div class="h-4 rounded bg-[#4f6bff]/40"></div>
+                                <div class="h-4 rounded bg-[#4f6bff]/15"></div>
+                                <div class="h-4 rounded bg-[#4f6bff]/30"></div>
+                                <div class="col-span-2 h-9 rounded-lg bg-emerald-400/15"></div>
+                                <div class="h-9 rounded-lg bg-white dark:bg-white/5"></div>
+                                <div class="col-span-2 h-9 rounded-lg bg-[#4f6bff]/15"></div>
+                                <div class="col-span-2 h-9 rounded-lg bg-white dark:bg-white/5"></div>
+                                <div class="h-9 rounded-lg bg-white dark:bg-white/5"></div>
+                                <div class="col-span-2 h-9 rounded-lg bg-violet-400/15"></div>
+                                <div class="h-9 rounded-lg bg-white dark:bg-white/5"></div>
+                                <div class="col-span-2 h-9 rounded-lg bg-cyan-400/15"></div>
+                                <div class="h-9 rounded-lg bg-white dark:bg-white/5"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="modern-card shine-card reveal-right group relative overflow-hidden bg-[#0c1222] p-7 text-white lg:col-span-5 lg:min-h-[420px]">
+                        <div
+                            class="absolute right-[-80px] top-[-80px] h-64 w-64 rounded-full bg-[#4f6bff]/30 blur-[70px]">
+                        </div>
+                        <div class="relative z-10">
+                            <span
+                                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-white/8 text-[#8fa0ff]"><i
+                                    data-lucide="credit-card" class="h-5 w-5"></i></span>
+                            <h3 class="mt-6 text-2xl font-bold tracking-tight">Payments on autopilot.</h3>
+                            <p class="mt-3 text-sm leading-6 text-slate-400">Invoices, reminders, payment status and
+                                revenue visibility in one clean workflow.</p>
+                        </div>
+                        <div
+                            class="absolute bottom-7 left-7 right-7 rounded-2xl border border-white/10 bg-white/[.06] p-4 backdrop-blur-xl transition duration-500 group-hover:-translate-y-2">
+                            <div class="flex items-center justify-between"><span
+                                    class="text-[9px] text-slate-500">Monthly revenue</span><span
+                                    class="text-[9px] text-emerald-400">+18.4%</span></div>
+                            <p class="mt-2 text-3xl font-bold">$84,240</p>
+                            <div class="mt-4 h-1.5 rounded-full bg-white/10">
+                                <div class="h-full w-[78%] rounded-full bg-gradient-to-r from-[#4f6bff] to-[#3dd9ff]">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modern-card shine-card reveal-scale overflow-hidden p-7 lg:col-span-5">
+                        <span
+                            class="flex h-11 w-11 items-center justify-center rounded-2xl bg-violet-500/10 text-violet-500"><i
+                                data-lucide="smartphone" class="h-5 w-5"></i></span>
+                        <h3 class="mt-6 text-2xl font-bold tracking-tight">A better student experience.</h3>
+                        <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Bookings, reminders, progress and payments
+                            in a simple experience students can understand instantly.</p>
+                        <div class="mt-8 flex items-end justify-center gap-3">
+                            <div
+                                class="h-28 w-16 rounded-[14px] border border-[var(--line)] bg-[var(--surface-2)] shadow-lg">
+                            </div>
+                            <div
+                                class="h-36 w-20 rounded-[16px] border-2 border-[#4f6bff]/30 bg-[var(--surface-2)] shadow-xl">
+                            </div>
+                            <div
+                                class="h-24 w-14 rounded-[13px] border border-[var(--line)] bg-[var(--surface-2)] shadow-lg">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="modern-card shine-card reveal-right overflow-hidden p-7 lg:col-span-7">
+                        <div class="flex flex-col justify-between gap-8 md:flex-row">
+                            <div class="max-w-sm">
+                                <span
+                                    class="flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500"><i
+                                        data-lucide="shield-check" class="h-5 w-5"></i></span>
+                                <h3 class="mt-6 text-2xl font-bold tracking-tight">Compliance without the busywork.</h3>
+                                <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Keep records organized, surface
+                                    exceptions and give your team one source of truth.</p>
+                            </div>
+                            <div class="grid w-full max-w-sm grid-cols-2 gap-2">
+                                <div class="rounded-2xl bg-[var(--surface-2)] p-4">
+                                    <p class="text-[9px] text-slate-500">Documents</p>
+                                    <p class="mt-2 text-xl font-bold">1,842</p>
+                                    <p class="mt-1 text-[9px] text-emerald-500">98.4% complete</p>
+                                </div>
+                                <div class="rounded-2xl bg-[var(--surface-2)] p-4">
+                                    <p class="text-[9px] text-slate-500">Exceptions</p>
+                                    <p class="mt-2 text-xl font-bold">12</p>
+                                    <p class="mt-1 text-[9px] text-amber-500">Needs review</p>
+                                </div>
+                                <div class="col-span-2 rounded-2xl bg-[#4f6bff]/7 p-4">
+                                    <div class="flex justify-between text-[10px] font-semibold"><span>Compliance
+                                            health</span><span class="text-[#4f6bff]">94.8%</span></div>
+                                    <div class="mt-3 h-2 rounded-full bg-[#4f6bff]/10">
+                                        <div
+                                            class="h-full w-[94.8%] rounded-full bg-gradient-to-r from-[#4f6bff] to-[#3dd9ff]">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCT SHOWCASE -->
+        <section class="relative overflow-hidden bg-[#080c16] py-24 text-white sm:py-32">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(79,107,255,.20),transparent_38%)]">
+            </div>
+            <div class="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+                <div class="reveal mx-auto max-w-3xl text-center">
+                    <span class="text-[10px] font-bold uppercase tracking-[.2em] text-[#8fa0ff]">Designed for every
+                        role</span>
+                    <h2 class="font-display mt-4 text-4xl font-extrabold tracking-[-.05em] sm:text-5xl lg:text-6xl">The
+                        right view.<br><span class="text-slate-500">For the right person.</span></h2>
+                </div>
+
+                <div class="reveal mt-12">
+                    <div class="flex justify-center gap-1 rounded-full border border-white/10 bg-white/[.03] p-1">
+                        <button data-product="admin"
+                            class="product-tab rounded-full bg-white px-5 py-2.5 text-xs font-bold text-[#0b1020]">Admin</button>
+                        <button data-product="instructor"
+                            class="product-tab rounded-full px-5 py-2.5 text-xs font-bold text-slate-400 transition hover:text-white">Instructor</button>
+                        <button data-product="student"
+                            class="product-tab rounded-full px-5 py-2.5 text-xs font-bold text-slate-400 transition hover:text-white">Student</button>
+                    </div>
+
+                    <div id="productPanel"
+                        class="product-screen mt-7 overflow-hidden rounded-[32px] border border-white/10 bg-[#0e1421]">
+                        <div class="grid min-h-[520px] lg:grid-cols-[.72fr_1.28fr]">
+                            <div
+                                class="flex flex-col justify-center border-b border-white/10 p-7 sm:p-10 lg:border-b-0 lg:border-r">
+                                <span id="productEyebrow"
+                                    class="text-[10px] font-bold uppercase tracking-[.2em] text-[#8fa0ff]">For school
+                                    owners</span>
+                                <h3 id="productTitle" class="mt-4 text-3xl font-bold tracking-tight sm:text-4xl">See the
+                                    whole school at a glance.</h3>
+                                <p id="productText" class="mt-5 text-sm leading-7 text-slate-400">Live schedules,
+                                    revenue, student progress and exceptions — surfaced in one calm, focused dashboard.
+                                </p>
+                                <div id="productBullets" class="mt-7 space-y-3 text-xs text-slate-300"></div>
+                            </div>
+                            <div class="relative overflow-hidden bg-[#090d15] p-5 sm:p-8">
+                                <div
+                                    class="absolute -right-10 top-10 h-60 w-60 rounded-full bg-[#4f6bff]/20 blur-[90px]">
+                                </div>
+                                <div
+                                    class="relative h-full overflow-hidden rounded-[24px] border border-white/10 bg-[#111827] p-4 shadow-2xl">
+                                    <div class="flex items-center justify-between border-b border-white/5 pb-3">
+                                        <div class="flex gap-1.5"><span
+                                                class="h-2 w-2 rounded-full bg-red-400"></span><span
+                                                class="h-2 w-2 rounded-full bg-yellow-400"></span><span
+                                                class="h-2 w-2 rounded-full bg-green-400"></span></div><span
+                                            class="text-[9px] text-slate-500">NASDrive / Overview</span>
+                                    </div>
+                                    <div class="mt-4 grid grid-cols-3 gap-2">
+                                        <div class="rounded-xl bg-white/[.04] p-3"><span
+                                                class="text-[8px] text-slate-500">Students</span>
+                                            <p class="mt-2 text-lg font-bold">1,248</p>
+                                        </div>
+                                        <div class="rounded-xl bg-white/[.04] p-3"><span
+                                                class="text-[8px] text-slate-500">Lessons</span>
+                                            <p class="mt-2 text-lg font-bold">42</p>
+                                        </div>
+                                        <div class="rounded-xl bg-[#4f6bff]/10 p-3"><span
+                                                class="text-[8px] text-[#9eacff]">Revenue</span>
+                                            <p class="mt-2 text-lg font-bold">$84k</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 grid gap-3 sm:grid-cols-[1.3fr_1fr]">
+                                        <div class="rounded-xl bg-white/[.04] p-4">
+                                            <div class="flex justify-between"><span
+                                                    class="text-[9px] font-semibold">Performance</span><span
+                                                    class="text-[8px] text-emerald-400">+18.4%</span></div>
+                                            <div class="mt-6 flex h-48 items-end gap-2"><span
+                                                    class="h-[38%] flex-1 rounded-t bg-[#4f6bff]/15"></span><span
+                                                    class="h-[48%] flex-1 rounded-t bg-[#4f6bff]/25"></span><span
+                                                    class="h-[44%] flex-1 rounded-t bg-[#4f6bff]/30"></span><span
+                                                    class="h-[65%] flex-1 rounded-t bg-[#4f6bff]/40"></span><span
+                                                    class="h-[75%] flex-1 rounded-t bg-[#4f6bff]/55"></span><span
+                                                    class="h-[92%] flex-1 rounded-t bg-gradient-to-t from-[#4f6bff] to-[#3dd9ff]"></span>
+                                            </div>
+                                        </div>
+                                        <div class="rounded-xl bg-white/[.04] p-4"><span
+                                                class="text-[9px] font-semibold">Today</span>
+                                            <div class="mt-4 space-y-2">
+                                                <div class="h-11 rounded-lg bg-emerald-400/10"></div>
+                                                <div class="h-11 rounded-lg bg-[#4f6bff]/10"></div>
+                                                <div class="h-11 rounded-lg bg-violet-400/10"></div>
+                                                <div class="h-11 rounded-lg bg-white/5"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WORKFLOW -->
+        <section id="workflow" class="relative py-24 sm:py-32">
+            <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+                <div class="reveal flex flex-col justify-between gap-6 md:flex-row md:items-end">
+                    <div class="max-w-3xl">
+                        <span class="text-[10px] font-bold uppercase tracking-[.2em] text-[#4f6bff]">How it works</span>
+                        <h2 class="font-display mt-4 text-4xl font-extrabold tracking-[-.05em] sm:text-5xl lg:text-6xl">
+                            From busywork<br><span class="text-slate-400">to business momentum.</span></h2>
+                    </div>
+                    <p class="max-w-sm text-sm leading-6 text-[var(--muted)]">Four simple stages. One connected
+                        operational layer.</p>
+                </div>
+
+                <div class="mt-14 grid gap-4 lg:grid-cols-4">
+                    <div class="modern-card reveal p-6">
+                        <div class="flex items-center justify-between"><span
+                                class="text-xs font-bold text-[#4f6bff]">01</span><i data-lucide="link-2"
+                                class="h-5 w-5 text-slate-400"></i></div>
+                        <h3 class="mt-12 text-xl font-bold">Connect</h3>
+                        <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Bring students, instructors, vehicles,
+                            locations and data together.</p>
+                    </div>
+                    <div class="modern-card reveal delay-1 p-6">
+                        <div class="flex items-center justify-between"><span
+                                class="text-xs font-bold text-[#4f6bff]">02</span><i data-lucide="wand-sparkles"
+                                class="h-5 w-5 text-slate-400"></i></div>
+                        <h3 class="mt-12 text-xl font-bold">Automate</h3>
+                        <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Reduce repetitive scheduling, payment and
+                            communication work.</p>
+                    </div>
+                    <div class="modern-card reveal delay-2 p-6">
+                        <div class="flex items-center justify-between"><span
+                                class="text-xs font-bold text-[#4f6bff]">03</span><i data-lucide="scan-search"
+                                class="h-5 w-5 text-slate-400"></i></div>
+                        <h3 class="mt-12 text-xl font-bold">Understand</h3>
+                        <p class="mt-3 text-sm leading-6 text-[var(--muted)]">See the numbers, exceptions and
+                            opportunities that matter.</p>
+                    </div>
+                    <div class="modern-card reveal delay-3 p-6">
+                        <div class="flex items-center justify-between"><span
+                                class="text-xs font-bold text-[#4f6bff]">04</span><i data-lucide="rocket"
+                                class="h-5 w-5 text-slate-400"></i></div>
+                        <h3 class="mt-12 text-xl font-bold">Scale</h3>
+                        <p class="mt-3 text-sm leading-6 text-[var(--muted)]">Grow students and locations without
+                            growing operational complexity.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- OWNERSHIP -->
+        <section id="ownership" class="relative overflow-hidden bg-[#080c16] py-24 text-white sm:py-32">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(79,107,255,.22),transparent_32%)]">
+            </div>
+            <div class="relative mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+                <div class="grid items-center gap-12 lg:grid-cols-[.85fr_1.15fr]">
+                    <div class="reveal-left">
+                        <span class="text-[10px] font-bold uppercase tracking-[.2em] text-[#8fa0ff]">Own your
+                            technology</span>
+                        <h2 class="font-display mt-4 text-4xl font-extrabold tracking-[-.05em] sm:text-5xl lg:text-6xl">
+                            Stop renting software.<br><span class="text-slate-500">Start owning your growth.</span></h2>
+                        <p class="mt-6 max-w-xl text-base leading-7 text-slate-400">A modern operating layer should
+                            adapt to your business, not force your business to adapt to it.</p>
+                        <div class="mt-8 flex flex-wrap gap-2"><span
+                                class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-300">Your
+                                workflow</span><span
+                                class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-300">Your
+                                data</span><span
+                                class="rounded-full border border-white/10 bg-white/5 px-3 py-2 text-xs text-slate-300">Your
+                                platform</span></div>
+                    </div>
+
+                    <div
+                        class="reveal-right rounded-[32px] border border-white/10 bg-white/[.04] p-6 shadow-2xl backdrop-blur-xl sm:p-8">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <p class="text-xs font-semibold">Illustrative 5-year cost</p>
+                                <p class="mt-1 text-[10px] text-slate-500">Example only — actual pricing varies</p>
+                            </div><span
+                                class="rounded-full bg-emerald-400/10 px-3 py-1.5 text-[10px] font-bold text-emerald-400">67%
+                                lower</span>
+                        </div>
+                        <div class="mt-10 space-y-8">
+                            <div>
+                                <div class="flex justify-between text-xs"><span class="text-slate-400">Traditional
+                                        SaaS</span><span class="font-bold">$36,000</span></div>
+                                <div class="mt-3 h-4 rounded-full bg-white/5">
+                                    <div class="h-full w-full rounded-full bg-white/15"></div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex justify-between text-xs"><span class="text-slate-400">NASDrive
+                                        PRO</span><span class="font-bold text-[#9eacff]">$12,000</span></div>
+                                <div class="mt-3 h-4 rounded-full bg-white/5">
+                                    <div
+                                        class="h-full w-1/3 rounded-full bg-gradient-to-r from-[#4f6bff] to-[#3dd9ff] shadow-[0_0_25px_rgba(79,107,255,.45)]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-9 grid grid-cols-3 gap-2">
+                            <div class="rounded-2xl bg-white/[.04] p-4">
+                                <p class="text-[9px] text-slate-500">Year 1</p>
+                                <p class="mt-1 font-bold">$2.4k</p>
+                            </div>
+                            <div class="rounded-2xl bg-white/[.04] p-4">
+                                <p class="text-[9px] text-slate-500">Year 3</p>
+                                <p class="mt-1 font-bold">$7.2k</p>
+                            </div>
+                            <div class="rounded-2xl bg-[#4f6bff]/10 p-4">
+                                <p class="text-[9px] text-[#8fa0ff]">Year 5</p>
+                                <p class="mt-1 font-bold">$12k</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CASE STUDIES: NEW STACKED CAROUSEL -->
+        <section id="stories" class="overflow-hidden py-24 sm:py-32">
+            <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+                <div class="reveal flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+                    <div><span class="text-[10px] font-bold uppercase tracking-[.2em] text-[#4f6bff]">Customer
+                            stories</span>
+                        <h2 class="font-display mt-4 text-4xl font-extrabold tracking-[-.05em] sm:text-5xl lg:text-6xl">
+                            Proof in motion.</h2>
+                    </div>
+                    <div class="flex items-center gap-2"><button id="storyPrev"
+                            class="flex h-11 w-11 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--surface)] transition hover:-translate-x-1 hover:border-[#4f6bff]/30"><i
+                                data-lucide="arrow-left" class="h-4 w-4"></i></button><button id="storyNext"
+                            class="btn btn-primary h-11 w-11 p-0"><i data-lucide="arrow-right"
+                                class="h-4 w-4"></i></button></div>
+                </div>
+
+                <div id="storyTrack" class="carousel-track mt-12 flex gap-5 overflow-x-auto pb-5">
+                    <article
+                        class="carousel-slide group relative overflow-hidden rounded-[32px] bg-[#121a31] text-white">
+                        <div
+                            class="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(79,107,255,.35),transparent_30%)]">
+                        </div>
+                        <div class="relative grid min-h-[480px] gap-8 p-7 sm:p-10 md:grid-cols-[.9fr_1.1fr]">
+                            <div class="flex flex-col justify-between">
+                                <div><span
+                                        class="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[.16em] text-slate-300">FollowOn
+                                        Driving School</span>
+                                    <h3 class="mt-8 text-3xl font-bold tracking-tight sm:text-4xl">More
+                                        visibility.<br><span class="text-[#8fa0ff]">Less admin.</span></h3>
+                                    <p class="mt-4 text-sm leading-6 text-slate-400">A connected workflow helped the
+                                        team reduce repetitive administration and focus more on students.</p>
+                                </div>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <p class="text-2xl font-bold">+48%</p>
+                                        <p class="text-[9px] text-slate-500">Efficiency</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-2xl font-bold">-67%</p>
+                                        <p class="text-[9px] text-slate-500">Admin work</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-2xl font-bold">+89%</p>
+                                        <p class="text-[9px] text-slate-500">Visibility</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-end justify-center">
+                                <div
+                                    class="w-full max-w-[330px] rotate-[-4deg] rounded-[25px] border-4 border-black/30 bg-[#0a0e17] p-2 shadow-2xl transition duration-500 group-hover:rotate-0 group-hover:scale-[1.03]">
+                                    <div class="rounded-[18px] bg-gradient-to-br from-[#24335f] to-[#101522] p-5">
+                                        <div class="h-3 w-24 rounded bg-white/10"></div>
+                                        <div class="mt-8 grid grid-cols-2 gap-2">
+                                            <div class="h-28 rounded-xl bg-white/5"></div>
+                                            <div class="h-28 rounded-xl bg-[#4f6bff]/20"></div>
+                                        </div>
+                                        <div class="mt-2 h-24 rounded-xl bg-white/5"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article
+                        class="carousel-slide group relative overflow-hidden rounded-[32px] bg-[#073b3b] text-white">
+                        <div
+                            class="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(61,217,255,.22),transparent_30%)]">
+                        </div>
+                        <div class="relative grid min-h-[480px] gap-8 p-7 sm:p-10 md:grid-cols-[.9fr_1.1fr]">
+                            <div class="flex flex-col justify-between">
+                                <div><span
+                                        class="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[.16em] text-slate-300">SafeWay
+                                        Driving Academy</span>
+                                    <h3 class="mt-8 text-3xl font-bold tracking-tight sm:text-4xl">A clearer
+                                        path<br><span class="text-[#75e6dc]">for every student.</span></h3>
+                                    <p class="mt-4 text-sm leading-6 text-slate-400">Centralized progress and
+                                        communication made the student and instructor experience easier to manage.</p>
+                                </div>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <p class="text-2xl font-bold">-54%</p>
+                                        <p class="text-[9px] text-slate-500">Admin time</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-2xl font-bold">+63%</p>
+                                        <p class="text-[9px] text-slate-500">Engagement</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-2xl font-bold">+81%</p>
+                                        <p class="text-[9px] text-slate-500">Visibility</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-end justify-center">
+                                <div
+                                    class="w-full max-w-[330px] rotate-[4deg] rounded-[25px] border-4 border-black/30 bg-[#0a0e17] p-2 shadow-2xl transition duration-500 group-hover:rotate-0 group-hover:scale-[1.03]">
+                                    <div class="rounded-[18px] bg-gradient-to-br from-[#0d625c] to-[#101522] p-5">
+                                        <div class="h-3 w-24 rounded bg-white/10"></div>
+                                        <div class="mt-8 h-24 rounded-xl bg-emerald-300/10"></div>
+                                        <div class="mt-2 grid grid-cols-2 gap-2">
+                                            <div class="h-28 rounded-xl bg-white/5"></div>
+                                            <div class="h-28 rounded-xl bg-white/5"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article
+                        class="carousel-slide group relative overflow-hidden rounded-[32px] bg-[#3c2b09] text-white">
+                        <div
+                            class="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(255,202,72,.22),transparent_30%)]">
+                        </div>
+                        <div class="relative grid min-h-[480px] gap-8 p-7 sm:p-10 md:grid-cols-[.9fr_1.1fr]">
+                            <div class="flex flex-col justify-between">
+                                <div><span
+                                        class="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[9px] font-bold uppercase tracking-[.16em] text-slate-300">Summit
+                                        Driving School</span>
+                                    <h3 class="mt-8 text-3xl font-bold tracking-tight sm:text-4xl">Scale
+                                        without<br><span class="text-[#ffd76a]">the chaos.</span></h3>
+                                    <p class="mt-4 text-sm leading-6 text-slate-400">A unified platform helped the
+                                        school support more students without adding another layer of administration.</p>
+                                </div>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div>
+                                        <p class="text-2xl font-bold">+42%</p>
+                                        <p class="text-[9px] text-slate-500">Growth</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-2xl font-bold">-88%</p>
+                                        <p class="text-[9px] text-slate-500">Manual work</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-2xl font-bold">2.4x</p>
+                                        <p class="text-[9px] text-slate-500">Scale</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="flex items-end justify-center">
+                                <div
+                                    class="w-full max-w-[330px] rotate-[-3deg] rounded-[25px] border-4 border-black/30 bg-[#0a0e17] p-2 shadow-2xl transition duration-500 group-hover:rotate-0 group-hover:scale-[1.03]">
+                                    <div class="rounded-[18px] bg-gradient-to-br from-[#7a5d0a] to-[#101522] p-5">
+                                        <div class="h-3 w-24 rounded bg-white/10"></div>
+                                        <div class="mt-8 h-28 rounded-xl bg-amber-200/10"></div>
+                                        <div class="mt-2 h-24 rounded-xl bg-white/5"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+
+                <div class="mt-5 flex justify-center gap-2"><button data-dot="0"
+                        class="story-dot h-1.5 w-8 rounded-full bg-[#4f6bff]"></button><button data-dot="1"
+                        class="story-dot h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></button><button
+                        data-dot="2" class="story-dot h-1.5 w-1.5 rounded-full bg-slate-300 dark:bg-slate-700"></button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIAL -->
+        <section class="border-y border-[var(--line)] bg-[var(--surface-2)] py-24 sm:py-32">
+            <div class="mx-auto max-w-6xl px-5 sm:px-8 lg:px-10">
+                <div class="reveal grid items-center gap-10 lg:grid-cols-[.45fr_1.55fr]">
+                    <div><span class="text-[10px] font-bold uppercase tracking-[.2em] text-[#4f6bff]">Customer
+                            voice</span>
+                        <p class="mt-4 text-sm leading-6 text-[var(--muted)]">The value is in making every part of the
+                            school feel connected.</p>
+                    </div>
+                    <div>
+                        <blockquote
+                            class="font-display text-3xl font-bold leading-[1.08] tracking-[-.045em] sm:text-5xl lg:text-6xl">
+                            “NASDrive gives us a much clearer view of the business. We spend less time chasing
+                            information and more time improving the student experience.”</blockquote>
+                        <div class="mt-8 flex items-center gap-3">
+                            <div
+                                class="flex h-11 w-11 items-center justify-center rounded-full bg-gradient-to-br from-[#4f6bff] to-[#8b5cf6] text-xs font-bold text-white">
+                                MM</div>
+                            <div>
+                                <p class="text-sm font-bold">Marvin McKinney</p>
+                                <p class="text-xs text-[var(--muted)]">Driving school operator</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section id="faq" class="py-24 sm:py-32">
+            <div class="mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
+                <div class="grid gap-12 lg:grid-cols-[.65fr_1.35fr]">
+                    <div class="reveal-left"><span
+                            class="text-[10px] font-bold uppercase tracking-[.2em] text-[#4f6bff]">FAQ</span>
+                        <h2 class="font-display mt-4 text-4xl font-extrabold tracking-[-.05em] sm:text-5xl">
+                            Questions,<br><span class="text-slate-400">answered.</span></h2>
+                        <p class="mt-5 max-w-sm text-sm leading-6 text-[var(--muted)]">Everything you need to know
+                            before making the switch.</p><a href="#contact"
+                            class="mt-7 inline-flex items-center gap-2 text-sm font-bold text-[#4f6bff]">Talk to our
+                            team <i data-lucide="arrow-up-right" class="h-4 w-4"></i></a>
+                    </div>
+
+                    <div
+                        class="reveal-right divide-y divide-[var(--line)] rounded-[28px] border border-[var(--line)] bg-[var(--surface)] px-6">
+                        <div class="faq-item"><button
+                                class="flex w-full items-center justify-between gap-6 py-6 text-left text-sm font-bold">What
+                                is NASDrive PRO?<span
+                                    class="faq-icon flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line)]"><i
+                                        data-lucide="plus" class="h-3.5 w-3.5"></i></span></button>
+                            <div class="faq-answer hidden pb-6 text-sm leading-6 text-[var(--muted)]">NASDrive PRO is a
+                                connected operating platform for driving schools covering scheduling, students,
+                                instructors, payments, reporting and operational workflows.</div>
+                        </div>
+                        <div class="faq-item"><button
+                                class="flex w-full items-center justify-between gap-6 py-6 text-left text-sm font-bold">How
+                                long does implementation take?<span
+                                    class="faq-icon flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line)]"><i
+                                        data-lucide="plus" class="h-3.5 w-3.5"></i></span></button>
+                            <div class="faq-answer hidden pb-6 text-sm leading-6 text-[var(--muted)]">Implementation
+                                depends on school size, locations, integrations and migration requirements. The exact
+                                rollout can be planned during your consultation.</div>
+                        </div>
+                        <div class="faq-item"><button
+                                class="flex w-full items-center justify-between gap-6 py-6 text-left text-sm font-bold">Can
+                                you migrate our existing data?<span
+                                    class="faq-icon flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line)]"><i
+                                        data-lucide="plus" class="h-3.5 w-3.5"></i></span></button>
+                            <div class="faq-answer hidden pb-6 text-sm leading-6 text-[var(--muted)]">Data migration can
+                                be included in implementation. The approach depends on your current systems, data
+                                structure and migration scope.</div>
+                        </div>
+                        <div class="faq-item"><button
+                                class="flex w-full items-center justify-between gap-6 py-6 text-left text-sm font-bold">Does
+                                it support multiple locations?<span
+                                    class="faq-icon flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line)]"><i
+                                        data-lucide="plus" class="h-3.5 w-3.5"></i></span></button>
+                            <div class="faq-answer hidden pb-6 text-sm leading-6 text-[var(--muted)]">NASDrive can be
+                                structured for multi-location operations. Your exact setup can be reviewed with the
+                                team.</div>
+                        </div>
+                        <div class="faq-item"><button
+                                class="flex w-full items-center justify-between gap-6 py-6 text-left text-sm font-bold">Can
+                                students and instructors use it?<span
+                                    class="faq-icon flex h-7 w-7 items-center justify-center rounded-full border border-[var(--line)]"><i
+                                        data-lucide="plus" class="h-3.5 w-3.5"></i></span></button>
+                            <div class="faq-answer hidden pb-6 text-sm leading-6 text-[var(--muted)]">Yes. The platform
+                                is designed around role-specific experiences so each user sees the workflows relevant to
+                                them.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FINAL CTA -->
+        <section id="contact" class="px-4 pb-5 sm:px-6 lg:px-8">
+            <div
+                class="relative mx-auto max-w-7xl overflow-hidden rounded-[38px] bg-[#0a0f1c] px-6 py-24 text-center text-white sm:px-12 sm:py-32">
+                <div
+                    class="absolute left-[10%] top-[-20%] h-80 w-80 animate-pulseGlow rounded-full bg-[#4f6bff]/25 blur-[100px]">
+                </div>
+                <div class="absolute bottom-[-25%] right-[8%] h-96 w-96 animate-pulseGlow rounded-full bg-[#3dd9ff]/10 blur-[110px]"
+                    style="animation-delay:1s"></div>
+                <div class="noise pointer-events-none absolute inset-0 opacity-30"></div>
+                <div class="relative">
+                    <span
+                        class="rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[.17em] text-slate-400">Ready
+                        to move forward?</span>
+                    <h2
+                        class="font-display mx-auto mt-7 max-w-4xl text-4xl font-extrabold leading-[.98] tracking-[-.06em] sm:text-6xl lg:text-7xl">
+                        Your school is growing.<br><span
+                            class="bg-gradient-to-r from-[#9eacff] to-[#67dcff] bg-clip-text text-transparent">Your
+                            software should too.</span></h2>
+                    <p class="mx-auto mt-6 max-w-xl text-sm leading-6 text-slate-400 sm:text-base">See how NASDrive PRO
+                        can connect your operations, simplify your team's day and help you scale with confidence.</p>
+                    <div class="mt-9 flex flex-col justify-center gap-3 sm:flex-row"><a
+                            href="mailto:hello@nasdrivepro.com"
+                            class="btn btn-primary px-7 py-3.5 text-sm font-bold">Book a demo <i
+                                data-lucide="arrow-up-right" class="h-4 w-4"></i></a><a href="tel:+10000000000"
+                            class="btn btn-dark px-7 py-3.5 text-sm font-bold">Talk to our team <i data-lucide="phone"
+                                class="h-4 w-4"></i></a></div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-[#060912] px-5 pb-8 pt-16 text-white sm:px-8 lg:px-10">
+        <div class="mx-auto max-w-7xl">
+            <div class="grid gap-12 lg:grid-cols-[1.5fr_1fr_1fr_1fr]">
+                <div>
+                    <div class="flex items-center gap-2.5"><span
+                            class="flex h-10 w-10 items-center justify-center rounded-[13px] bg-[#4f6bff] text-sm font-extrabold">N</span><span
+                            class="font-display text-lg font-extrabold tracking-[-.05em]">NAS<span
+                                class="text-[#7f91ff]">Drive</span><sup
+                                class="ml-0.5 text-[7px] text-slate-500">PRO</sup></span></div>
+                    <p class="mt-5 max-w-sm text-sm leading-6 text-slate-500">The connected operating system for modern
+                        driving schools.</p>
+                </div>
+                <div>
+                    <p class="text-xs font-bold">Platform</p>
+                    <div class="mt-5 grid gap-3 text-sm text-slate-500"><a href="#platform"
+                            class="transition hover:text-white">Scheduling</a><a href="#platform"
+                            class="transition hover:text-white">Students</a><a href="#platform"
+                            class="transition hover:text-white">Payments</a><a href="#platform"
+                            class="transition hover:text-white">Reporting</a></div>
+                </div>
+                <div>
+                    <p class="text-xs font-bold">Company</p>
+                    <div class="mt-5 grid gap-3 text-sm text-slate-500"><a href="#stories"
+                            class="transition hover:text-white">Customers</a><a href="#ownership"
+                            class="transition hover:text-white">Ownership</a><a href="#faq"
+                            class="transition hover:text-white">FAQ</a><a href="#contact"
+                            class="transition hover:text-white">Contact</a></div>
+                </div>
+                <div>
+                    <p class="text-xs font-bold">Connect</p>
+                    <div class="mt-5 grid gap-3 text-sm text-slate-500"><a href="#"
+                            class="transition hover:text-white">LinkedIn</a><a href="#"
+                            class="transition hover:text-white">Facebook</a><a href="mailto:hello@nasdrivepro.com"
+                            class="transition hover:text-white">Email us</a></div>
+                </div>
+            </div>
+            <div
+                class="mt-14 flex flex-col justify-between gap-4 border-t border-white/8 pt-6 text-[10px] text-slate-600 sm:flex-row">
+                <span>© 2026 NASDrive PRO. All rights reserved.</span>
+                <div class="flex gap-5"><a href="#" class="hover:text-slate-300">Privacy</a><a href="#"
+                        class="hover:text-slate-300">Terms</a></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // Theme
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('nasdrive-theme');
+        if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('nasdrive-theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+        });
+
+        // Header: transparent over hero -> compact glass on scroll
+        const siteHeader = document.getElementById('siteHeader');
+        const navShell = document.getElementById('navShell');
+        const updateHeader = () => {
+            if (window.scrollY > 40) {
+                navShell.classList.remove('bg-[#0a0f1c]/65', 'border-white/15');
+                navShell.classList.add('bg-[#0a0f1c]/92', 'border-white/10', 'shadow-[0_20px_65px_rgba(0,0,0,.30)]');
+            } else {
+                navShell.classList.add('bg-[#0a0f1c]/65', 'border-white/15');
+                navShell.classList.remove('bg-[#0a0f1c]/92', 'border-white/10', 'shadow-[0_20px_65px_rgba(0,0,0,.30)]');
+            }
+        };
+        window.addEventListener('scroll', updateHeader, { passive: true });
+        updateHeader();
+
+        // Mobile menu
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        mobileMenu.querySelectorAll('a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+        // Scroll progress
+        const progress = document.getElementById('scrollProgress');
+        const updateProgress = () => {
+            const max = document.documentElement.scrollHeight - window.innerHeight;
+            progress.style.width = max > 0 ? ((window.scrollY / max) * 100) + '%' : '0%';
+        };
+        window.addEventListener('scroll', updateProgress, { passive: true });
+
+        // Reveal every section / card as it enters viewport
+        const revealObserver = new IntersectionObserver(entries => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach(el => revealObserver.observe(el));
+
+        // Product tabs
+        const productData = {
+            admin: {
+                eyebrow: 'For school owners',
+                title: 'See the whole school at a glance.',
+                text: 'Live schedules, revenue, student progress and exceptions — surfaced in one calm, focused dashboard.',
+                bullets: ['Live operational overview', 'Revenue & performance reporting', 'Multi-location visibility']
+            },
+            instructor: {
+                eyebrow: 'For instructors',
+                title: 'Know exactly what is next.',
+                text: 'Give instructors a focused view of lessons, students, availability and progress without unnecessary admin noise.',
+                bullets: ['Daily schedule & student context', 'Fast lesson updates', 'Clear progress tracking']
+            },
+            student: {
+                eyebrow: 'For students',
+                title: 'Make every step feel simple.',
+                text: 'Students get a clear experience for bookings, reminders, payments and progress — from any device.',
+                bullets: ['Simple booking experience', 'Automated reminders', 'Progress & payment visibility']
+            }
+        };
+
+        const productPanel = document.getElementById('productPanel');
+        document.querySelectorAll('.product-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.product-tab').forEach(t => {
+                    t.classList.remove('bg-white', 'text-[#0b1020]');
+                    t.classList.add('text-slate-400');
+                });
+                tab.classList.add('bg-white', 'text-[#0b1020]');
+                tab.classList.remove('text-slate-400');
+
+                productPanel.classList.add('switching');
+                setTimeout(() => {
+                    const data = productData[tab.dataset.product];
+                    document.getElementById('productEyebrow').textContent = data.eyebrow;
+                    document.getElementById('productTitle').textContent = data.title;
+                    document.getElementById('productText').textContent = data.text;
+                    document.getElementById('productBullets').innerHTML = data.bullets.map(item =>
+                        `<div class="flex items-center gap-2"><span class="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400/10 text-emerald-400"><i data-lucide="check" class="h-3 w-3"></i></span>${item}</div>`
+                    ).join('');
+                    lucide.createIcons();
+                    productPanel.classList.remove('switching');
+                }, 250);
+            });
+        });
+
+        // Story carousel: step-based navigation + dots
+        const storyTrack = document.getElementById('storyTrack');
+        const storySlides = [...storyTrack.querySelectorAll('.carousel-slide')];
+        const storyDots = [...document.querySelectorAll('.story-dot')];
+        let storyIndex = 0;
+
+        function goStory(index) {
+            storyIndex = Math.max(0, Math.min(index, storySlides.length - 1));
+            storySlides[storyIndex].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            storyDots.forEach((dot, i) => {
+                dot.classList.toggle('w-8', i === storyIndex);
+                dot.classList.toggle('bg-[#4f6bff]', i === storyIndex);
+                dot.classList.toggle('w-1.5', i !== storyIndex);
+                dot.classList.toggle('bg-slate-300', i !== storyIndex);
+            });
+        }
+        document.getElementById('storyNext').addEventListener('click', () => goStory(storyIndex + 1 >= storySlides.length ? 0 : storyIndex + 1));
+        document.getElementById('storyPrev').addEventListener('click', () => goStory(storyIndex - 1 < 0 ? storySlides.length - 1 : storyIndex - 1));
+        storyDots.forEach((dot, i) => dot.addEventListener('click', () => goStory(i)));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-item button').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.closest('.faq-item');
+                const answer = item.querySelector('.faq-answer');
+                const open = !answer.classList.contains('hidden');
+
+                document.querySelectorAll('.faq-answer').forEach(a => a.classList.add('hidden'));
+                document.querySelectorAll('.faq-icon').forEach(icon => icon.innerHTML = '<i data-lucide="plus" class="h-3.5 w-3.5"></i>');
+
+                if (!open) {
+                    answer.classList.remove('hidden');
+                    item.querySelector('.faq-icon').innerHTML = '<i data-lucide="minus" class="h-3.5 w-3.5"></i>';
+                }
+                lucide.createIcons();
+            });
+        });
+
+        // Video fallback if local hero video is not present
+        const heroVideo = document.getElementById('heroVideo');
+        heroVideo.addEventListener('error', () => {
+            heroVideo.style.display = 'none';
+        });
+
+        // Pause video when page is hidden
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) heroVideo.pause();
+            else heroVideo.play().catch(() => { });
+        });
+    </script>
+</body>
+
+</html>

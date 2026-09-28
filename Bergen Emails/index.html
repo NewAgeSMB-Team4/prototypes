@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bergen Kids — Email templates</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #eef3ef;
+      --panel: #ffffff;
+      --ink: #12233a;
+      --head: #1a2e4a;
+      --muted: #465569;
+      --brand: #20643d;
+      --line: #e0e7e1;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #10151c;
+        --panel: #181f29;
+        --ink: #cfd8e3;
+        --head: #eaf1f8;
+        --muted: #9aa8b8;
+        --brand: #7ac795;
+        --line: rgba(255, 255, 255, .12);
+      }
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font: 15px/1.55 Inter, -apple-system, "Segoe UI", Roboto, sans-serif;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      padding: 16px 28px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 19px;
+      color: var(--head);
+      font-weight: 700;
+    }
+
+    header p {
+      margin: 0;
+      flex: 1;
+      min-width: 220px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .seg {
+      display: flex;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .seg button {
+      font: 600 13px Inter, sans-serif;
+      border: 0;
+      background: transparent;
+      color: var(--ink);
+      padding: 9px 18px;
+      cursor: pointer;
+    }
+
+    .seg button.on {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    /* The emails are 600 px wide and do not reflow below that, so the columns
+       are sized to hold one whole message. Narrower windows drop to one
+       column rather than slicing the artwork down the middle. */
+    main {
+      padding: 26px 28px 60px;
+      display: grid;
+      gap: 26px;
+      grid-template-columns: repeat(auto-fit, minmax(672px, 1fr));
+      align-items: start;
+    }
+
+    body.phone main {
+      grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+    }
+
+    .tpl {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .tpl-head {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .tpl-head h2 {
+      margin: 0 0 3px;
+      font-size: 14.5px;
+      color: var(--head);
+      font-weight: 700;
+    }
+
+    .tpl-head .sub {
+      font-size: 12.5px;
+      color: var(--muted);
+    }
+
+    .tpl-head code {
+      font-size: 12px;
+      color: var(--brand);
+    }
+
+    .tpl-head a {
+      float: right;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--brand);
+      text-decoration: none;
+    }
+
+    .frame {
+      background: #f3f7f4;
+      display: flex;
+      justify-content: center;
+      padding: 14px;
+      overflow: auto;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .frame {
+        background: #0c1116;
+      }
+    }
+
+    iframe {
+      border: 0;
+      width: 624px;
+      height: 1040px;
+      background: transparent;
+      flex: none;
+    }
+
+    body.phone iframe {
+      width: 390px;
+      height: 1420px;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+    }
+
+    .note {
+      margin: 0 28px 26px;
+      padding: 14px 16px;
+      border-left: 3px solid var(--brand);
+      background: var(--panel);
+      border-radius: 10px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <h1>Bergen Kids — Email templates</h1>
+    <p>Four transactional emails · 600&nbsp;px, responsive down to 320&nbsp;px</p>
+    <div class="seg">
+      <button id="b-desk" class="on">Desktop</button>
+      <button id="b-phone">Phone</button>
+    </div>
+  </header>
+
+  <p class="note">
+    One shell, four messages: the wordmark stands on the cream page with nothing boxed around it, the colour lives in
+    the hero strip inside the card, and the footer is quiet type under it. The templates declare
+    <code>color-scheme: light</code> — the wordmark is dark green on transparency, so an inverted ground would either
+    swallow it or force a plate behind it. Apple Mail and Outlook honour that and leave the design alone.
+  </p>
+
+  <main>
+    <section class="tpl">
+      <div class="tpl-head">
+        <a href="verify-email.html" target="_blank">Open ↗</a>
+        <h2>Email Verification — Login / signup</h2>
+        <div class="sub">Subject: <strong>Verify Your Email</strong> · <code>verify-email.html</code></div>
+      </div>
+      <div class="frame"><iframe src="verify-email.html" title="Verify Your Email"></iframe></div>
+    </section>
+
+    <section class="tpl">
+      <div class="tpl-head">
+        <a href="advertiser-approved.html" target="_blank">Open ↗</a>
+        <h2>Super Admin approves advertiser account</h2>
+        <div class="sub">Subject: <strong>Advertiser Account Approved</strong> · <code>advertiser-approved.html</code>
+        </div>
+      </div>
+      <div class="frame"><iframe src="advertiser-approved.html" title="Advertiser Account Approved"></iframe></div>
+    </section>
+
+    <section class="tpl">
+      <div class="tpl-head">
+        <a href="advertiser-blocked.html" target="_blank">Open ↗</a>
+        <h2>Super Admin blocks advertiser account</h2>
+        <div class="sub">Subject: <strong>Advertiser Account Blocked</strong> · <code>advertiser-blocked.html</code></div>
+      </div>
+      <div class="frame"><iframe src="advertiser-blocked.html" title="Advertiser Account Blocked"></iframe></div>
+    </section>
+
+    <section class="tpl">
+      <div class="tpl-head">
+        <a href="advertiser-reactivated.html" target="_blank">Open ↗</a>
+        <h2>Super Admin unblocks advertiser account</h2>
+        <div class="sub">Subject: <strong>Advertiser Account Reactivated</strong> ·
+          <code>advertiser-reactivated.html</code>
+        </div>
+      </div>
+      <div class="frame"><iframe src="advertiser-reactivated.html" title="Advertiser Account Reactivated"></iframe></div>
+    </section>
+  </main>
+
+  <script>
+    const desk = document.getElementById('b-desk'), phone = document.getElementById('b-phone');
+    const set = (isPhone) => {
+      document.body.classList.toggle('phone', isPhone);
+      phone.classList.toggle('on', isPhone);
+      desk.classList.toggle('on', !isPhone);
+    };
+    desk.onclick = () => set(false);
+    phone.onclick = () => set(true);
+  </script>
+</body>
+
+</html>

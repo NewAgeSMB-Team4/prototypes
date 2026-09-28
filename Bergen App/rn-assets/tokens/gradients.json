@@ -1,0 +1,83 @@
+{
+  "categories": {
+    "medical": {
+      "name": "Medical & Health",
+      "icon": "stethoscope",
+      "colors": [
+        "#10b981",
+        "#14b8a6"
+      ],
+      "direction": "to bottom-right"
+    },
+    "schools": {
+      "name": "Schools & Preschools",
+      "icon": "school",
+      "colors": [
+        "#f59e0b",
+        "#f97316"
+      ],
+      "direction": "to bottom-right"
+    },
+    "tutoring": {
+      "name": "Tutoring & Test Prep",
+      "icon": "book",
+      "colors": [
+        "#2563eb",
+        "#4338ca"
+      ],
+      "direction": "to bottom-right"
+    },
+    "arts": {
+      "name": "Arts & Crafts",
+      "icon": "palette",
+      "colors": [
+        "#ec4899",
+        "#f43f5e"
+      ],
+      "direction": "to bottom-right"
+    },
+    "sports": {
+      "name": "Sports & Athletics",
+      "icon": "soccer",
+      "colors": [
+        "#0284c7",
+        "#0d9488"
+      ],
+      "direction": "to bottom-right"
+    },
+    "music": {
+      "name": "Music & Dance",
+      "icon": "music",
+      "colors": [
+        "#7c3aed",
+        "#c026d3"
+      ],
+      "direction": "to bottom-right"
+    },
+    "camps": {
+      "name": "Camps & Programs",
+      "icon": "tent",
+      "colors": [
+        "#f97316",
+        "#ec4899"
+      ],
+      "direction": "to bottom-right"
+    },
+    "parties": {
+      "name": "Parties & Events",
+      "icon": "cake",
+      "colors": [
+        "#14b8a6",
+        "#059669"
+      ],
+      "direction": "to bottom-right"
+    }
+  },
+  "adCreative": {
+    "colors": [
+      "#1a2e4a",
+      "#1e8c7a"
+    ],
+    "direction": "to right"
+  }
+}

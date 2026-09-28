@@ -1,0 +1,1622 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>VAT Roadside Rescue</title>
+  <meta name="description" content="VAT (Vehicle and Towing) — interactive mobile app prototype, 75 screens.">
+  <script>
+    /* Silence the Tailwind Play CDN "not for production" console notice (prototype). */
+    (function () {
+      var filter = function (orig) {
+        return function () {
+          try { var m = String(arguments[0] || ''); if (m.indexOf('cdn.tailwindcss.com') !== -1 || m.indexOf('should not be used in production') !== -1) return; } catch (e) { }
+          return orig.apply(console, arguments);
+        };
+      };
+      console.warn = filter(console.warn);
+      console.log = filter(console.log);
+    })();
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            /* hazard accent — the single bold colour in the system */
+            rescue: {
+              50: '#FDEDE4', 300: '#F79A66', 400: '#F2661F', 500: '#D9480F',
+              600: '#C03F0C', 700: '#A63709', 800: '#7A2807', 900: '#33190E'
+            },
+            /* asphalt neutrals, one scale spanning light and dark surfaces */
+            road: {
+              25: '#F7F9FB', 50: '#F1F4F8', 100: '#E9EEF3', 200: '#E3EAF1', 300: '#D8E0E8',
+              350: '#A6B3C2', 400: '#8494A5', 500: '#76859A', 600: '#5A6775', 700: '#46525F',
+              800: '#1E2731', 850: '#171E27', 900: '#141A21', 925: '#0D1218', 950: '#0A0E13'
+            },
+            ink: { DEFAULT: '#0E1319', soft: '#10151B' },
+            dispatch: { 50: '#E7EFFC', 400: '#6FA5F5', 500: '#1B5FCC', 900: '#111F33' },
+            navy: { 50: '#E7EEF6', 400: '#7FB0EA', 500: '#133A63', 900: '#132234' },
+            ok: { 50: '#E1F3EB', 400: '#3FCB98', 500: '#0B7A55', 900: '#0F2A22' },
+            warn: { 50: '#FCF1DA', 400: '#E7B33F', 500: '#9A6800', 900: '#2E2411' },
+            err: { 50: '#FBE9E7', 400: '#F4796C', 500: '#C4342A', 900: '#331816' },
+            bezel: { light: '#20262E', dark: '#05080B', rim: '#39424D' },
+          },
+          fontFamily: {
+            display: ['Archivo', 'Segoe UI', 'system-ui', 'sans-serif'],
+            sans: ['Instrument Sans', 'Segoe UI', 'system-ui', 'sans-serif'],
+            mono: ['IBM Plex Mono', 'ui-monospace', 'Consolas', 'monospace'],
+          },
+          boxShadow: {
+            card: '0 1px 2px rgba(14,19,25,.05), 0 2px 8px rgba(14,19,25,.05)',
+            lift: '0 8px 28px rgba(14,19,25,.12)',
+            device: '0 24px 60px rgba(16,21,27,.22), 0 4px 14px rgba(16,21,27,.12)',
+            sheet: '0 -8px 40px rgba(14,19,25,.18)',
+            rescue: '0 4px 14px rgba(217,72,15,.28)',
+            fab: '0 8px 24px rgba(217,72,15,.40)',
+          },
+          keyframes: {
+            blip: { '0%,100%': { opacity: '1' }, '50%': { opacity: '.25' } },
+            ring: { '0%': { transform: 'scale(.6)', opacity: '.35' }, '100%': { transform: 'scale(1.4)', opacity: '0' } },
+            shim: { '0%': { backgroundPosition: '100% 0' }, '100%': { backgroundPosition: '0 0' } },
+            blink: { '0%,49%': { opacity: '1' }, '50%,100%': { opacity: '0' } },
+            screenIn: { '0%': { opacity: '0', transform: 'translateY(9px) scale(.995)' }, '100%': { opacity: '1', transform: 'none' } },
+            logoIn: { '0%': { opacity: '0', transform: 'translateY(16px) scale(.94)' }, '100%': { opacity: '1', transform: 'none' } },
+            haloIn: { '0%': { opacity: '0', transform: 'scale(.8)' }, '100%': { opacity: '1', transform: 'none' } },
+          },
+          animation: {
+            blip: 'blip 1.4s infinite',
+            ring: 'ring 2s infinite',
+            shim: 'shim 1.4s ease infinite',
+            blink: 'blink 1.1s steps(1) infinite',
+            screenIn: 'screenIn .3s cubic-bezier(.22,1,.36,1)',
+            logoIn: 'logoIn .9s cubic-bezier(.16,1,.3,1) both',
+            haloIn: 'haloIn 1.2s ease-out both',
+          },
+        },
+      },
+    }
+  </script>
+</head>
+
+<body class="m-0 overflow-hidden bg-road-50 font-sans text-ink antialiased dark:bg-road-950 dark:text-road-50">
+
+  <div id="shell"
+    class="grid h-[100dvh] grid-rows-[56px_minmax(0,1fr)] grid-cols-[288px_minmax(0,1fr)_322px] max-[1180px]:grid-cols-[250px_minmax(0,1fr)] max-md:grid-cols-1 max-md:grid-rows-[minmax(0,1fr)_auto]">
+
+    <header id="brand"
+      class="max-md:hidden col-start-1 row-start-1 flex items-center gap-3 border-b border-r border-road-300 bg-white px-4 dark:border-road-550 dark:bg-road-900">
+      <div
+        class="grid h-[34px] w-[34px] flex-none place-items-center rounded-[10px] bg-gradient-to-br from-rescue-400 to-rescue-500 font-display text-[13px] font-extrabold tracking-tight text-white shadow-[0_2px_8px_rgba(217,72,15,.35)]">
+        VAT</div>
+      <div>
+        <div class="font-display text-[15px] font-extrabold leading-tight tracking-tight">VAT Roadside</div>
+        <div class="mt-px text-[10.5px] text-road-500 dark:text-road-400">Vehicle &amp; Towing</div>
+      </div>
+      <span
+        class="ml-auto rounded-full border border-road-300 bg-road-50 px-1.5 py-0.5 font-mono text-[10px] text-road-700 dark:border-road-550 dark:bg-road-800 dark:text-road-350">v1.4.0</span>
+    </header>
+
+    <div id="topbar"
+      class="max-md:hidden col-start-2 col-end-4 row-start-1 flex items-center gap-2 overflow-x-auto border-b border-road-300 bg-white px-3.5 dark:border-road-550 dark:bg-road-900 max-[1180px]:col-end-3">
+      <div
+        class="flex flex-none items-center gap-0.5 rounded-[10px] border border-road-300 bg-road-50 p-[3px] dark:border-road-550 dark:bg-road-800"
+        id="devgrp"></div>
+      <div
+        class="flex flex-none items-center gap-0.5 rounded-[10px] border border-road-300 bg-road-50 p-[3px] dark:border-road-550 dark:bg-road-800">
+        <button id="zOut" title="Zoom out" aria-label="Zoom out"></button>
+        <span id="zVal" class="w-[38px] text-center font-mono text-[11px] text-road-700 dark:text-road-350">100%</span>
+        <button id="zIn" title="Zoom in" aria-label="Zoom in"></button>
+        <button id="zFit" title="Fit to stage">Fit</button>
+      </div>
+      <div
+        class="flex flex-none items-center gap-0.5 rounded-[10px] border border-road-300 bg-road-50 p-[3px] dark:border-road-550 dark:bg-road-800">
+        <button id="tLight" title="Light theme">Light</button>
+        <button id="tDark" title="Dark theme">Dark</button>
+      </div>
+      <div
+        class="flex flex-none items-center gap-0.5 rounded-[10px] border border-road-300 bg-road-50 p-[3px] dark:border-road-550 dark:bg-road-800">
+        <button id="goSplash" title="Back to splash" aria-label="Back to splash"></button>
+        <button id="goHome" title="Home shortcut" aria-label="Home shortcut"></button>
+        <button id="goRestart" title="Restart prototype" aria-label="Restart prototype"></button>
+        <button id="goFs" title="Fullscreen preview" aria-label="Fullscreen preview"></button>
+      </div>
+      <div class="ml-auto flex flex-none items-center gap-2">
+        <span id="stepPos" class="whitespace-nowrap font-mono text-[11px] text-road-500 dark:text-road-400">01 /
+          75</span>
+        <div
+          class="flex items-center gap-0.5 rounded-[10px] border border-road-300 bg-road-50 p-[3px] dark:border-road-550 dark:bg-road-800">
+          <button id="pv" title="Previous screen (left arrow)" aria-label="Previous screen"></button>
+          <button id="nx" title="Next screen (right arrow)" aria-label="Next screen"></button>
+        </div>
+      </div>
+    </div>
+
+    <nav id="rail"
+      class="col-start-1 row-start-2 flex min-h-0 flex-col border-r border-road-300 bg-white dark:border-road-550 dark:bg-road-900 max-md:fixed max-md:inset-y-0 max-md:left-0 max-md:z-50 max-md:w-[86%] max-md:max-w-[330px] max-md:-translate-x-full max-md:shadow-2xl max-md:transition-transform max-md:duration-200"
+      aria-label="Screen explorer">
+      <div class="relative flex-none border-b border-road-100 px-3 pb-2.5 pt-3 dark:border-road-800">
+        <input id="q" type="search" placeholder="Search screens &amp; modules" aria-label="Search screens and modules"
+          class="h-[34px] w-full rounded-[9px] border border-road-300 bg-road-50 pl-8 pr-8 text-[12.5px] text-ink placeholder:text-road-400 focus:border-rescue-500 focus:outline-none focus:ring-[3px] focus:ring-rescue-50 dark:border-road-550 dark:bg-road-800 dark:text-road-50 dark:focus:ring-rescue-900">
+        <button id="qx" aria-label="Clear search"
+          class="absolute right-5 top-1/2 hidden h-[18px] w-[18px] -translate-y-1/2 place-items-center rounded-full bg-road-300 text-[11px] leading-none text-road-700 dark:bg-road-600 dark:text-road-50">&times;</button>
+      </div>
+      <div class="flex flex-none items-center gap-2 border-b border-road-100 px-3.5 py-2 dark:border-road-800">
+        <b id="cnt" class="font-mono text-[11px] font-medium text-road-700 dark:text-road-350">75 of 75 screens</b>
+        <div class="ml-auto flex gap-1">
+          <button id="expAll"
+            class="rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-road-500 hover:bg-road-50 hover:text-ink dark:text-road-400 dark:hover:bg-road-800 dark:hover:text-road-50">Expand</button>
+          <button id="colAll"
+            class="rounded-md px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wide text-road-500 hover:bg-road-50 hover:text-ink dark:text-road-400 dark:hover:bg-road-800 dark:hover:text-road-50">Collapse</button>
+        </div>
+      </div>
+      <div id="tree"
+        class="relative min-h-0 flex-1 overflow-y-auto px-2 pb-10 pt-2 [&amp;::-webkit-scrollbar-thumb]:rounded-full [&amp;::-webkit-scrollbar-thumb]:bg-road-300 [&amp;::-webkit-scrollbar]:w-1.5 dark:[&amp;::-webkit-scrollbar-thumb]:bg-road-600">
+      </div>
+    </nav>
+
+    <main id="stage"
+      class="relative col-start-2 row-start-2 max-md:col-start-1 max-md:row-start-1 flex items-center justify-center overflow-hidden bg-road-100 dark:bg-road-950">
+      <div
+        class="pointer-events-none absolute inset-0 opacity-50 [background-image:repeating-linear-gradient(90deg,transparent_0_46px,rgba(16,21,27,.05)_46px_50px)] [mask-image:radial-gradient(ellipse_70%_70%_at_50%_50%,#000,transparent_78%)] dark:[background-image:repeating-linear-gradient(90deg,transparent_0_46px,rgba(237,242,247,.06)_46px_50px)]">
+      </div>
+      <div
+        class="pointer-events-none absolute bottom-0 left-1/2 top-0 w-1.5 -translate-x-1/2 [background:repeating-linear-gradient(180deg,rgba(16,21,27,.08)_0_26px,transparent_26px_56px)] dark:[background:repeating-linear-gradient(180deg,rgba(237,242,247,.07)_0_26px,transparent_26px_56px)]">
+      </div>
+
+      <div id="deck" class="relative z-[2] flex flex-col items-center gap-3">
+        <div id="device"
+          class="relative flex-none bg-bezel-light shadow-device transition-[width,height,border-radius] duration-[250ms] ease-[cubic-bezier(.4,0,.2,1)] dark:bg-bezel-dark">
+          <div
+            class="pointer-events-none absolute inset-0 rounded-[inherit] shadow-[inset_0_0_0_1.5px_#39424D,inset_0_1px_1px_rgba(255,255,255,.14)]">
+          </div>
+          <div id="screen" class="absolute overflow-hidden bg-white">
+            <div id="vp"
+              class="absolute inset-0 flex flex-col overflow-hidden bg-road-50 text-[15px] leading-[1.45] text-ink dark:bg-road-925 dark:text-road-50">
+            </div>
+          </div>
+        </div>
+        <div id="devlabel"
+          class="max-md:hidden font-mono text-[10.5px] uppercase tracking-wider text-road-500 dark:text-road-400"></div>
+      </div>
+
+      <div id="doc" class="absolute inset-0 z-[3] hidden overflow-y-auto bg-road-100 dark:bg-road-950"></div>
+      <button id="fsx" title="Exit fullscreen" aria-label="Exit fullscreen"
+        class="absolute right-3.5 top-3.5 z-[9] hidden h-[34px] w-[34px] place-items-center rounded-[10px] border border-road-300 bg-white text-road-700 shadow-lift dark:border-road-550 dark:bg-road-900 dark:text-road-350"></button>
+    </main>
+
+    <aside id="inspector"
+      class="max-md:hidden col-start-3 row-start-2 min-h-0 overflow-y-auto border-l border-road-300 bg-white dark:border-road-550 dark:bg-road-900 max-[1180px]:hidden"
+      aria-label="Screen specification"></aside>
+    <div id="mscrim" class="fixed inset-0 z-40 hidden bg-black/50 md:hidden"></div>
+    <div id="mbar"
+      class="col-start-1 row-start-2 z-30 flex items-center gap-1 border-t border-road-300 bg-white px-2 py-1 pb-[max(0.25rem,env(safe-area-inset-bottom))] dark:border-road-550 dark:bg-road-900 md:hidden">
+      <button id="mMenu"
+        class="inline-flex h-11 min-w-[44px] items-center justify-center rounded-xl px-3 text-[13px] font-semibold text-road-700 active:bg-road-50 dark:text-road-350 dark:active:bg-road-800 [&>svg]:h-[18px] [&>svg]:w-[18px] gap-2"
+        aria-label="Open screen explorer"></button>
+      <div class="ml-auto flex items-center gap-1">
+        <button id="mPv"
+          class="inline-flex h-11 min-w-[44px] items-center justify-center rounded-xl px-3 text-[13px] font-semibold text-road-700 active:bg-road-50 dark:text-road-350 dark:active:bg-road-800 [&>svg]:h-[18px] [&>svg]:w-[18px]"
+          aria-label="Previous screen"></button>
+        <span id="mPos" class="min-w-[52px] text-center font-mono text-[11px] text-road-500 dark:text-road-400">01 /
+          75</span>
+        <button id="mNx"
+          class="inline-flex h-11 min-w-[44px] items-center justify-center rounded-xl px-3 text-[13px] font-semibold text-road-700 active:bg-road-50 dark:text-road-350 dark:active:bg-road-800 [&>svg]:h-[18px] [&>svg]:w-[18px]"
+          aria-label="Next screen"></button>
+        <button id="mTheme"
+          class="inline-flex h-11 min-w-[44px] items-center justify-center rounded-xl px-3 text-[13px] font-semibold text-road-700 active:bg-road-50 dark:text-road-350 dark:active:bg-road-800 [&>svg]:h-[18px] [&>svg]:w-[18px]"
+          aria-label="Toggle theme"></button>
+      </div>
+    </div>
+  </div>
+  <script>
+    /* ================= ICONS ================= */
+    const P = {
+      chevL: "<path d=\"m15 18-6-6 6-6\"/>",
+      chevR: "<path d=\"m9 18 6-6-6-6\"/>",
+      chevD: "<path d=\"m6 9 6 6 6-6\"/>",
+      chevU: "<path d=\"m18 15-6-6-6 6\"/>",
+      arrL: "<path d=\"M19 12H5\"/><path d=\"m12 19-7-7 7-7\"/>",
+      arrR: "<path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/>",
+      arrUp: "<path d=\"m5 12 7-7 7 7\"/><path d=\"M12 19V5\"/>",
+      arrDn: "<path d=\"M12 5v14\"/><path d=\"m19 12-7 7-7-7\"/>",
+      search: "<circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/>",
+      x: "<path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/>",
+      home: "<path d=\"M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8\"/><path d=\"M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/>",
+      user: "<path d=\"M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/>",
+      users: "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87\"/><path d=\"M16 3.13a4 4 0 0 1 0 7.75\"/>",
+      bell: "<path d=\"M10.268 21a2 2 0 0 0 3.464 0\"/><path d=\"M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326\"/>",
+      settings: "<path d=\"M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
+      shield: "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/>",
+      shieldOk: "<path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"/><path d=\"m9 12 2 2 4-4\"/>",
+      lock: "<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 10 0v4\"/>",
+      unlock: "<rect width=\"18\" height=\"11\" x=\"3\" y=\"11\" rx=\"2\" ry=\"2\"/><path d=\"M7 11V7a5 5 0 0 1 9.9-1\"/>",
+      key: "<circle cx=\"7.5\" cy=\"15.5\" r=\"5.5\"/><path d=\"m21 2-9.6 9.6\"/><path d=\"m15.5 7.5 3 3L22 7l-3-3\"/>",
+      mail: "<rect width=\"20\" height=\"16\" x=\"2\" y=\"4\" rx=\"2\"/><path d=\"m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7\"/>",
+      phone: "<path d=\"M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z\"/>",
+      chat: "<path d=\"M7.9 20A9 9 0 1 0 4 16.1L2 22Z\"/>",
+      send: "<path d=\"M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z\"/><path d=\"m21.854 2.147-10.94 10.939\"/>",
+      car: "<path d=\"M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8A4 4 0 0 0 2 12v4c0 .6.4 1 1 1h2\"/><circle cx=\"7\" cy=\"17\" r=\"2\"/><path d=\"M9 17h6\"/><circle cx=\"17\" cy=\"17\" r=\"2\"/>",
+      truck: "<path d=\"M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2\"/><path d=\"M15 18H9\"/><path d=\"M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14\"/><circle cx=\"17\" cy=\"18\" r=\"2\"/><circle cx=\"7\" cy=\"18\" r=\"2\"/>",
+      wrench: "<path d=\"M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z\"/>",
+      tyre: "<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"3.5\"/><path d=\"m14.5 9.5 3.9-3.9\"/><path d=\"m9.5 9.5-3.9-3.9\"/><path d=\"m14.5 14.5 3.9 3.9\"/><path d=\"m9.5 14.5-3.9 3.9\"/>",
+      battery: "<path d=\"M15 7h1a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2\"/><path d=\"M6 7H4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h1\"/><path d=\"m11 7-3 5h4l-3 5\"/><path d=\"M22 11v2\"/>",
+      fuel: "<path d=\"M3 22h12\"/><path d=\"M4 9h10\"/><path d=\"M14 22V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v18\"/><path d=\"M14 13h2a2 2 0 0 1 2 2v2a2 2 0 0 0 2 2a2 2 0 0 0 2-2V9.83a2 2 0 0 0-.59-1.42L18 5\"/>",
+      engine: "<path d=\"M3.34 19a10 10 0 1 1 17.32 0\"/><path d=\"m14 14-2.5 2.5\"/><path d=\"M12 12v.01\"/>",
+      sos: "<path d=\"M7 18v-6a5 5 0 1 1 10 0v6\"/><path d=\"M5 21a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-1a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2z\"/><path d=\"M21 12h1\"/><path d=\"M18.5 4.5 18 5\"/><path d=\"M2 12h1\"/><path d=\"M12 2v1\"/><path d=\"m5.5 4.5.5.5\"/>",
+      alert: "<path d=\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3\"/><path d=\"M12 9v4\"/><path d=\"M12 17h.01\"/>",
+      info: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 16v-4\"/><path d=\"M12 8h.01\"/>",
+      help: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3\"/><path d=\"M12 17h.01\"/>",
+      check: "<path d=\"M20 6 9 17l-5-5\"/>",
+      checkC: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m9 12 2 2 4-4\"/>",
+      xC: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m15 9-6 6\"/><path d=\"m9 9 6 6\"/>",
+      clock: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 6v6l4 2\"/>",
+      pin: "<path d=\"M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0\"/><circle cx=\"12\" cy=\"10\" r=\"3\"/>",
+      nav: "<path d=\"M3 11l19-9-9 19-2-8-8-2z\"/>",
+      target: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M22 12h-4\"/><path d=\"M6 12H2\"/><path d=\"M12 6V2\"/><path d=\"M12 22v-4\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
+      layers: "<path d=\"M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83z\"/><path d=\"m6.08 9.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59\"/><path d=\"m6.08 14.5-3.5 1.6a1 1 0 0 0 0 1.81l8.6 3.91a2 2 0 0 0 1.65 0l8.58-3.9a1 1 0 0 0 0-1.83l-3.5-1.59\"/>",
+      card: "<rect width=\"20\" height=\"14\" x=\"2\" y=\"5\" rx=\"2\"/><path d=\"M2 10h20\"/>",
+      wallet: "<path d=\"M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1\"/><path d=\"M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4\"/>",
+      receipt: "<path d=\"M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z\"/><path d=\"M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8\"/><path d=\"M12 17.5v-11\"/>",
+      bank: "<path d=\"M3 22h18\"/><path d=\"M6 18v-7\"/><path d=\"M10 18v-7\"/><path d=\"M14 18v-7\"/><path d=\"M18 18v-7\"/><path d=\"m12 2 8 5H4z\"/>",
+      star: "<path d=\"M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z\"/>",
+      heart: "<path d=\"M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 0L5 15c-1.5-1.5-3-3.21-3-5.5\"/>",
+      filter: "<path d=\"M10 20a1 1 0 0 0 .553.895l2 1A1 1 0 0 0 14 21v-7a2 2 0 0 1 .517-1.341L21.74 4.67A1 1 0 0 0 21 3H3a1 1 0 0 0-.742 1.67l7.225 7.989A2 2 0 0 1 10 14z\"/>",
+      sliders: "<path d=\"M21 4h-7\"/><path d=\"M10 4H3\"/><path d=\"M21 12h-9\"/><path d=\"M8 12H3\"/><path d=\"M21 20h-5\"/><path d=\"M12 20H3\"/><path d=\"M14 2v4\"/><path d=\"M8 10v4\"/><path d=\"M16 18v4\"/>",
+      plus: "<path d=\"M5 12h14\"/><path d=\"M12 5v14\"/>",
+      minus: "<path d=\"M5 12h14\"/>",
+      trash: "<path d=\"M3 6h18\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\"/><path d=\"M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2\"/><path d=\"M10 11v6\"/><path d=\"M14 11v6\"/>",
+      edit: "<path d=\"M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z\"/><path d=\"m15 5 4 4\"/>",
+      camera: "<path d=\"M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z\"/><circle cx=\"12\" cy=\"13\" r=\"3\"/>",
+      image: "<rect width=\"18\" height=\"18\" x=\"3\" y=\"3\" rx=\"2\"/><circle cx=\"9\" cy=\"9\" r=\"2\"/><path d=\"m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21\"/>",
+      logout: "<path d=\"M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4\"/><path d=\"m16 17 5-5-5-5\"/><path d=\"M21 12H9\"/>",
+      eye: "<path d=\"M2.062 12.348a1 1 0 0 1 0-.696 10.75 10.75 0 0 1 19.876 0 1 1 0 0 1 0 .696 10.75 10.75 0 0 1-19.876 0\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>",
+      eyeOff: "<path d=\"M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.747 10.747 0 0 1-1.444 2.49\"/><path d=\"M14.084 14.158a3 3 0 0 1-4.242-4.242\"/><path d=\"M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143\"/><path d=\"m2 2 20 20\"/>",
+      finger: "<path d=\"M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4\"/><path d=\"M14 13.12c0 2.38 0 6.38-1 8.88\"/><path d=\"M17.29 21.02c.12-.6.43-2.3.5-3.02\"/><path d=\"M2 12a10 10 0 0 1 18-6\"/><path d=\"M2 16h.01\"/><path d=\"M21.8 16c.2-2 .131-5.354 0-6\"/><path d=\"M5 19.5C5.5 18 6 15 6 12a6 6 0 0 1 .34-2\"/><path d=\"M8.65 22c.21-.66.45-1.32.57-2\"/><path d=\"M9 6.8a6 6 0 0 1 9 5.2v2\"/>",
+      phoneD: "<rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\"/><path d=\"M12 18h.01\"/>",
+      laptop: "<path d=\"M18 5a2 2 0 0 1 2 2v8.526a2 2 0 0 0 .217.896l1.028 2.055a1.111 1.111 0 0 1-.994 1.608H3.75a1.111 1.111 0 0 1-.994-1.608l1.028-2.055A2 2 0 0 0 4 15.526V7a2 2 0 0 1 2-2z\"/><path d=\"M20.054 15.987H3.946\"/>",
+      wifiOff: "<path d=\"M12 20h.01\"/><path d=\"M8.5 16.429a5 5 0 0 1 7 0\"/><path d=\"M5 12.859a10 10 0 0 1 5.17-2.69\"/><path d=\"M19 12.859a10 10 0 0 0-2.007-1.523\"/><path d=\"M2 8.82a15 15 0 0 1 4.177-2.643\"/><path d=\"M22 8.82a15 15 0 0 0-11.288-3.764\"/><path d=\"m2 2 20 20\"/>",
+      refresh: "<path d=\"M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8\"/><path d=\"M21 3v5h-5\"/>",
+      moon: "<path d=\"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9\"/>",
+      sun: "<circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2\"/><path d=\"M12 20v2\"/><path d=\"m4.93 4.93 1.41 1.41\"/><path d=\"m17.66 17.66 1.41 1.41\"/><path d=\"M2 12h2\"/><path d=\"M20 12h2\"/><path d=\"m6.34 17.66-1.41 1.41\"/><path d=\"m19.07 4.93-1.41 1.41\"/>",
+      zoomIn: "<circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/><path d=\"M11 8v6\"/><path d=\"M8 11h6\"/>",
+      zoomOut: "<circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/><path d=\"M8 11h6\"/>",
+      max: "<path d=\"M8 3H5a2 2 0 0 0-2 2v3\"/><path d=\"M21 8V5a2 2 0 0 0-2-2h-3\"/><path d=\"M3 16v3a2 2 0 0 0 2 2h3\"/><path d=\"M16 21h3a2 2 0 0 0 2-2v-3\"/>",
+      min: "<path d=\"M8 3v3a2 2 0 0 1-2 2H3\"/><path d=\"M21 8h-3a2 2 0 0 1-2-2V3\"/><path d=\"M3 16h3a2 2 0 0 1 2 2v3\"/><path d=\"M16 21v-3a2 2 0 0 1 2-2h3\"/>",
+      list: "<path d=\"M3 12h.01\"/><path d=\"M3 18h.01\"/><path d=\"M3 6h.01\"/><path d=\"M8 12h13\"/><path d=\"M8 18h13\"/><path d=\"M8 6h13\"/>",
+      grid: "<rect width=\"7\" height=\"7\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"7\" x=\"14\" y=\"3\" rx=\"1\"/><rect width=\"7\" height=\"7\" x=\"14\" y=\"14\" rx=\"1\"/><rect width=\"7\" height=\"7\" x=\"3\" y=\"14\" rx=\"1\"/>",
+      cal: "<path d=\"M8 2v4\"/><path d=\"M16 2v4\"/><rect width=\"18\" height=\"18\" x=\"3\" y=\"4\" rx=\"2\"/><path d=\"M3 10h18\"/>",
+      chart: "<path d=\"M3 3v16a2 2 0 0 0 2 2h16\"/><path d=\"M18 17V9\"/><path d=\"M13 17V5\"/><path d=\"M8 17v-3\"/>",
+      trend: "<path d=\"M16 7h6v6\"/><path d=\"m22 7-8.5 8.5-5-5L2 17\"/>",
+      doc: "<path d=\"M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z\"/><path d=\"M14 2v4a2 2 0 0 0 2 2h4\"/><path d=\"M10 9H8\"/><path d=\"M16 13H8\"/><path d=\"M16 17H8\"/>",
+      more: "<path d=\"M5 12h.01\"/><path d=\"M12 12h.01\"/><path d=\"M19 12h.01\"/>",
+      moreV: "<path d=\"M12 5h.01\"/><path d=\"M12 12h.01\"/><path d=\"M12 19h.01\"/>",
+      share: "<circle cx=\"18\" cy=\"5\" r=\"3\"/><circle cx=\"6\" cy=\"12\" r=\"3\"/><circle cx=\"18\" cy=\"19\" r=\"3\"/><path d=\"M8.59 13.51l6.83 3.98\"/><path d=\"M15.41 6.51l-6.82 3.98\"/>",
+      download: "<path d=\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\"/><path d=\"m7 10 5 5 5-5\"/><path d=\"M12 15V3\"/>",
+      gift: "<rect width=\"18\" height=\"4\" x=\"3\" y=\"8\" rx=\"1\"/><path d=\"M12 8v13\"/><path d=\"M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7\"/><path d=\"M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5\"/>",
+      tag: "<path d=\"M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z\"/><path d=\"M7.5 7.5h.01\"/>",
+      briefcase: "<path d=\"M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16\"/><rect width=\"20\" height=\"14\" x=\"2\" y=\"6\" rx=\"2\"/>",
+      power: "<path d=\"M12 2v10\"/><path d=\"M18.4 6.6a9 9 0 1 1-12.77.04\"/>",
+      flag: "<path d=\"M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z\"/><path d=\"M4 22v-7\"/>",
+      sparkle: "<path d=\"M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z\"/><path d=\"M20 3v4\"/><path d=\"M22 5h-4\"/><path d=\"M4 17v2\"/><path d=\"M5 18H3\"/>",
+      life: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"m4.93 4.93 4.24 4.24\"/><path d=\"m14.83 9.17 4.24-4.24\"/><path d=\"m14.83 14.83 4.24 4.24\"/><path d=\"m9.17 14.83-4.24 4.24\"/><circle cx=\"12\" cy=\"12\" r=\"4\"/>",
+      route: "<circle cx=\"6\" cy=\"19\" r=\"3\"/><path d=\"M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15\"/><circle cx=\"18\" cy=\"5\" r=\"3\"/>",
+      copy: "<rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"/><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"/>",
+      qr: "<rect width=\"5\" height=\"5\" x=\"3\" y=\"3\" rx=\"1\"/><rect width=\"5\" height=\"5\" x=\"16\" y=\"3\" rx=\"1\"/><rect width=\"5\" height=\"5\" x=\"3\" y=\"16\" rx=\"1\"/><path d=\"M21 16h-3a2 2 0 0 0-2 2v3\"/><path d=\"M21 21v.01\"/><path d=\"M12 7v3a2 2 0 0 1-2 2H7\"/><path d=\"M3 12h.01\"/><path d=\"M12 3h.01\"/><path d=\"M12 16v.01\"/><path d=\"M16 12h1\"/><path d=\"M21 12v.01\"/><path d=\"M12 21v-1\"/>",
+      globe: "<circle cx=\"12\" cy=\"12\" r=\"10\"/><path d=\"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20\"/><path d=\"M2 12h20\"/>",
+      type: "<path d=\"M12 4v16\"/><path d=\"M4 7V5a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v2\"/><path d=\"M9 20h6\"/>",
+      box: "<path d=\"M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z\"/><path d=\"M12 22V12\"/><path d=\"m3.3 7 7.703 4.734a2 2 0 0 0 1.994 0L20.7 7\"/>",
+      kbd: "<rect width=\"20\" height=\"12\" x=\"2\" y=\"6\" rx=\"2\"/><path d=\"M6 10h.01\"/><path d=\"M10 10h.01\"/><path d=\"M14 10h.01\"/><path d=\"M18 10h.01\"/><path d=\"M8 14h8\"/>",
+      volume: "<path d=\"M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z\"/><path d=\"M16 9a5 5 0 0 1 0 6\"/><path d=\"M19.364 18.364a9 9 0 0 0 0-12.728\"/>",
+      wifi: "<path d=\"M12 20h.01\"/><path d=\"M2 8.82a15 15 0 0 1 20 0\"/><path d=\"M5 12.859a10 10 0 0 1 14 0\"/><path d=\"M8.5 16.429a5 5 0 0 1 7 0\"/>",
+      cell: "<path d=\"M2 20h.01\"/><path d=\"M7 20v-4\"/><path d=\"M12 20v-8\"/><path d=\"M17 20V8\"/><path d=\"M22 4v16\"/>",
+      batt: "<rect width=\"16\" height=\"10\" x=\"2\" y=\"7\" rx=\"2\" ry=\"2\"/><path d=\"M22 11v2\"/><rect width=\"10\" height=\"6\" x=\"4\" y=\"9\" rx=\"1\" fill=\"currentColor\" stroke=\"none\"/>",
+      lightning: "<path d=\"M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z\"/>",
+      snow: "<path d=\"m10 20-1.25-2.5L6 18\"/><path d=\"M10 4 8.75 6.5 6 6\"/><path d=\"m14 20 1.25-2.5L18 18\"/><path d=\"m14 4 1.25 2.5L18 6\"/><path d=\"m17 21-3-6h-4\"/><path d=\"m17 3-3 6 1.5 3\"/><path d=\"M2 12h6.5L10 9\"/><path d=\"m20 10-1.5 2 1.5 2\"/><path d=\"M22 12h-6.5L14 15\"/><path d=\"m4 10 1.5 2L4 14\"/><path d=\"m7 21 3-6-1.5-3\"/><path d=\"m7 3 3 6h4\"/>",
+      mapx: "<path d=\"M14.106 5.553a2 2 0 0 0 1.788 0l3.659-1.83A1 1 0 0 1 21 4.619v12.764a1 1 0 0 1-.553.894l-4.553 2.277a2 2 0 0 1-1.788 0l-4.212-2.106a2 2 0 0 0-1.788 0l-3.659 1.83A1 1 0 0 1 3 19.381V6.618a1 1 0 0 1 .553-.894l4.553-2.277a2 2 0 0 1 1.788 0z\"/><path d=\"M15 5.764v15\"/><path d=\"M9 3.236v15\"/>",
+    };
+    function ic(n, extra) { const b = P[n] || P.info; return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"' + (extra ? ' class="' + extra + '"' : '') + ' aria-hidden="true">' + b + '</svg>'; }
+
+    /* ================= DEVICES ================= */
+    const DEVICES = [
+      { id: 'ip15p', name: 'iPhone 15 Pro', os: 'iOS 17', w: 393, h: 852, r: 52, bez: 12, notch: 'island', short: '15 Pro' },
+      { id: 'ipse', name: 'iPhone SE', os: 'iOS 17', w: 375, h: 667, r: 22, bez: 14, notch: 'se', short: 'SE' },
+      { id: 'px8', name: 'Pixel 8', os: 'Android 14', w: 412, h: 915, r: 34, bez: 11, notch: 'punchC', short: 'Pixel 8' },
+      { id: 's24', name: 'Galaxy S24', os: 'One UI 6', w: 360, h: 780, r: 30, bez: 10, notch: 'punchC', short: 'S24' },
+      { id: 'ipadm', name: 'iPad Mini', os: 'iPadOS 17', w: 744, h: 1133, r: 34, bez: 18, notch: 'none', short: 'iPad Mini' },
+      { id: 'ipadp', name: 'iPad Pro 11', os: 'iPadOS 17', w: 834, h: 1194, r: 34, bez: 20, notch: 'none', short: 'iPad Pro' },
+    ];
+
+    /* ================= TAILWIND CLASS KIT =================
+       Every visual decision below is a Tailwind utility string.
+       There is no stylesheet in this file — components are composed
+       from these constants so the DOM carries real utility classes. */
+
+    const SURF = 'bg-white dark:bg-road-850';
+    const SURF2 = 'bg-road-25 dark:bg-road-800';
+    const CANVAS = 'bg-road-50 dark:bg-road-925';
+    const LINE = 'border-road-200 dark:border-road-600';
+    const LINE2 = 'border-road-100 dark:border-road-800';
+    const T1 = 'text-ink dark:text-road-50';
+    const T2 = 'text-road-600 dark:text-road-350';
+    const T3 = 'text-road-400';
+    const ACC = 'text-rescue-700 dark:text-rescue-300';
+
+    const H1 = 'font-display text-[28px] font-extrabold leading-[1.1] tracking-[-0.9px] text-balance ' + T1;
+    const H2 = 'font-display text-[21px] font-bold leading-tight tracking-[-0.5px] ' + T1;
+    const H3 = 'font-display text-[16px] font-bold tracking-[-0.2px] ' + T1;
+    const H4 = 'font-display text-[13.5px] font-bold tracking-[-0.1px] ' + T1;
+    const LBL = 'font-display text-[10.5px] font-bold uppercase tracking-[0.12em] ' + T3;
+    const PP = 'text-[14px] leading-normal ' + T2;
+    const SM = 'text-[12.5px] leading-snug ' + T2;
+    const XS = 'text-[11px] leading-snug ' + T3;
+    const MONEY = 'font-mono font-semibold tabular-nums tracking-tight';
+    const ROW = 'flex items-center gap-2.5';
+    const SB = 'flex items-center justify-between gap-2.5';
+
+    const TONE = {
+      ok: 'bg-ok-50 text-ok-500 dark:bg-ok-900 dark:text-ok-400',
+      warn: 'bg-warn-50 text-warn-500 dark:bg-warn-900 dark:text-warn-400',
+      err: 'bg-err-50 text-err-500 dark:bg-err-900 dark:text-err-400',
+      info: 'bg-dispatch-50 text-dispatch-500 dark:bg-dispatch-900 dark:text-dispatch-400',
+      acc: 'bg-rescue-50 text-rescue-700 dark:bg-rescue-900 dark:text-rescue-300',
+      navy: 'bg-navy-50 text-navy-500 dark:bg-navy-900 dark:text-navy-400',
+      none: SURF2 + ' ' + T2,
+    };
+
+    const card = (x = '') => `rounded-2xl border ${LINE} ${SURF} p-3.5 shadow-card ${x}`;
+    const tint = (t, x = '') => `rounded-2xl border border-transparent p-3.5 ${TONE[t]} ${x}`;
+    const group = (x = '') => `overflow-hidden rounded-2xl border ${LINE} ${SURF} shadow-card ${x}`;
+    const lrow = (x = '') => `flex items-center gap-3 border-b ${LINE2} ${SURF} px-3.5 py-3.5 last:border-b-0 ${x}`;
+    const iconbox = (t = 'none', x = '') => `grid h-[38px] w-[38px] flex-none place-items-center rounded-xl [&>svg]:h-[19px] [&>svg]:w-[19px] ${TONE[t]} ${x}`;
+    const chevr = () => `<span class="h-[17px] w-[17px] flex-none ${T3}">${ic('chevR')}</span>`;
+
+    const BTN_BASE = 'flex w-full items-center justify-center gap-2 font-sans font-bold tracking-[-0.1px] transition active:scale-[.985] [&>svg]:h-[18px] [&>svg]:w-[18px]';
+    const BTN_SIZE = {
+      lg: 'h-[52px] rounded-[14px] text-[15.5px]', md: 'h-11 rounded-xl text-[14px]',
+      sm: 'h-9 w-auto rounded-[10px] px-3.5 text-[13px]', xs: 'h-[30px] w-auto rounded-[9px] px-2.5 text-[12px] font-semibold'
+    };
+    const BTN_VAR = {
+      pri: 'bg-rescue-500 text-white shadow-rescue hover:brightness-110',
+      dark: 'bg-ink text-white dark:bg-road-50 dark:text-ink',
+      sec: `border-[1.5px] ${LINE} ${SURF} ${T1}`,
+      soft: 'bg-rescue-50 text-rescue-700 dark:bg-rescue-900 dark:text-rescue-300',
+      ghost: 'bg-transparent ' + T2,
+      danger: 'bg-err-500 text-white',
+      dangerout: 'border-[1.5px] border-err-500 bg-transparent text-err-500 dark:text-err-400 dark:border-err-400',
+      ok: 'bg-ok-500 text-white',
+    };
+    const btn = (v = 'pri', s = 'lg', x = '') => `${BTN_BASE} ${BTN_SIZE[s]} ${BTN_VAR[v]} ${x}`;
+
+    const PILL_BASE = 'inline-flex h-6 items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 text-[11px] font-bold [&>svg]:h-3 [&>svg]:w-3';
+    const pill = (t = 'none', x = '') => `${PILL_BASE} ${t === 'none' ? `border ${LINE2} ${SURF2} ${T2}` : t === 'solid' ? 'bg-rescue-500 text-white' : t === 'dark' ? 'bg-ink text-white dark:bg-road-50 dark:text-ink' : TONE[t]} ${x}`;
+    const livedot = () => '<span class="h-[7px] w-[7px] flex-none rounded-full bg-current animate-blip motion-reduce:animate-none"></span>';
+
+    const INP_BASE = `js-inp cursor-text flex h-[52px] items-center gap-2.5 rounded-[14px] border-[1.5px] px-3.5 text-[15px] [&>svg]:h-[18px] [&>svg]:w-[18px] [&>svg]:flex-none [&>svg]:${T3}`;
+    const inp = (state = '', x = '') => `${INP_BASE} ${SURF} ${T1} ${state === 'focus' ? 'border-rescue-500 ring-[3px] ring-rescue-50 dark:ring-rescue-900'
+      : state === 'bad' ? 'border-err-500 bg-err-50 dark:bg-err-900'
+        : state === 'good' ? 'border-ok-500'
+          : state === 'dis' ? `border-road-200 dark:border-road-600 ${SURF2} ${T3}`
+            : LINE} ${x}`;
+    const caret = () => '<span class="h-5 w-[1.5px] flex-none bg-rescue-500 animate-blink motion-reduce:animate-none"></span>';
+    const msg = (t, txt) => `<span class="flex items-center gap-1.5 text-[11.5px] font-semibold ${t === 'bad' ? 'text-err-500 dark:text-err-400' : t === 'good' ? 'text-ok-500 dark:text-ok-400' : T3 + ' font-medium'} [&>svg]:h-[13px] [&>svg]:w-[13px] [&>svg]:flex-none">${ic(t === 'bad' ? 'xC' : t === 'good' ? 'checkC' : 'info')}${txt}</span>`;
+
+    const sw = (on, acc) => `<span data-act="switch" data-on="${on ? 1 : 0}" data-acc="${acc ? 1 : 0}" class="relative h-7 w-[46px] flex-none cursor-pointer rounded-full transition-colors ${on ? (acc ? 'bg-rescue-500' : 'bg-ok-500') : 'bg-road-200 dark:bg-road-600'}"><i class="absolute top-[3px] ${on ? 'left-[21px]' : 'left-[3px]'} h-[22px] w-[22px] rounded-full bg-white shadow-[0_1px_3px_rgba(0,0,0,.28)] transition-all"></i></span>`;
+    const rad = on => `<span data-act="radio" class="grid h-[22px] w-[22px] flex-none cursor-pointer place-items-center rounded-full border-2 ${on ? 'border-rescue-500' : 'border-road-200 dark:border-road-600'}">${on ? '<span class="h-[11px] w-[11px] rounded-full bg-rescue-500"></span>' : ''}</span>`;
+    const cbx = on => `<span data-act="check" data-on="${on ? 1 : 0}" class="grid h-[21px] w-[21px] flex-none cursor-pointer place-items-center rounded-[7px] border-2 text-white [&>svg]:h-3 [&>svg]:w-3 ${on ? 'border-rescue-500 bg-rescue-500' : 'border-road-200 dark:border-road-600'}">${on ? ic('check') : ''}</span>`;
+    const seg = items => `<div class="flex gap-0.5 rounded-[13px] border ${LINE2} ${SURF2} p-[3px]">` + items.map(([t, on]) => `<button data-act="seg" class="h-9 flex-1 rounded-[10px] text-[13px] ${on ? `${SURF} ${T1} font-bold shadow-card` : `font-semibold ${T2}`}">${t}</button>`).join('') + '</div>';
+    const fchip = (t, on, acc) => `<button data-act="chip" data-on="${on ? 1 : 0}" data-acc="${acc ? 1 : 0}" data-label="${t}" class="flex h-[34px] flex-none items-center gap-1.5 whitespace-nowrap rounded-xl border px-3.5 text-[13px] font-semibold [&>svg]:h-3.5 [&>svg]:w-3.5 ${on ? (acc ? 'border-rescue-500 bg-rescue-500 text-white' : 'border-ink bg-ink text-white dark:border-road-50 dark:bg-road-50 dark:text-ink') : `${LINE} ${SURF} ${T2}`}">${on ? ic('check') : ''}${t}</button>`;
+    const prog = (pct, tone = '') => `<div class="h-1.5 overflow-hidden rounded-full bg-road-200 dark:bg-road-600"><i class="block h-full rounded-full ${tone === 'ok' ? 'bg-ok-500' : 'bg-rescue-500'}" style="width:${pct}%"></i></div>`;
+    const spinner = (s = '') => `<span class="block flex-none animate-spin rounded-full border-[3px] motion-reduce:animate-none ${s === 'lg' ? 'h-[46px] w-[46px] border-4' : s === 'w' ? 'h-[26px] w-[26px] border-white/30 border-t-white' : 'h-[26px] w-[26px]'} ${s === 'w' ? '' : 'border-road-200 border-t-rescue-500 dark:border-road-600 dark:border-t-rescue-400'}"></span>`;
+    const skel = (x = '') => `<span class="block animate-shim rounded-lg [background-size:400%_100%] [background:linear-gradient(90deg,#E9EEF3_25%,#D8E0E8_37%,#E9EEF3_63%)] motion-reduce:animate-none dark:[background:linear-gradient(90deg,#1E2731_25%,#2A3540_37%,#1E2731_63%)] ${x}"></span>`;
+    const av = (init, size = 'h-11 w-11 text-[14px]', color = '#133A63') => `<span class="grid flex-none place-items-center rounded-full font-display font-bold tracking-tight text-white ${size}" style="background:${color}">${init}</span>`;
+    const stars = (n, lg) => `<span data-act="stars" class="flex ${lg ? 'gap-2' : 'gap-0.5'}">` + [1, 2, 3, 4, 5].map(i => `<span data-i="${i}" class="${lg ? 'h-8 w-8 cursor-pointer' : 'h-[13px] w-[13px]'} ${i <= n ? 'text-[#E8901A]' : 'text-road-200 dark:text-road-600'} [&>svg]:h-full [&>svg]:w-full">${ic('star')}</span>`).join('') + '</span>';
+    const banner = (t, body) => `<div class="flex items-start gap-2.5 rounded-[14px] px-3.5 py-3 text-[12.5px] leading-snug ${TONE[t]} [&>svg]:h-[18px] [&>svg]:w-[18px] [&>svg]:flex-none">${ic(t === 'ok' ? 'checkC' : t === 'warn' ? 'alert' : t === 'err' ? 'xC' : 'info')}<span>${body}</span></div>`;
+
+    /* device scaffolding */
+    const BODY = `relative flex min-h-0 flex-1 flex-col overflow-hidden ${CANVAS}`;
+    const SCR = 'relative flex min-h-0 flex-1 flex-col gap-3.5 overflow-y-auto overflow-x-hidden p-4 [&>*]:flex-shrink-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
+    const SCRT = SCR.replace('gap-3.5', 'gap-2.5');
+    const FOOT = `relative z-[5] flex flex-none flex-col gap-2.5 border-t ${LINE2} ${SURF} px-4 py-3 [&>*]:flex-shrink-0`;
+    const SHEET = `absolute inset-x-0 bottom-0 z-[8] flex max-h-[88%] flex-col rounded-t-[24px] ${SURF} shadow-sheet`;
+    const SHEETSC = 'flex flex-col gap-3.5 overflow-y-auto px-4 pb-[26px] pt-2 [&>*]:flex-shrink-0 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden';
+    const SCRIM = 'absolute inset-0 z-[7] bg-[rgba(8,12,17,.5)]';
+    const iconbtn = (x = '', sm) => `relative grid ${sm ? 'h-8 w-8 [&>svg]:h-[17px] [&>svg]:w-[17px]' : 'h-9 w-9 [&>svg]:h-[19px] [&>svg]:w-[19px]'} flex-none place-items-center rounded-xl border ${LINE2} ${SURF2} ${T1} ${x}`;
+
+    const g = id => ` data-go="${id}" role="button" tabindex="0"`;
+    const statusBar = (cls = '') => `<div class="sbar relative z-[6] flex flex-none items-center justify-between px-6 text-[14px] font-semibold ${cls === 'onmap' ? 'bg-transparent text-white' : cls === 'clear' ? 'bg-transparent ' + T1 : cls === 'navbg' ? SURF + ' ' + T1 : CANVAS + ' ' + T1} [&_svg]:h-3 [&_svg]:w-4">
+  <span class="font-bold tabular-nums tracking-tight">9:41</span>
+  <span class="flex items-center gap-1.5">${ic('cell')}${ic('wifi')}${ic('batt')}</span></div>`;
+    const hind = () => `<div class="homeind relative z-[10] grid h-[22px] flex-none place-items-center"><i class="block h-[5px] w-[134px] rounded-full bg-ink opacity-[.28] dark:bg-road-50"></i></div>`;
+    const nav = (o = {}) => `<div class="relative z-[5] flex flex-none items-center gap-2.5 border-b ${LINE2} ${o.plain ? 'border-transparent bg-transparent' : SURF} px-4 pb-3 pt-1.5">`
+      + (o.back === false ? '' : `<button class="${iconbtn()}"${g(o.back || 'home')} aria-label="Back">${ic('chevL')}</button>`)
+      + `<div class="min-w-0 flex-1 truncate font-display text-[17px] font-bold tracking-[-0.2px] ${T1} ${o.center ? 'text-center' : ''}">${o.title || ''}</div>`
+      + (o.right || '') + '</div>';
+    const tabs = a => {
+      const T = [['home', 'home', 'Home'], ['activity', 'receipt', 'Activity'], ['', '', ''], ['profile', 'user', 'Profile']];
+      return `<div class="relative z-[5] flex flex-none border-t ${LINE2} ${SURF} px-1.5 pb-0.5 pt-2">` + T.map(([id, i, l], x) => {
+        if (x === 2) return `<button class="relative flex flex-1 flex-col items-center gap-1 py-1 ${T3}"${g('request')} aria-label="Request assistance"><span class="-mt-5 grid h-[50px] w-[50px] place-items-center rounded-[17px] border-[3px] border-white bg-rescue-500 text-white shadow-fab dark:border-road-850 [&>svg]:h-6 [&>svg]:w-6">${ic('sos')}</span><span class="text-[10px] font-semibold">Assist</span></button>`;
+        return `<button class="relative flex flex-1 flex-col items-center gap-1 py-1 ${a === id ? 'text-rescue-500 dark:text-rescue-400' : T3} [&>svg]:h-[22px] [&>svg]:w-[22px]"${g(id)}>`
+          + (a === id ? '<span class="absolute -top-2 h-[3px] w-[26px] rounded-b-[3px] bg-rescue-500"></span>' : '')
+          + ic(i) + `<span class="text-[10px] font-semibold">${l}</span></button>`;
+      }).join('') + '</div>';
+    };
+    const ptabs = a => {
+      const T = [['pv-dashboard', 'list', 'Jobs'], ['pv-navigate', 'mapx', 'Map'], ['pv-earnings', 'wallet', 'Earnings'], ['profile', 'user', 'Account']];
+      return `<div class="relative z-[5] flex flex-none border-t ${LINE2} ${SURF} px-1.5 pb-0.5 pt-2">` + T.map(([id, i, l]) =>
+        `<button class="relative flex flex-1 flex-col items-center gap-1 py-1 ${a === id ? 'text-rescue-500 dark:text-rescue-400' : T3} [&>svg]:h-[22px] [&>svg]:w-[22px]"${g(id)}>`
+        + (a === id ? '<span class="absolute -top-2 h-[3px] w-[26px] rounded-b-[3px] bg-rescue-500"></span>' : '')
+        + ic(i) + `<span class="text-[10px] font-semibold">${l}</span></button>`).join('') + '</div>';
+    };
+    const toast = (type, title, body, pos = 'top-[70px]') => `<div class="absolute inset-x-3.5 ${pos} z-[9] flex items-start gap-3 rounded-[15px] bg-ink px-3.5 py-3 text-white shadow-[0_10px_30px_rgba(8,12,17,.35)] dark:bg-road-50 dark:text-ink">
+  <span class="mt-px grid h-[22px] w-[22px] flex-none place-items-center rounded-full text-white [&>svg]:h-[13px] [&>svg]:w-[13px] ${type === 'ok' ? 'bg-ok-500' : type === 'err' ? 'bg-err-500' : type === 'warn' ? 'bg-warn-500' : 'bg-dispatch-500'}">${ic(type === 'ok' ? 'check' : type === 'err' ? 'x' : type === 'warn' ? 'alert' : 'info')}</span>
+  <span class="min-w-0 flex-1"><b class="block text-[13.5px] font-bold tracking-[-0.1px]">${title}</b><span class="mt-px block text-[12px] leading-snug opacity-70">${body}</span></span>
+  <button class="mt-px opacity-55 [&>svg]:h-4 [&>svg]:w-4">${ic('x')}</button></div>`;
+
+    /* stylised Austin street grid */
+    function mapSvg(route, small) {
+      const R = { provider: 'M 79 230 L 79 195 L 196 195 L 196 150', dest: 'M 196 150 L 196 120 L 300 120' };
+      const blocks = [[10, 132, 58, 52], [96, 132, 88, 52], [212, 132, 76, 52], [316, 132, 66, 52], [10, 212, 58, 76], [96, 212, 88, 76],
+      [212, 212, 76, 76], [316, 212, 66, 76], [96, 318, 88, 90], [212, 318, 76, 90], [316, 318, 66, 90], [10, 438, 58, 110], [96, 438, 88, 110],
+      [212, 438, 76, 110], [10, 580, 58, 108], [96, 580, 88, 108], [316, 438, 66, 110], [96, 720, 88, 110], [212, 720, 76, 110]];
+      return `<div class="absolute inset-0 overflow-hidden bg-[#DFE6EC] dark:bg-[#111820] [&>svg]:absolute [&>svg]:inset-0 [&>svg]:h-full [&>svg]:w-full">`
+        + `<svg viewBox="${small ? '0 100 393 260' : '0 0 393 852'}" preserveAspectRatio="xMidYMin slice">`
+        + '<rect x="-10" y="-10" width="413" height="872" class="fill-[#DFE6EC] dark:fill-[#111820]"/>'
+        + '<path d="M0 34 L393 0 L393 52 L0 86 Z" class="fill-[#CBDEEC] dark:fill-[#122334]"/>'
+        + '<rect x="18" y="330" width="52" height="94" rx="6" class="fill-[#DBE7DB] dark:fill-[#16241C]"/>'
+        + '<rect x="250" y="580" width="130" height="132" rx="6" class="fill-[#DBE7DB] dark:fill-[#16241C]"/>'
+        + '<g class="fill-[#EDF1F5] dark:fill-[#1A222B]">'
+        + blocks.map(b => `<rect x="${b[0]}" y="${b[1]}" width="${b[2]}" height="${b[3]}" rx="4"/>`).join('') + '</g>'
+        + '<g class="stroke-white dark:stroke-[#242E39]" fill="none" stroke-linecap="round">'
+        + '<path d="M-10 120 H403" stroke-width="13"/><path d="M-10 195 H403" stroke-width="17"/>'
+        + '<path d="M-10 300 H403" stroke-width="12"/><path d="M-10 420 H403" stroke-width="15"/>'
+        + '<path d="M-10 560 H403" stroke-width="10"/><path d="M-10 700 H403" stroke-width="14"/>'
+        + '<path d="M79 -10 V862" stroke-width="13"/><path d="M196 -10 V862" stroke-width="17"/>'
+        + '<path d="M300 -10 V862" stroke-width="12"/><path d="M-10 862 L150 500 L393 300" stroke-width="19"/></g>'
+        + '<g stroke="#E8A33C" stroke-width="2.5" opacity=".55" stroke-dasharray="11 13" fill="none"><path d="M-10 862 L150 500 L393 300"/></g>'
+        + (route === 'provider' ? `<path d="${R.provider}" class="stroke-rescue-500" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` : '')
+        + (route === 'dest' ? `<path d="${R.provider}" class="stroke-road-400" stroke-width="5" fill="none" opacity=".4" stroke-dasharray="9 9" stroke-linejoin="round"/><path d="${R.dest}" class="stroke-rescue-500" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>` : '')
+        + '</svg></div>';
+    }
+    const mdot = (l, t) => `<div class="absolute z-[3] -translate-x-1/2 -translate-y-1/2" style="left:${l};top:${t}"><span class="absolute -inset-[14px] animate-ring rounded-full bg-rescue-500 opacity-20 motion-reduce:animate-none"></span><span class="block h-[18px] w-[18px] rounded-full border-[3px] border-white bg-rescue-500 shadow-[0_2px_8px_rgba(0,0,0,.3)]"></span></div>`;
+    const mtruck = (l, t, icon = 'truck', x = '') => `<div class="absolute z-[4] grid h-9 w-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-[2.5px] border-white bg-ink text-white shadow-[0_4px_12px_rgba(0,0,0,.35)] [&>svg]:h-[18px] [&>svg]:w-[18px] ${x}" style="left:${l};top:${t}">${ic(icon)}</div>`;
+    const mpin = (l, t, label) => `<div class="absolute z-[3] flex -translate-x-1/2 -translate-y-full flex-col items-center" style="left:${l};top:${t}"><span class="whitespace-nowrap rounded-[9px] bg-ink px-2.5 py-1 text-[11px] font-bold text-white shadow-lift dark:bg-road-50 dark:text-ink">${label}</span><span class="h-[9px] w-0.5 bg-ink dark:bg-road-50"></span></div>`;
+    const mctl = (bottom, btns) => `<div class="absolute right-3.5 z-[4] flex flex-col gap-2" style="bottom:${bottom}">` + btns.map(([i, lbl]) => `<button class="grid h-10 w-10 place-items-center rounded-[13px] border ${LINE2} ${SURF} ${T1} shadow-lift [&>svg]:h-[19px] [&>svg]:w-[19px]" aria-label="${lbl}">${ic(i)}</button>`).join('') + '</div>';
+
+    /* ================= CONTENT MODEL · Austin, Texas ================= */
+    const SERVICES = [
+      { id: 'tire', n: 'Flat tire', i: 'tyre', p: '79', eta: '12 min', d: 'Spare mounted or tire plugged on the spot' },
+      { id: 'tow', n: 'Towing', i: 'truck', p: '149', eta: '18 min', d: 'Flatbed or wheel-lift, first 10 miles included' },
+      { id: 'batt', n: 'Jump start', i: 'battery', p: '65', eta: '10 min', d: 'Battery boost plus a 5-point charging check' },
+      { id: 'fuel', n: 'Fuel delivery', i: 'fuel', p: '45', eta: '15 min', d: 'Up to 3 gallons, fuel billed at pump price' },
+      { id: 'lock', n: 'Lockout', i: 'key', p: '89', eta: '20 min', d: 'Non-destructive entry by a certified tech' },
+      { id: 'engine', n: 'Won’t start', i: 'engine', p: '99', eta: '16 min', d: 'Roadside diagnosis, minor fixes included' },
+      { id: 'winch', n: 'Winch-out', i: 'route', p: '189', eta: '25 min', d: 'Recovery from a ditch, mud or soft shoulder' },
+      { id: 'ev', n: 'EV charge', i: 'lightning', p: '129', eta: '22 min', d: 'Mobile DC boost, up to 20% state of charge' },
+    ];
+    const svcTile = (s, on) => `<button class="flex flex-col items-center gap-2 rounded-2xl border p-3 px-2 text-center shadow-card ${on ? 'border-rescue-500 ring-[3px] ring-rescue-50 dark:ring-rescue-900' : LINE} ${SURF}"${g('request')}>
+  <span class="grid h-[42px] w-[42px] place-items-center rounded-[14px] bg-rescue-50 text-rescue-500 dark:bg-rescue-900 dark:text-rescue-400 [&>svg]:h-[22px] [&>svg]:w-[22px]">${ic(s.i)}</span>
+  <span class="text-[11.5px] font-semibold leading-tight ${T1}">${s.n}</span></button>`;
+
+    let userPhoto = null, cropAspect = 0, cropRef = null;
+
+/* opens the real OS file picker; called from a click so the gesture is preserved */
+function chooseAvatar() {
+  const inp = document.createElement('input');
+  inp.type = 'file';
+  inp.accept = 'image/*';
+  inp.onchange = () => {
+    const f = inp.files && inp.files[0];
+    if (!f) return;
+    if (userPhoto && userPhoto.startsWith('blob:')) URL.revokeObjectURL(userPhoto);
+    userPhoto = URL.createObjectURL(f);
+    go('crop');
+  };
+  inp.click();
+}
+
+/* ---- free-form crop: drag the box to move it, drag a corner to resize ---- */
+function initCrop() {
+  const stage = document.getElementById('cropStage');
+  const img = document.getElementById('cropImg');
+  if (!stage || !img || !img.naturalWidth) return;
+
+  const sr = stage.getBoundingClientRect(), ir = img.getBoundingClientRect();
+  const frame = { x: ir.left - sr.left, y: ir.top - sr.top, w: ir.width, h: ir.height };
+  const side = Math.min(frame.w, frame.h) * 0.78;
+  cropRef = {
+    frame,
+    box: { x: frame.x + (frame.w - side) / 2, y: frame.y + (frame.h - side) / 2, w: side, h: side }
+  };
+  paintCrop();
+
+  let drag = null;
+  const pt = e => ({ x: e.clientX - stage.getBoundingClientRect().left, y: e.clientY - stage.getBoundingClientRect().top });
+
+  stage.onpointerdown = e => {
+    const p = pt(e), h = e.target.dataset ? e.target.dataset.h : null;
+    const b = cropRef.box;
+    if (h) drag = { mode: h, ox: p.x, oy: p.y, start: { ...b } };
+    else if (p.x >= b.x && p.x <= b.x + b.w && p.y >= b.y && p.y <= b.y + b.h)
+      drag = { mode: 'move', ox: p.x, oy: p.y, start: { ...b } };
+    else return;
+    try { stage.setPointerCapture(e.pointerId); } catch (_) { }
+    e.preventDefault();
+  };
+
+  stage.onpointermove = e => {
+    if (!drag) return;
+    const p = pt(e), f = cropRef.frame, s = drag.start;
+    const dx = p.x - drag.ox, dy = p.y - drag.oy, MIN = 48;
+    let b = { ...s };
+    if (drag.mode === 'move') {
+      b.x = Math.min(Math.max(s.x + dx, f.x), f.x + f.w - s.w);
+      b.y = Math.min(Math.max(s.y + dy, f.y), f.y + f.h - s.h);
+    } else {
+      if (drag.mode.indexOf('e') > -1) b.w = Math.max(MIN, Math.min(s.w + dx, f.x + f.w - s.x));
+      if (drag.mode.indexOf('s') > -1) b.h = Math.max(MIN, Math.min(s.h + dy, f.y + f.h - s.y));
+      if (drag.mode.indexOf('w') > -1) { const nx = Math.min(Math.max(s.x + dx, f.x), s.x + s.w - MIN); b.w = s.w + (s.x - nx); b.x = nx; }
+      if (drag.mode.indexOf('n') > -1) { const ny = Math.min(Math.max(s.y + dy, f.y), s.y + s.h - MIN); b.h = s.h + (s.y - ny); b.y = ny; }
+      if (cropAspect) {
+        const side2 = Math.min(b.w, b.h);
+        if (drag.mode.indexOf('w') > -1) b.x = b.x + (b.w - side2);
+        if (drag.mode.indexOf('n') > -1) b.y = b.y + (b.h - side2);
+        b.w = side2; b.h = side2;
+      }
+    }
+    cropRef.box = b;
+    paintCrop();
+  };
+
+  stage.onpointerup = stage.onpointercancel = () => { drag = null; };
+}
+
+function paintCrop() {
+  if (!cropRef) return;
+  const b = cropRef.box, box = document.getElementById('cropBox');
+  if (!box) return;
+  box.style.cssText = `left:${b.x}px;top:${b.y}px;width:${b.w}px;height:${b.h}px`;
+  const set = (id, css) => { const el = document.getElementById(id); if (el) el.style.cssText = css; };
+  set('dimT', `left:0;top:0;width:100%;height:${Math.max(0, b.y)}px`);
+  set('dimB', `left:0;top:${b.y + b.h}px;width:100%;bottom:0`);
+  set('dimL', `left:0;top:${b.y}px;width:${Math.max(0, b.x)}px;height:${b.h}px`);
+  set('dimR', `left:${b.x + b.w}px;top:${b.y}px;right:0;height:${b.h}px`);
+  const r = document.getElementById('cropRatio');
+  if (r) r.textContent = Math.round(b.w) + ' × ' + Math.round(b.h);
+}
+
+function setCropAspect(sq) {
+  cropAspect = sq ? 1 : 0;
+  if (cropAspect && cropRef) {
+    const b = cropRef.box, s = Math.min(b.w, b.h);
+    cropRef.box = { x: b.x, y: b.y, w: s, h: s };
+    paintCrop();
+  }
+  go('crop');
+}
+
+/* Done: rasterise the selected region so the avatar is genuinely cropped */
+function applyCrop() {
+  const img = document.getElementById('cropImg');
+  if (!img || !cropRef) { go('edit-profile'); return; }
+  const f = cropRef.frame, b = cropRef.box;
+  const sx = (b.x - f.x) / f.w * img.naturalWidth;
+  const sy = (b.y - f.y) / f.h * img.naturalHeight;
+  const sw = b.w / f.w * img.naturalWidth;
+  const sh = b.h / f.h * img.naturalHeight;
+  const scale = Math.min(1, 512 / Math.max(sw, sh));
+  const c = document.createElement('canvas');
+  c.width = Math.max(1, Math.round(sw * scale));
+  c.height = Math.max(1, Math.round(sh * scale));
+  try {
+    c.getContext('2d').drawImage(img, sx, sy, sw, sh, 0, 0, c.width, c.height);
+    const out = c.toDataURL('image/jpeg', 0.9);
+    if (userPhoto && userPhoto.startsWith('blob:')) URL.revokeObjectURL(userPhoto);
+    userPhoto = out;
+  } catch (e) { /* keep the uncropped original if the canvas is unavailable */ }
+  cropRef = null;
+  go('edit-profile');
+}
+
+/* the signed-in user's avatar: their chosen photo once picked, initials until then */
+function meAvatar(size, extra) {
+  return userPhoto
+    ? '<img src="' + userPhoto + '" alt="" class="flex-none rounded-full object-cover ' + size + ' ' + (extra || '') + '">'
+    : av('SM', size, '#B3541E');
+}
+
+const S = {};
+
+    /* ---------- M1 · GETTING STARTED ---------- */
+    /* Dusk-highway splash backdrop — every layer is vector, so there is no image
+       asset to download, nothing to go blurry on a 3x screen, and it themes itself. */
+    function splashPhotoReady(img) {
+      const root = document.getElementById('vp');
+      root.querySelectorAll('[data-photo-only]').forEach(n => n.classList.remove('hidden'));
+      const top = root.querySelector('[data-splash-top]');
+      if (top) top.classList.add('!h-[50%]');
+      img.classList.remove('opacity-0');
+      const bot = root.querySelector('[data-splash-bot]');
+      if (bot) bot.classList.add('!h-[2%]');
+    }
+
+    S.splash = {
+      t: 'Splash', mod: 'start', tag: 'Launch', sb: 'onmap', next: 'welcome', nextIn: 4200, vpbg: '#3F1304', vpclass: '[&>.sbar]:absolute [&>.sbar]:inset-x-0 [&>.sbar]:top-0',
+      desc: 'First paint while the app restores the session token, warms the location permission and pre-fetches the service catalog. The backdrop is a looping 10s clip of a flatbed recovery at golden hour, masked into the brand gradient so the wordmark stays legible.',
+      notes: ['Footage runs full-bleed under the status bar and notch — the island sits over it, nothing is letterboxed', 'The clip is overscanned 6% so generated edge artefacts fall outside the frame', 'A still poster paints first, so the splash is never blank while the clip buffers', 'Hard 4.2s timeout, then route to Welcome regardless of network; tap anywhere to skip'],
+      comps: ['SplashScreen', '<SplashVideo/>', 'useBootstrap()', 'SecureStore.getItem(refresh_token)'],
+      render: () => `<div class="${BODY} bg-transparent dark:bg-transparent">
+  <div class="absolute inset-0 z-0 bg-[linear-gradient(180deg,#2E1206_0%,#20100B_46%,#100C10_74%,#08090D_100%)]"></div>
+  <img data-photo-only src="assets/splash.jpg" alt="" aria-hidden="true" onload="splashPhotoReady(this)"
+       class="absolute inset-0 z-0 hidden h-full w-full scale-125 object-cover object-center blur-2xl brightness-[.52] saturate-[1.2]">
+  <div class="pointer-events-none absolute inset-x-0 top-0 z-[1] h-[56%] overflow-hidden
+       [mask-image:linear-gradient(to_bottom,#000_0%,#000_30%,rgba(0,0,0,.92)_42%,rgba(0,0,0,.72)_53%,rgba(0,0,0,.48)_64%,rgba(0,0,0,.26)_76%,rgba(0,0,0,.1)_88%,transparent_100%)] [-webkit-mask-image:linear-gradient(to_bottom,#000_0%,#000_30%,rgba(0,0,0,.92)_42%,rgba(0,0,0,.72)_53%,rgba(0,0,0,.48)_64%,rgba(0,0,0,.26)_76%,rgba(0,0,0,.1)_88%,transparent_100%)]">
+    <video src="assets/splash_video.mp4" poster="assets/splash.jpg" autoplay muted loop playsinline preload="auto"
+           class="h-full w-full scale-[1.06] object-cover object-[62%_center]"
+           onloadeddata="splashPhotoReady(this)" onerror="this.remove()"></video>
+  </div>
+  <div data-photo-only class="absolute inset-0 z-[2] hidden bg-[linear-gradient(180deg,rgba(6,8,12,.45)_0%,rgba(6,8,12,.06)_15%,rgba(6,8,12,0)_33%,rgba(6,8,12,.10)_46%,rgba(6,8,12,.26)_57%,rgba(6,8,12,.46)_68%,rgba(6,8,12,.66)_79%,rgba(5,7,10,.84)_90%,rgba(5,7,10,.9)_100%)]"></div>
+  <div data-photo-only class="absolute inset-0 z-[2] hidden animate-haloIn motion-reduce:animate-none [background:radial-gradient(ellipse_66%_30%_at_50%_65%,rgba(255,140,70,.36),transparent_70%)]"></div>
+  <div class="relative z-[3] flex min-h-0 flex-1 flex-col items-center px-8">
+    <div data-splash-top class="h-[14%] flex-none"></div>
+    <img src="assets/logo-light.png" alt="VAT — Vehicle and Towing" class="w-[52%] max-w-[196px] animate-logoIn drop-shadow-[0_10px_30px_rgba(0,0,0,.55)] motion-reduce:animate-none">
+    <div class="h-8 flex-none"></div>
+    <div class="h-[22px] w-[22px] flex-none animate-spin rounded-full border-2 border-white/25 border-t-white/90 motion-reduce:animate-none"></div>
+    <div class="flex-1"></div>
+    <div data-splash-bot class="h-[13%] flex-none"></div>
+  </div>
+  <div class="relative z-[3] pb-7 text-center font-mono text-[10.5px] tracking-wide text-white/45">v1.4.0 (482) · Austin, TX</div>
+</div>`};
+
+    S.welcome = {
+      t: 'Welcome', mod: 'start', tag: 'Entry', sb: 'clear',
+      vpclass: 'bg-[#FFF6F0] dark:bg-road-900',
+      desc: 'Brand-led entry screen. The value proposition sits on a light canvas and the two ways in sit on the road, so the accent is spent on the primary action rather than on a full-bleed background.',
+      notes: ['Accent is reserved for the CTA and the road markings — the canvas stays neutral', 'Sign up is primary; log in is secondary but equally reachable and the same size', 'Guest browsing is offered so a stranded driver can check prices before creating an account'],
+      comps: ['WelcomeScreen', '<BrandLockup/>', '<RoadScene/>'],
+      render: () => `<div class="${BODY} bg-gradient-to-b from-[#FFF6F0] via-white to-[#E9F0F6] dark:from-road-900 dark:via-road-925 dark:to-road-950">
+  <div class="pointer-events-none absolute inset-0 overflow-hidden">
+    <div class="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-rescue-400/25 blur-3xl dark:bg-rescue-500/20"></div>
+    <div class="absolute right-9 top-10 h-11 w-11 rounded-full bg-gradient-to-br from-[#FFD9A8] to-rescue-300 opacity-90 shadow-[0_0_26px_rgba(242,102,31,.45)]"></div>
+    <div class="absolute left-10 top-40 h-1.5 w-1.5 rounded-full bg-rescue-300"></div>
+    <div class="absolute left-24 top-24 h-1 w-1 rounded-full bg-road-300 dark:bg-road-600"></div>
+    <div class="absolute right-16 top-56 h-2 w-2 rounded-full bg-road-300 dark:bg-road-600"></div>
+  </div>
+  <div class="relative z-[2] flex min-h-0 flex-1 flex-col items-center justify-center px-8 text-center">
+    <img src="assets/logo.png" alt="VAT — Vehicle and Towing" class="w-[76%] max-w-[290px] drop-shadow-[0_10px_26px_rgba(16,21,27,.18)]">
+    <p class="mt-4 max-w-[30ch] text-[14.5px] leading-relaxed ${T2}">Austin&rsquo;s 24/7 hub for roadside rescue, towing and recovery.</p>
+  </div>
+  <div class="relative z-[2] flex-none">
+    <svg viewBox="0 0 393 282" preserveAspectRatio="xMidYMax slice" class="absolute inset-x-0 bottom-0 h-[282px] w-full">
+      <path d="M0 34 Q98 10 196 28 T393 16 L393 90 L0 90 Z" class="fill-road-200 dark:fill-road-800"/>
+      <g><rect x="24.5" y="23" width="3" height="24" rx="1.5" class="fill-road-400 dark:fill-road-600"/>
+        <path d="M26 1 L37 12 L26 23 L15 12 Z" class="fill-rescue-500"/>
+        <path d="M26 7 v7 M22 12 h8" stroke="#fff" stroke-width="2" stroke-linecap="round" fill="none"/></g>
+      <g><path d="M364 20 L373 44 L355 44 Z" class="fill-rescue-500"/>
+        <rect x="352" y="44" width="24" height="4" rx="2" class="fill-rescue-600"/>
+        <rect x="358" y="31" width="12" height="3.5" class="fill-white/85"/></g>
+      <path d="M0 46 Q196 22 393 46 L393 282 L0 282 Z" class="fill-[#2F3A46] dark:fill-[#0C1218]"/>
+      <path d="M0 50 Q196 26 393 50" fill="none" stroke="#fff" stroke-opacity=".45" stroke-width="2"/>
+      <path d="M0 64 Q196 40 393 64" fill="none" class="stroke-rescue-400" stroke-width="4" stroke-dasharray="18 16" stroke-linecap="round"/>
+    </svg>
+    <div class="relative flex flex-col gap-2.5 px-6 pb-3 pt-[74px]">
+      <button class="${btn('pri', 'lg', '!h-[54px] !rounded-full shadow-[0_10px_26px_rgba(217,72,15,.45)]')}"${g('signup')}>Get Started${ic('arrR')}</button>
+      <button class="${btn('sec', 'lg', '!h-[54px] !rounded-full !border-transparent !bg-white !text-ink shadow-lift')}"${g('login')}>I Already Have an Account</button>
+      <button class="h-9 text-[12.5px] font-semibold text-white/75"${g('home')}>Browse services as a guest</button>
+      <div class="homeind relative flex h-[22px] flex-none items-center justify-center"><i class="block h-[5px] w-[134px] rounded-full bg-white/85"></i></div>
+    </div>
+  </div>
+</div>`};
+
+    function onb(step, title, body, art) {
+      const next = step < 3 ? 'onboard' + (step + 1) : 'permissions';
+      return `<div class="${BODY}"><div class="${SCR} px-5 pb-5 pt-2">
+  <div class="${SB}"><span class="${LBL}">Step ${step} of 3</span><button class="${btn('ghost', 'xs')}"${g('login')}>Skip</button></div>
+  <div class="h-1.5"></div>${art}<div class="min-h-4 flex-1"></div>
+  <h1 class="${H1}">${title}</h1><p class="${PP}">${body}</p>
+  <div class="h-2"></div>
+  <div class="flex justify-center gap-1.5">${[1, 2, 3].map(i => `<i class="h-[7px] rounded-full ${i === step ? 'w-6 bg-rescue-500' : 'w-[7px] bg-road-200 dark:bg-road-600'}"></i>`).join('')}</div>
+  <div class="h-2"></div>
+  <button class="${btn('pri')}"${g(next)}>${step < 3 ? 'Next' : 'Get started'}</button>
+ </div></div>`+ hind();
+    }
+
+    S.login = {
+      t: 'Log In', mod: 'auth', tag: 'Auth', desc: 'Email or phone sign-in with a biometric shortcut for returning users. Zod validates on blur, not on every keystroke.',
+      notes: ['Email or phone go in one field — the server resolves which it is', 'Errors are field-level; the generic banner is reserved for 5xx', 'Password field keeps a reveal toggle — mandatory on mobile'],
+      comps: ['LoginScreen', 'useForm<LoginSchema>', 'useLoginMutation()', '<PasswordInput/>'],
+      render: () => `<div class="${BODY}"><div class="${SCR} px-5 pb-5 pt-3">
+  <button class="${iconbtn()}"${g('welcome')} aria-label="Back">${ic('chevL')}</button>
+  <div class="h-1"></div>
+  <h1 class="${H1}">Welcome back</h1><p class="${PP}">Log in to see your vehicles, saved partners and open jobs.</p>
+  <div class="h-1.5"></div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Email or phone</label>
+    <div class="${inp('good')}">${ic('mail')}<span class="min-w-0 flex-1 truncate">sarah.mitchell@gmail.com</span><span class="h-[18px] w-[18px] text-ok-500 [&>svg]:h-full [&>svg]:w-full">${ic('check')}</span></div></div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Password</label>
+    <div class="${inp('focus')}">${ic('lock')}<span class="flex-1 font-mono">••••••••••</span>${caret()}<span class="h-[18px] w-[18px] ${T3} [&>svg]:h-full [&>svg]:w-full">${ic('eye')}</span></div>
+    <div class="${SB}">${msg('hint', 'At least 8 characters')}</div></div>
+  <button class="${btn('pri')}"${g('home')}>Log in</button>
+  <div class="flex-1"></div>
+  <div class="flex items-center justify-center gap-1.5"><span class="${SM}">New to VAT?</span><button class="text-[12.5px] font-bold ${ACC}"${g('signup')}>Create an account</button></div>
+</div></div>`+ hind()
+    };
+
+    S.signup = {
+      t: 'Sign Up', mod: 'auth', tag: 'Auth', desc: 'Account creation with live password strength, inline validation and an explicit consent row. Phone is required because dispatch calls it.',
+      notes: ['Strength meter uses zxcvbn thresholds, computed client-side', 'Consent checkbox is unchecked by default and blocks submit', 'Phone is verified by SMS code in the next step'],
+      comps: ['SignupScreen', 'signupSchema (zod)', '<StrengthMeter/>', '<ConsentRow/>'],
+      render: () => `<div class="${BODY}"><div class="${SCRT} px-5 pb-5 pt-3">
+  <button class="${iconbtn()}"${g('welcome')} aria-label="Back">${ic('chevL')}</button>
+  <h1 class="${H1}">Create your account</h1><p class="${PP}">About 40 seconds. You can add your vehicle later.</p>
+  <div class="flex gap-2.5">
+    <div class="flex flex-1 flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">First name</label><div class="${inp()}"><span class="flex-1">Sarah</span></div></div>
+    <div class="flex flex-1 flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Last name</label><div class="${inp()}"><span class="flex-1">Mitchell</span></div></div></div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Email</label>
+    <div class="${inp('good')}">${ic('mail')}<span class="min-w-0 flex-1 truncate">sarah.mitchell@gmail.com</span></div></div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Mobile number</label>
+    <div class="${inp('focus')}">${ic('phone')}<span class="font-semibold ${T2}">+1</span><span class="flex-1 font-mono">(512) 555-0142</span>${caret()}</div>
+    ${msg('hint', 'We text a 6-digit code to verify this number')}</div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Password</label>
+    <div class="${inp()}">${ic('lock')}<span class="flex-1 font-mono">•••••••••••</span><span class="h-[18px] w-[18px] ${T3} [&>svg]:h-full [&>svg]:w-full">${ic('eyeOff')}</span></div>
+    <div class="flex items-center gap-1.5"><span class="h-1 flex-1 overflow-hidden rounded-full bg-road-200 dark:bg-road-600"><i class="block h-full w-[82%] rounded-full bg-ok-500"></i></span><span class="text-[11px] font-bold text-ok-500 dark:text-ok-400">Strong</span></div>
+    ${msg('good', 'Upper, lower, number and symbol — all set')}</div>
+  <div class="flex items-start gap-2.5">${cbx(true)}<span class="text-[11px] leading-relaxed ${T3}">I agree to the <b class="${ACC}">Terms of Service</b> and <b class="${ACC}">Privacy Policy</b>, including sharing my live location with an assigned partner during a job.</span></div>
+  <button class="${btn('pri')}"${g('otp')}>Send verification code</button>
+  <div class="flex items-center justify-center gap-1.5"><span class="${SM}">Joining as a service partner?</span><button class="text-[12.5px] font-bold ${ACC}"${g('pv-offer')}>Start here</button></div>
+</div></div>`+ hind()
+    };
+
+    S.otp = {
+      t: 'Code Verification', mod: 'auth', tag: 'Auth', desc: 'Six-digit SMS verification with autofill, a resend cooldown and a clear route to change a mistyped number.',
+      notes: ['iOS one-time-code autofill and Android SMS Retriever both wired', 'Resend disabled for 30s, then 3 attempts before a hard cooldown', 'Wrong code shakes the group and clears input, keeping focus'],
+      comps: ['OtpScreen', '<OtpInput autoComplete="one-time-code"/>', 'useResendTimer(30)'],
+      render: () => `<div class="${BODY}"><div class="${SCR} px-5 pb-5 pt-3">
+  <button class="${iconbtn()}"${g('signup')} aria-label="Back">${ic('chevL')}</button>
+  <div class="h-1"></div>
+  <h1 class="${H1}">Enter the 6-digit code</h1>
+  <p class="${PP}">Sent to <b class="${T1}">+1 (512) 555-0142</b>. <button class="font-bold ${ACC}"${g('signup')}>Change number</button></p>
+  <div class="h-2"></div>
+  <div class="flex gap-2.5">${['4', '8', '2', '', '', ''].map((d, i) => `<i class="grid h-[58px] flex-1 place-items-center rounded-[14px] border-[1.5px] not-italic ${SURF} font-mono text-2xl font-semibold ${T1} ${i === 3 ? 'border-rescue-500 ring-[3px] ring-rescue-50 dark:ring-rescue-900' : LINE}">${d}</i>`).join('')}</div>
+  <div class="${SB}">${msg('hint', 'Code expires in 4:52')}<span class="${XS}">Resend in <b class="font-mono ${T1}">00:24</b></span></div>
+  ${banner('info', 'Autofill will pick the code up from your messages — you may not need to type it.')}
+  <div class="flex-1"></div>
+  <button class="${btn('pri')}"${g('home')}>Verify and continue</button>
+  <button class="${btn('ghost', 'lg', 'h-[42px]')}">Get the code by call instead</button>
+</div></div>`+ hind()
+    };
+
+    S.matching = {
+      t: 'Finding a Partner', mod: 'request', tag: 'Live', desc: 'Dispatch in progress. The radius widens every 20 seconds and the screen narrates it, because silence here reads as failure.',
+      notes: ['Offer broadcast to the nearest 3 free partners, 25s each, then widen', 'Progress narration is real state, not a fake animation', 'Cancel is always available and reverses the authorization hold'],
+      comps: ['MatchingScreen', 'useDispatchSocket(requestId)', '<RadarPulse/>', 'AppState keep-awake'],
+      render: () => `<div class="${BODY}">${mapSvg()}
+  <div class="absolute inset-0 z-[2] bg-[rgba(8,12,17,.28)]"></div>
+  ${mdot('50%', '23%')}${mtruck('24%', '30%', 'truck', 'opacity-90')}${mtruck('76%', '9%', 'wrench', 'opacity-90')}
+  <div class="pointer-events-none absolute inset-0 z-[3] flex flex-col [&>*]:pointer-events-auto"><div class="px-4 py-3"><span class="${pill('dark')}">${livedot()}Dispatching · #VAT-48219</span></div></div>
+  <div class="${SHEET}"><div class="mx-auto mt-2.5 h-1 w-10 flex-none rounded-full bg-road-200 dark:bg-road-600"></div>
+   <div class="${SHEETSC}">
+    <div class="flex items-center gap-3">${spinner()}<div class="flex-1"><div class="${H2}">Finding your partner</div>
+      <div class="mt-0.5 ${SM}">Searching within <b class="font-mono ${T1}">2.8 miles</b> of S Congress</div></div>
+      <div class="flex flex-col items-center"><div class="${H3} font-mono">0:38</div><div class="${XS}">elapsed</div></div></div>
+    <div class="flex flex-col">
+      ${[['Request received and payment authorized', 'done', '9:41 PM'], ['Offered to 3 nearby partners', 'done', '9:41 PM'], ['Search widened to 2.8 miles', 'now', '9:42 PM'], ['Partner accepts and starts driving', '', '']]
+          .map((r, i, a) => `<div class="flex gap-3"><div class="flex w-[22px] flex-none flex-col items-center">
+        <span class="mt-px grid h-[22px] w-[22px] flex-none place-items-center rounded-full [&>svg]:h-3 [&>svg]:w-3 ${r[1] === 'done' ? 'bg-ok-500 text-white' : r[1] === 'now' ? 'bg-rescue-500 text-white ring-4 ring-rescue-50 dark:ring-rescue-900' : 'bg-road-200 ' + T3 + ' dark:bg-road-600'}">${ic(r[1] === 'done' ? 'check' : r[1] === 'now' ? 'nav' : 'clock')}</span>
+        ${i < a.length - 1 ? `<span class="my-0.5 min-h-[20px] w-0.5 flex-1 ${r[1] === 'done' ? 'bg-ok-500' : 'bg-road-200 dark:bg-road-600'}"></span>` : ''}</div>
+        <div class="min-w-0 flex-1 pb-4"><div class="${SB}"><span class="text-[12.5px] font-semibold ${T1}">${r[0]}</span><span class="${XS} font-mono">${r[2]}</span></div></div></div>`).join('')}</div>
+    ${banner('info', 'Most Austin jobs are accepted in under 90 seconds. Keep the app open and we’ll buzz you.')}
+    <button class="${btn('sec')}"${g('tracking')}>Simulate: partner accepted</button>
+    <button class="${btn('ghost', 'lg', 'h-[42px] text-err-500 dark:text-err-400')}"${g('home')}>Cancel request</button>
+   </div></div>`+ hind()
+    };
+
+    S.tracking = {
+      t: 'Live Tracking', mod: 'request', tag: 'Live', desc: 'The screen a stranded customer stares at. Partner identity, live position, ETA and one-tap contact — everything else is secondary.',
+      notes: ['Location socket at 5s intervals, downgraded to 15s in low-power mode', 'Call and chat are 48px targets, reachable one-handed', 'Share-trip pushes a public tracking link to a chosen contact'],
+      comps: ['TrackingScreen', 'useJobSocket(jobId)', '<PartnerSheet/>', '<ShareTripButton/>', 'MapView.animateCamera'],
+      render: () => `<div class="${BODY}">${mapSvg('provider')}${mdot('50%', '23%')}${mtruck('20%', '29%')}
+  <div class="pointer-events-none absolute inset-0 z-[3] flex flex-col [&>*]:pointer-events-auto">
+    <div class="flex items-center px-4 py-3"><button class="${iconbtn('shadow-lift')}"${g('home')} aria-label="Back">${ic('chevL')}</button>
+      <span class="${pill('dark', 'ml-auto')}">${livedot()}Live · updated 3s ago</span></div>
+    ${mctl('340px', [['target', 'Recenter'], ['share', 'Share trip']])}</div>
+  <div class="${SHEET}"><div class="mx-auto mt-2.5 h-1 w-10 flex-none rounded-full bg-road-200 dark:bg-road-600"></div>
+   <div class="${SHEETSC}">
+    <div class="${SB}"><span class="${pill('acc')}">${livedot()}On the way</span><span class="${XS} font-mono">#VAT-48213</span></div>
+    <div class="flex items-center gap-3.5"><div class="flex min-w-[64px] flex-col items-center"><div class="font-display text-[38px] font-extrabold tracking-tight ${ACC}">7</div><div class="${XS}">min away</div></div>
+      <div class="min-w-0 flex-1"><div class="${H3}">Marcus Reed</div><div class="mt-0.5 ${XS}">Lone Star Towing</div>
+        <div class="mt-1.5 flex items-center gap-1.5">${stars(5)}<span class="${XS} font-mono">4.9 · 312 jobs</span></div>
+        <div class="mt-1.5 flex gap-1.5"><span class="${pill('none')}">${ic('truck')}Ford F-350 · TX 8RD-2291</span></div></div>
+      ${av('MR', 'h-14 w-14 text-[18px]', '#1F6F5C')}</div>
+    <div class="flex gap-2"><button class="${btn('sec', 'md', 'flex-1')}">${ic('chat')}Message</button>
+      <button class="${btn('sec', 'md', 'flex-1')}">${ic('phone')}Call</button>
+      <button class="${btn('pri', 'md', 'w-[52px] px-0')}" aria-label="Share trip">${ic('share')}</button></div>
+    <div class="h-px bg-road-100 dark:bg-road-800"></div>
+    <div class="flex flex-col">
+      ${[['Accepted by Marcus', '9:42 PM · 0.8 miles away', 'done'], ['Driving to you', 'Crossing Riverside Drive now', 'now'], ['Work starts on arrival', 'You’ll get a 4-digit start code', '']]
+          .map((r, i, a) => `<div class="flex gap-3"><div class="flex w-[22px] flex-none flex-col items-center">
+        <span class="mt-px grid h-[22px] w-[22px] flex-none place-items-center rounded-full [&>svg]:h-3 [&>svg]:w-3 ${r[2] === 'done' ? 'bg-ok-500 text-white' : r[2] === 'now' ? 'bg-rescue-500 text-white ring-4 ring-rescue-50 dark:ring-rescue-900' : 'bg-road-200 ' + T3 + ' dark:bg-road-600'}">${ic(r[2] === 'done' ? 'check' : r[2] === 'now' ? 'nav' : 'wrench')}</span>
+        ${i < a.length - 1 ? `<span class="my-0.5 min-h-[20px] w-0.5 flex-1 ${r[2] === 'done' ? 'bg-ok-500' : 'bg-road-200 dark:bg-road-600'}"></span>` : ''}</div>
+        <div class="min-w-0 flex-1 pb-4"><div class="text-[12.5px] font-semibold ${r[2] ? T1 : T2}">${r[0]}</div><div class="${XS}">${r[1]}</div></div></div>`).join('')}</div>
+    <button class="${btn('ghost', 'lg', 'h-[42px] text-err-500 dark:text-err-400')}"${g('home')}>Cancel · $15 fee applies</button>
+   </div></div>`+ hind()
+    };
+
+    S['in-progress'] = {
+      t: 'Service in Progress', mod: 'request', tag: 'Live', desc: 'Post-arrival state. The customer confirms the start code, then watches a step checklist the partner ticks off in real time.',
+      notes: ['4-digit start code prevents "partner marked arrived from 3 miles away"', 'Each checklist tick is a socket event with a timestamp', 'Any price change mid-job requires explicit customer approval'],
+      comps: ['JobProgressScreen', '<StartCodeCard/>', 'useJobSocket(jobId)', '<ApprovalSheet/>'],
+      render: () => `<div class="${BODY}">${nav({ back: 'tracking', title: 'Job in progress', right: `<button class="${iconbtn()}" aria-label="Help">${ic('help')}</button>` })}
+ <div class="${SCR}">
+  <div class="${tint('acc', 'flex flex-col items-center gap-2 p-[18px]')}"><span class="${LBL} ${ACC}">Start code · read this out</span>
+    <span class="font-mono text-[38px] font-semibold tracking-[10px] ${ACC}">4821</span>
+    <span class="max-w-[30ch] text-center ${XS}">Marcus enters this to start the clock. Never share it before the partner is standing at your vehicle.</span></div>
+  <div class="${card('flex items-center gap-3')}">${av('MR', 'h-11 w-11 text-[14px]', '#1F6F5C')}<div class="min-w-0 flex-1"><div class="${H4}">Marcus Reed · arrived 9:51 PM</div><div class="mt-0.5 ${XS}">Working on the front left wheel</div></div>
+    <button class="${iconbtn()}" aria-label="Call">${ic('phone')}</button></div>
+  <div class="${card()}"><div class="${SB} mb-3"><span class="${LBL}">Progress</span><span class="${pill('acc')}">${livedot()}Step 3 of 5</span></div>
+    <div class="flex flex-col">
+      ${[['Vehicle secured, hazards and cones out', 'done', '9:52'], ['Wheel loosened and jacked up', 'done', '9:55'], ['Mounting your spare', 'now', '9:58'], ['Torque check and pressure set', '', ''], ['Damaged wheel stowed in trunk', '', '']]
+          .map((r, i, a) => `<div class="flex gap-3"><div class="flex w-[22px] flex-none flex-col items-center">
+        <span class="mt-px grid h-[22px] w-[22px] flex-none place-items-center rounded-full [&>svg]:h-3 [&>svg]:w-3 ${r[1] === 'done' ? 'bg-ok-500 text-white' : r[1] === 'now' ? 'bg-rescue-500 text-white ring-4 ring-rescue-50 dark:ring-rescue-900' : 'bg-road-200 ' + T3 + ' dark:bg-road-600'}">${ic(r[1] === 'done' ? 'check' : r[1] === 'now' ? 'wrench' : 'clock')}</span>
+        ${i < a.length - 1 ? `<span class="my-0.5 min-h-[20px] w-0.5 flex-1 ${r[1] === 'done' ? 'bg-ok-500' : 'bg-road-200 dark:bg-road-600'}"></span>` : ''}</div>
+        <div class="min-w-0 flex-1 pb-4"><div class="${SB}"><span class="text-[12.5px] ${r[1] ? 'font-semibold ' + T1 : T2}">${r[0]}</span><span class="${XS} font-mono">${r[2]}</span></div></div></div>`).join('')}</div></div>
+  <div class="${tint('warn', 'flex items-start gap-2.5')}"><span class="h-5 w-5 flex-none [&>svg]:h-full [&>svg]:w-full">${ic('alert')}</span>
+    <div class="flex-1"><div class="${H4} text-warn-500 dark:text-warn-400">Extra work proposed: $35</div>
+      <div class="mt-1 text-[12.5px] leading-snug text-warn-500 dark:text-warn-400">The valve stem is cracked and needs replacing. Nothing is charged unless you approve.</div>
+      <div class="mt-2.5 flex gap-2"><button class="${btn('sec', 'xs')}">Decline</button><button class="${btn('pri', 'xs', 'bg-warn-500 shadow-none')}">Approve $35</button></div></div></div>
+  <button class="${btn('sec')}"${g('complete')}>Simulate: partner marks complete</button>
+ </div>`+ hind()
+    };
+
+    S.complete = {
+      t: 'Job Complete', mod: 'request', tag: 'Flow', desc: 'Completion summary with before/after evidence, the final line items and the release-payment action.',
+      notes: ['Partner photos are mandatory on completion for dispute handling', 'Customer must release payment or raise an issue within 24h, else auto-release', 'Duration is measured from start-code entry, not from acceptance'],
+      comps: ['JobCompleteScreen', '<EvidenceGallery/>', 'useReleasePaymentMutation()'],
+      render: () => `<div class="${BODY}">${nav({ back: 'in-progress', title: 'Job complete' })}
+ <div class="${SCR}">
+  <div class="${tint('ok', 'flex flex-col items-center gap-2 p-5')}"><span class="grid h-[52px] w-[52px] place-items-center rounded-full bg-ok-500 text-white [&>svg]:h-[26px] [&>svg]:w-[26px]">${ic('check')}</span>
+    <span class="${H2} text-ok-500 dark:text-ok-400">Spare is on, you’re good to go</span>
+    <span class="text-center text-[12.5px] text-ok-500 dark:text-ok-400">Marcus finished at 10:04 PM · 13 minutes on site</span></div>
+  <div><div class="${LBL} mb-2">Partner’s photos</div><div class="flex gap-2">
+    ${['Before', 'After', 'Torque check'].map(t => `<div class="flex-1"><div class="grid h-[82px] place-items-center rounded-[13px] bg-road-100 ${T3} dark:bg-road-800 [&>svg]:h-6 [&>svg]:w-6">${ic('image')}</div><div class="mt-1 text-center ${XS}">${t}</div></div>`).join('')}</div></div>
+  <div class="${card()}"><div class="${LBL} mb-2.5">Final bill</div>
+    ${[['Flat tire · base', '$79.00'], ['After-hours surcharge', '$12.00'], ['Valve stem replacement (approved)', '$35.00'], ['Sales tax 8.25%', '$10.40']]
+          .map(r => `<div class="${SB} py-1"><span class="${SM}">${r[0]}</span><span class="${MONEY} text-[12.5px] ${T1}">${r[1]}</span></div>`).join('')}
+    <div class="my-2 h-px bg-road-100 dark:bg-road-800"></div><div class="${SB}"><span class="${H3}">Total</span><span class="${MONEY} text-[20px] ${T1}">$136.40</span></div>
+    <div class="mt-1.5 ${XS}">Held on Chase •••• 4412 since 9:41 PM</div></div>
+  ${banner('info', 'Not happy with the work? Raise an issue before 10:04 PM tomorrow and we’ll hold the payment.')}
+ </div>
+ <div class="${FOOT}"><button class="${btn('pri')}"${g('payment')}>Release $136.40 to Marcus</button>
+  <button class="${btn('ghost', 'lg', 'h-10 text-err-500 dark:text-err-400')}">Something was wrong</button></div>` + hind()
+    };
+
+    S.payment = {
+      t: 'Payment', mod: 'request', tag: 'Checkout', desc: 'Payment capture with method switching, split visibility and the commission line the platform takes. Processing state is explicit, never a frozen button.',
+      notes: ['Method list is ordered by last successful use', 'Apple Pay, cards and wallet all resolve to one confirm action', 'Button locks and shows a spinner; back is blocked while capturing'],
+      comps: ['PaymentScreen', 'useCapturePaymentMutation()', 'Stripe SDK', '<MethodList/>'],
+      render: () => `<div class="${BODY}">${nav({ back: 'complete', title: 'Confirm payment' })}
+ <div class="${SCR}">
+  <div class="${card('flex flex-col items-center gap-1 p-5')}"><span class="${LBL}">Amount due</span>
+    <span class="${MONEY} text-[40px] tracking-[-2px] ${T1}">$136.40</span>
+    <span class="${XS}">Job #VAT-48213 · Marcus Reed</span></div>
+  <div><div class="${LBL} mb-2">Pay with</div><div class="${group()}">
+    ${[['card', 'Chase •••• 4412', 'Authorized · expires 08/28', 1], ['phoneD', 'Apple Pay', 'Face ID to confirm', 0], ['wallet', 'VAT Wallet', 'Balance $24.00 — not enough alone', 0]]
+          .map(m => `<div class="${lrow()}"><span class="${iconbox(m[3] ? 'acc' : 'none')}">${ic(m[0])}</span><span class="min-w-0 flex-1"><span class="block ${H4}">${m[1]}</span><span class="block ${XS}">${m[2]}</span></span>${rad(m[3])}</div>`).join('')}
+    </div></div>
+  <div class="${card('shadow-none')}"><div class="${LBL} mb-2.5">Where the money goes</div>
+    ${[['Marcus Reed receives', '$103.32'], ['VAT platform commission · 18%', '$22.68'], ['Sales tax remitted', '$10.40']]
+          .map(r => `<div class="${SB} py-1"><span class="${SM}">${r[0]}</span><span class="${MONEY} text-[12.5px] ${T1}">${r[1]}</span></div>`).join('')}
+    <div class="mt-2 ${XS}">Partners see this exact split in their earnings screen.</div></div>
+  <div class="flex items-center justify-center gap-2"><span class="h-[15px] w-[15px] text-ok-500 [&>svg]:h-full [&>svg]:w-full">${ic('lock')}</span><span class="${XS}">PCI-DSS compliant · card details never touch VAT servers</span></div>
+ </div>
+ <div class="${FOOT}"><button class="${btn('pri')}"${g('receipt')}>${ic('lock')}Pay $136.40 securely</button></div>` + hind()
+    };
+
+    S['pv-offer'] = {
+      t: 'Job Offer', mod: 'partner', tag: 'Partner', desc: 'The accept-or-decline moment, on a countdown. Everything a partner needs to judge the job is on one screen with no scrolling.',
+      notes: ['25-second countdown with haptics at 10s and 5s', 'Net payout shown, never gross — partners think in take-home', 'Declining asks for a reason once every five declines'],
+      comps: ['JobOfferScreen', 'useOfferCountdown(25)', 'expo-haptics', '<PayoutBreakdown/>'],
+      render: () => `<div class="${BODY}">${mapSvg('provider')}${mdot('50%', '23%')}${mtruck('20%', '29%')}
+  <div class="pointer-events-none absolute inset-0 z-[3] flex flex-col [&>*]:pointer-events-auto"><div class="px-4 py-3"><span class="${pill('dark')}">${livedot()}Offer · 1 of 3 partners</span></div></div>
+  <div class="${SHEET}"><div class="mx-auto mt-2.5 h-1 w-10 flex-none rounded-full bg-road-200 dark:bg-road-600"></div>
+   <div class="${SHEETSC}">
+    <div class="${SB}"><span class="${H2}">Flat tire</span><span class="${pill('err')} font-mono">0:22 left</span></div>
+    ${prog(64)}
+    <div class="flex gap-2.5">${[['0.8 mi', 'to pickup', 0], ['~4 min', 'drive', 0], ['$64.78', 'you get', 1]]
+          .map(s => `<div class="${card('flex flex-1 flex-col items-center gap-0.5 p-2.5 shadow-none')} ${s[2] ? '!border-transparent bg-ok-50 dark:bg-ok-900' : ''}"><span class="${H3} font-mono ${s[2] ? 'text-ok-500 dark:text-ok-400' : ''}">${s[0]}</span><span class="${XS} text-center">${s[1]}</span></div>`).join('')}</div>
+    <div class="${card('shadow-none')}">
+      ${[['pin', 'S Congress Ave at Barton Springs, by the food trailers', 1], ['car', '2022 Honda Civic Sport · Platinum · <span class="font-mono">KJH-4821</span>', 0],
+        ['doc', 'Front left tire, no spare mounted. Clipped a curb. Spare is under the trunk mat.', 0], ['user', 'Sarah M. · 4.9 ★ customer · with the vehicle', 0]]
+          .map(r => `<div class="flex items-start gap-2.5 py-1"><span class="h-[18px] w-[18px] flex-none ${r[2] ? ACC : T3} [&>svg]:h-full [&>svg]:w-full">${ic(r[0])}</span><span class="flex-1 text-[12.5px] ${r[2] ? T1 : T2}">${r[1]}</span></div>`).join('')}</div>
+    <div class="${card('shadow-none')}"><div class="${SB} py-0.5"><span class="${SM}">Job fare</span><span class="${MONEY} text-[12.5px] ${T1}">$79.00</span></div>
+      <div class="${SB} py-0.5"><span class="${SM}">VAT commission 18%</span><span class="${MONEY} text-[12.5px] ${T1}">−$14.22</span></div>
+      <div class="my-1.5 h-px bg-road-100 dark:bg-road-800"></div>
+      <div class="${SB}"><span class="${H4}">Your payout</span><span class="${MONEY} text-[17px] text-ok-500 dark:text-ok-400">$64.78</span></div></div>
+    <div class="flex gap-2"><button class="${btn('sec', 'lg', 'w-[120px]')}"${g('home')}>Decline</button>
+      <button class="${btn('pri', 'lg', 'flex-1')}"${g('tracking')}>Accept job</button></div>
+   </div></div>`+ hind()
+    };
+
+    S.home = {
+      t: 'Home', mod: 'request', tag: 'Core', desc: 'One question, one answer: what has happened to your vehicle. Eight services, a confirmed location, and any live job pinned on top.',
+      notes: ['Active job outranks everything — it is the only thing that can push the grid down', 'Location is resolved to an address, never coordinates', 'No promos, no upsells: the grid is the whole screen'],
+      comps: ['HomeScreen', 'useActiveRequest()', '<ServiceGrid/>'],
+      render: () => `<div class="${BODY}"><div class="${SCR}">
+  <div class="${SB}">
+    <div><div class="${XS}">Good afternoon</div><div class="${H2}">Sarah</div></div>
+    ${meAvatar('h-10 w-10 text-[13px]')}</div>
+  <button class="${card('flex items-center gap-2.5 px-3.5 py-2.5 text-left')}"${g('request')}>
+    <span class="h-[18px] w-[18px] flex-none ${ACC} [&>svg]:h-full [&>svg]:w-full">${ic('pin')}</span>
+    <span class="min-w-0 flex-1"><span class="block ${XS}">Your location</span><span class="block truncate text-[12.5px] font-semibold ${T1}">S Congress Ave · Austin, TX</span></span>${chevr()}</button>
+  <div class="${card('overflow-hidden border-rescue-500 p-0 shadow-[0_6px_22px_rgba(217,72,15,.16)]')}">
+    <div class="flex items-center gap-2 bg-rescue-50 px-3.5 py-3 dark:bg-rescue-900"><span class="${pill('solid')}">${livedot()}Partner en route</span><span class="ml-auto font-mono text-[11px] font-bold ${ACC}">#VAT-48213</span></div>
+    <div class="flex items-center gap-3 px-3.5 py-3">${av('MR', 'h-11 w-11 text-[14px]', '#1F6F5C')}
+      <div class="min-w-0 flex-1"><div class="${H4}">Marcus Reed</div><div class="mt-0.5 ${XS}">Flat tire · Honda Civic</div></div>
+      <div class="flex flex-col items-center"><div class="${H2} font-mono ${ACC}">7</div><div class="${XS}">min</div></div></div>
+    <div class="px-3.5 pb-3.5"><button class="${btn('pri', 'sm', 'w-full')}"${g('tracking')}>${ic('nav')}Track live</button></div></div>
+  <div class="${LBL}">What do you need?</div>
+  <div class="grid grid-cols-3 gap-2.5">${SERVICES.map(s => svcTile(s)).join('')}</div>
+  <div class="h-2"></div>
+</div></div>`+ tabs('home') + hind()
+    };
+
+    S.request = {
+      t: 'Request Help', mod: 'request', tag: 'Flow', desc: 'The whole request on one screen: what broke, where you are, which vehicle, and the price — agreed before any partner is contacted.',
+      notes: ['One screen, not a three-step wizard — a stranded driver should not paginate', 'The total is shown before the CTA, never after', 'Nothing is charged until the job is complete'],
+      comps: ['RequestScreen', 'useCreateRequestMutation()', 'requestSchema (zod)', '<FareBreakdown/>'],
+      render: () => `<div class="${BODY}">${nav({ back: 'home', title: 'Flat tire' })}
+ <div class="${SCR}">
+  <div class="${group()}">
+    <div class="${lrow()}"><span class="${iconbox('acc')}">${ic('pin')}</span>
+      <span class="min-w-0 flex-1"><span class="block ${H4}">S Congress Ave at Barton Springs</span><span class="block ${XS}">Austin, TX 78704 · accurate to 26 ft</span></span>
+      <button class="${btn('sec', 'xs')}">Edit</button></div>
+    <div class="${lrow()}"><span class="${iconbox()}">${ic('car')}</span>
+      <span class="min-w-0 flex-1"><span class="block ${H4}">2022 Honda Civic Sport</span><span class="block font-mono ${XS}">KJH-4821</span></span>
+      <span class="${pill('none')}">Change</span></div></div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">What is wrong?</label>
+    <div class="flex flex-wrap gap-2">${[['Front left tire', 1], ['Rear left tire', 0], ['No spare in car', 1], ['Tire is shredded', 0]].map(c => fchip(c[0], c[1], 1)).join('')}</div></div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Anything the partner should know?</label>
+    <div class="${inp('', 'h-auto min-h-[76px] items-start py-3.5 text-[14px]')}"><span class="flex-1 ${T3}">Clipped the curb. Spare is under the trunk mat.</span></div></div>
+  <div class="${card()}">
+    ${[['Flat tire · base', '$79.00'], ['Sales tax 8.25%', '$6.52']].map(r => `<div class="${SB} py-1"><span class="${SM}">${r[0]}</span><span class="${MONEY} text-[12.5px] ${T1}">${r[1]}</span></div>`).join('')}
+    <div class="my-2 h-px bg-road-100 dark:bg-road-800"></div>
+    <div class="${SB}"><span class="${H3}">Total</span><span class="${MONEY} text-[20px] ${T1}">$85.52</span></div>
+    <div class="mt-2 ${XS}">Charged to Chase •••• 4412 when the job is done</div></div>
+  ${banner('info', 'Free cancellation until a partner accepts.')}
+ </div>
+ <div class="${FOOT}"><button class="${btn('pri')}"${g('matching')}>${ic('sos')}Request assistance</button></div>` + hind()
+    };
+
+    S.activity = {
+      t: 'Activity', mod: 'account', tag: 'List', desc: 'Every job with its state and what it cost. Nothing else.',
+      notes: ['Live job pinned above history', 'Amount and state are readable without opening the row', 'Receipts are attached to the job, not filed separately'],
+      comps: ['ActivityScreen', 'useInfiniteQuery(jobs)'],
+      render: () => `<div class="${BODY}">${nav({ back: false, title: 'Activity' })}
+ <div class="${SCRT}">
+  <div class="${LBL}">Active</div>
+  <button class="${card('flex items-center gap-3 border-rescue-500 text-left')}"${g('tracking')}>
+    <span class="${iconbox('acc')}">${ic('tyre')}</span>
+    <span class="min-w-0 flex-1"><span class="${SB}"><span class="${H4}">Flat tire</span><span class="${pill('solid')}">${livedot()}En route</span></span>
+    <span class="mt-1 block ${XS}">Marcus Reed · 7 min away</span></span></button>
+  <div class="${LBL} mt-1">Earlier</div>
+  ${[['battery', 'Jump start', 'Aug 12 · Mueller', '$70.36'], ['truck', 'Tow to Howdy Honda', 'Jul 28 · I-35', '$203.71'], ['fuel', 'Fuel delivery', 'Jul 19 · The Domain', '$61.24'], ['tyre', 'Flat tire', 'Jun 14 · MoPac', '$89.15']]
+          .map(r => `<div class="${card('flex items-center gap-3')}">
+    <span class="grid h-[38px] w-[38px] flex-none place-items-center rounded-xl ${SURF2} ${T2} [&>svg]:h-[19px] [&>svg]:w-[19px]">${ic(r[0])}</span>
+    <span class="min-w-0 flex-1"><span class="${SB}"><span class="${H4} truncate">${r[1]}</span><span class="${MONEY} text-[12.5px] ${T1}">${r[3]}</span></span>
+    <span class="${SB} mt-1"><span class="${XS}">${r[2]}</span><span class="${pill('ok')}">Completed</span></span></span></div>`).join('')}
+  <div class="h-2"></div>
+ </div>`+ tabs('activity') + hind()
+    };
+
+    S.receipt = {
+      t: 'Payment Complete', mod: 'payment', tag: 'Success', desc: 'Confirmation with the commission split visible — the customer sees exactly what the partner was paid and what the platform kept.',
+      notes: ['Payment deserves a full screen, not a toast', 'The split is disclosed here and matches the partner ledger exactly', 'Receipt is emailed without being asked for'],
+      comps: ['PaymentSuccessScreen', 'useReceipt(jobId)'],
+      render: () => `<div class="${BODY}"><div class="${SCR} p-5">
+  <div class="flex-1"></div>
+  <div class="flex flex-col items-center gap-3.5">
+    <div class="grid h-[84px] w-[84px] place-items-center rounded-full bg-ok-50 dark:bg-ok-900">
+      <div class="grid h-14 w-14 place-items-center rounded-full bg-ok-500 text-white [&>svg]:h-7 [&>svg]:w-7">${ic('check')}</div></div>
+    <div class="${H1} text-center">Paid $136.40</div>
+    <p class="max-w-[32ch] text-center ${PP}">Marcus has been paid. Your receipt is on its way to sarah.mitchell@gmail.com.</p>
+    <div class="${card('w-full')}"><div class="${LBL} mb-2.5">Where the money went</div>
+      ${[['Marcus Reed receives', '$103.32'], ['VAT commission · 18%', '$22.68'], ['Sales tax remitted', '$10.40']]
+          .map(r => `<div class="${SB} py-1"><span class="${SM}">${r[0]}</span><span class="${MONEY} text-[12.5px] ${T1}">${r[1]}</span></div>`).join('')}</div>
+    <div class="${card('w-full shadow-none')}">
+      ${[['Transaction', 'TXN-9F2A41C8'], ['Method', 'Chase •••• 4412'], ['Job', '#VAT-48213']]
+          .map(r => `<div class="${SB} py-1"><span class="${SM}">${r[0]}</span><span class="font-mono text-[11px] ${T1}">${r[1]}</span></div>`).join('')}</div>
+  </div><div class="flex-1"></div>
+  <button class="${btn('pri')}"${g('home')}>Done</button>
+</div></div>`+ hind()
+    };
+
+    S.profile={t:'Profile',mod:'account',tag:'Account',desc:'Identity, vehicle and payment at the top; preferences and legal below; the two irreversible actions alone at the bottom.',
+ notes:['Destructive actions are separated from everything benign and coloured apart','Every row states its current value, so nothing needs opening to be read','Log out and Delete both confirm in a dialog — neither fires on a single tap'],
+ comps:['ProfileScreen','useProfile()','<SettingsGroup/>'],
+ render:()=>`<div class="${BODY}">${nav({back:false,title:'Profile'})}
+ <div class="${SCRT}">
+  <div class="${card('flex items-center gap-3.5')}">${meAvatar('h-16 w-16 text-[20px]')}
+    <div class="min-w-0 flex-1"><div class="${H2}">Sarah Mitchell</div><div class="mt-1 truncate ${XS}">sarah.mitchell@gmail.com</div>
+      <div class="mt-0.5 font-mono ${XS}">+1 (512) 555-0142</div></div></div>
+  <button class="${btn('sec','md')}"${g('edit-profile')}>${ic('edit')}Edit profile</button>
+  <div class="${group()}">
+    <div class="${lrow()}"><span class="${iconbox('acc')}">${ic('car')}</span>
+      <span class="min-w-0 flex-1"><span class="block ${H4}">2022 Honda Civic Sport</span><span class="block font-mono ${XS}">KJH-4821 · TX</span></span>${chevr()}</div>
+    <div class="${lrow()}"><span class="${iconbox('info')}">${ic('card')}</span>
+      <span class="min-w-0 flex-1"><span class="block ${H4}">Chase •••• 4412</span><span class="block ${XS}">Default payment method</span></span>${chevr()}</div></div>
+  <div class="${group()}">
+    <div class="${lrow()}"${g('appearance')}><span class="${iconbox()}">${ic('sun')}</span><span class="flex-1 ${H4}">Appearance</span><span class="${SM}" data-theme-label>Light</span>${chevr()}</div>
+    <div class="${lrow()}"${g('terms')}><span class="${iconbox()}">${ic('doc')}</span><span class="flex-1 ${H4}">Terms of Use</span>${chevr()}</div>
+    <div class="${lrow()}"${g('privacy')}><span class="${iconbox()}">${ic('lock')}</span><span class="flex-1 ${H4}">Privacy Policy</span>${chevr()}</div></div>
+  <div class="${group()}">
+    <div class="${lrow()}"${g('logout')}><span class="${iconbox()}">${ic('logout')}</span><span class="flex-1 ${H4}">Log out</span>${chevr()}</div>
+    <div class="${lrow()}"${g('delete-account')}><span class="${iconbox('err')}">${ic('trash')}</span><span class="flex-1 ${H4} text-err-500 dark:text-err-400">Delete account</span>${chevr()}</div></div>
+  <div class="pb-2 pt-1 text-center ${XS}">VAT v1.4.0 (482) · Austin, TX</div>
+ </div>`+tabs('profile')+hind()};
+
+S['edit-profile']={t:'Edit Profile',mod:'account',tag:'Form',desc:'Name, email and phone, plus the photo. Changing email or phone re-verifies, and the screen says so before you type.',
+ notes:['Save stays disabled until the form is dirty and valid','Email and phone changes are queued behind verification, not applied silently','Tapping the photo opens the cropper rather than saving the raw camera roll image'],
+ comps:['EditProfileScreen','useForm + zodResolver','useUpdateProfileMutation()','<AvatarPicker/>'],
+ render:()=>`<div class="${BODY}">${nav({back:'profile',title:'Edit profile',right:`<button class="${btn('soft','xs')}"${g('profile')}>Save</button>`})}
+ <div class="${SCR}">
+  <div class="flex flex-col items-center gap-2.5">
+    <button class="relative flex-none" onclick="chooseAvatar()">${meAvatar('h-[92px] w-[92px] text-[30px]')}
+      <span class="absolute bottom-0 right-0 grid h-8 w-8 place-items-center rounded-full border-[3px] border-white bg-rescue-500 text-white dark:border-road-925 [&>svg]:h-4 [&>svg]:w-4">${ic('camera')}</span></button>
+    <button class="text-[12px] font-bold ${ACC}" onclick="chooseAvatar()">Change photo</button></div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Full name</label>
+    <div class="${inp('focus')}">${ic('user')}<span class="flex-1">Sarah Mitchell</span>${caret()}</div></div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Email</label>
+    <div class="${inp()}">${ic('mail')}<span class="min-w-0 flex-1 truncate">sarah.mitchell@gmail.com</span><span class="${pill('ok')}">${ic('check')}Verified</span></div>
+    ${msg('hint','Changing this sends a verification link to the new address')}</div>
+  <div class="flex flex-col gap-1.5"><label class="text-[12.5px] font-semibold ${T2}">Phone number</label>
+    <div class="${inp()}">${ic('phone')}<span class="font-semibold ${T2}">+1</span><span class="flex-1 font-mono">(512) 555-0142</span><span class="${pill('ok')}">${ic('check')}Verified</span></div>
+    ${msg('hint','We text a 6-digit code before a new number is used for dispatch')}</div>
+ </div>
+ <div class="${FOOT}"><div class="flex gap-2"><button class="${btn('sec','md','w-[110px]')}"${g('profile')}>Cancel</button>
+  <button class="${btn('pri','md','flex-1')}"${g('profile')}>Save changes</button></div></div>`+hind()};
+
+S.crop={t:'Crop Photo',mod:'account',tag:'Editor',desc:'Free-form crop: drag the box to move it, drag any corner to resize. Done rasterises the selected region — the app uploads the crop, not the camera-roll original.',
+ notes:['No forced aspect ratio; Square is offered as a one-tap constraint for the avatar','The crop box is clamped to the image, with a 48px floor so it cannot collapse','Output is drawn to a canvas at up to 512px and re-encoded, which also strips EXIF'],
+ comps:['<FreeCropper/>','pointer events (move + 4 corner handles)','canvas.drawImage → toDataURL'],
+ render:()=>`<div class="${BODY} bg-[#0B0F14] dark:bg-[#0B0F14]">
+  <div class="relative z-[5] flex flex-none items-center justify-between px-4 pb-3 pt-1.5">
+    <button class="text-[14px] font-semibold text-white/80"${g('edit-profile')}>Cancel</button>
+    <span class="font-display text-[15px] font-bold text-white">${userPhoto ? 'Crop photo' : 'Choose a photo'}</span>
+    <button class="text-[14px] font-bold text-rescue-400" onclick="applyCrop()">Done</button></div>
+  <div id="cropStage" class="relative flex-1 touch-none overflow-hidden select-none">
+    ${userPhoto
+      ? `<img id="cropImg" src="${userPhoto}" alt="" class="pointer-events-none absolute inset-0 h-full w-full object-contain" onload="initCrop()">
+    <div id="dimT" class="pointer-events-none absolute bg-black/60"></div>
+    <div id="dimB" class="pointer-events-none absolute bg-black/60"></div>
+    <div id="dimL" class="pointer-events-none absolute bg-black/60"></div>
+    <div id="dimR" class="pointer-events-none absolute bg-black/60"></div>
+    <div id="cropBox" class="absolute cursor-move border-2 border-white/95 [box-shadow:0_0_0_9999px_rgba(0,0,0,0)]">
+      <div class="pointer-events-none absolute inset-0 [background:repeating-linear-gradient(0deg,transparent_0_calc(33.33%-1px),rgba(255,255,255,.35)_calc(33.33%-1px)_33.33%),repeating-linear-gradient(90deg,transparent_0_calc(33.33%-1px),rgba(255,255,255,.35)_calc(33.33%-1px)_33.33%)]"></div>
+      ${[['nw','-left-2 -top-2 cursor-nwse-resize'],['ne','-right-2 -top-2 cursor-nesw-resize'],['sw','-bottom-2 -left-2 cursor-nesw-resize'],['se','-bottom-2 -right-2 cursor-nwse-resize']]
+        .map(h=>`<span data-h="${h[0]}" class="absolute ${h[1]} h-6 w-6 rounded-[6px] border-2 border-white bg-white/25"></span>`).join('')}
+    </div>`
+      : `<div class="absolute inset-0 [background:radial-gradient(ellipse_70%_50%_at_50%_38%,#5A6B7A,#222B34_70%)]"></div>
+    <div class="absolute inset-0 grid place-items-center [&>svg]:h-40 [&>svg]:w-40 [&>svg]:text-white/15">${ic('user')}</div>`}
+  </div>
+  <div class="relative z-[5] flex flex-none flex-col gap-3 px-5 pb-6 pt-4">
+    <div class="flex items-center justify-center gap-2">
+      <span class="font-mono text-[11px] text-white/55" id="cropRatio">drag to adjust</span></div>
+    <div class="flex justify-center gap-2">
+      <button class="${BTN_BASE} ${BTN_SIZE.sm} ${cropAspect ? 'border border-white/20 bg-white/10 text-white' : 'bg-white text-ink'}" onclick="setCropAspect(0)">Free</button>
+      <button class="${BTN_BASE} ${BTN_SIZE.sm} ${cropAspect ? 'bg-white text-ink' : 'border border-white/20 bg-white/10 text-white'}" onclick="setCropAspect(1)">Square</button>
+      <button class="${BTN_BASE} ${BTN_SIZE.sm} border border-white/20 bg-white/10 text-white" onclick="chooseAvatar()">${ic('camera')}Choose</button></div>
+  </div>`+hind()};
+
+S.appearance={t:'Appearance',mod:'account',tag:'Settings',desc:'Light, Dark or System. This one is live — picking an option re-themes the prototype immediately.',
+ notes:['System follows the OS and updates when the OS switches, without a relaunch','The choice persists across sessions','Every surface is themed from tokens, so nothing needs a per-screen override'],
+ comps:['AppearanceScreen','useSettingsStore()','Appearance.getColorScheme()'],
+ render:()=>{
+  let cur='light'; try{ cur=localStorage.getItem('vat-theme')||'light'; }catch(e){}
+  const row=(id,icon,title,sub)=>`<div class="${lrow()}" data-theme-set="${id}"><span class="${iconbox(id===cur?'acc':'none')}">${ic(icon)}</span>
+    <span class="min-w-0 flex-1"><span class="block ${H4}">${title}</span><span class="block ${XS}">${sub}</span></span>${rad(id===cur)}</div>`;
+  return `<div class="${BODY}">${nav({back:'profile',title:'Appearance'})}
+ <div class="${SCR}">
+  ${banner('info','Try it — the whole prototype re-themes as you choose.')}
+  <div class="${group()}">
+   ${row('light','sun','Light','Best in daylight and on the roadside')}
+   ${row('dark','moon','Dark','Easier at night, saves battery on OLED')}
+   ${row('system','phoneD','System','Follows your phone’s setting automatically')}
+  </div>
+  <div class="${card('shadow-none')}"><div class="${LBL} mb-2.5">Preview</div>
+    <div class="flex gap-2.5">
+      <div class="${card('flex-1 p-2.5')}"><div class="${H4}">Card</div><div class="mt-1 ${XS}">Surface and text</div></div>
+      <div class="${tint('acc','flex-1 p-2.5')}"><div class="${H4} ${ACC}">Accent</div><div class="mt-1 text-[11px] ${ACC}">Primary action</div></div></div>
+    <div class="mt-2.5 flex gap-1.5"><span class="${pill('ok')}">Completed</span><span class="${pill('warn')}">Pending</span><span class="${pill('err')}">Failed</span></div></div>
+ </div>`+tabs('profile')+hind();
+ }};
+
+S.terms={t:'Terms of Use',mod:'account',tag:'Legal',desc:'The agreement between the customer, the service partner and the platform — written to be read, not to be scrolled past.',
+ notes:['Plain-language headings so a driver can find the clause that matters','Effective date and version are stated at the top','Same document is linked from signup consent'],
+ comps:['LegalScreen','useLegalDoc("terms")','react-native-render-html'],
+ render:()=>`<div class="${BODY}">${nav({back:'profile',title:'Terms of Use'})}
+ <div class="${SCR}">
+  <div><div class="${H2}">Terms of Use</div><div class="mt-1.5 ${XS}">Version 3.1 · Effective March 1, 2026</div></div>
+  ${[['1. What VAT is','VAT connects you with independent roadside assistance providers. We operate the platform and handle payment. We do not perform the service ourselves — your partner is an independent business.'],
+     ['2. Requesting assistance','When you submit a request you agree to the price shown before you confirm. Extra work is only added to your bill if you approve it in the app during the job.'],
+     ['3. Cancellation','Cancel free of charge until a partner accepts. After acceptance a $15 fee covers their drive time. If a partner cancels on you, you are charged nothing.'],
+     ['4. Payment','We authorise the amount when you request and capture it when the job completes. VAT retains an 18% platform commission; the remainder goes to your partner.'],
+     ['5. Your responsibilities','Keep yourself safe. Do not remain in a live traffic lane while you wait. Give an accurate location and an accurate description of the fault.'],
+     ['6. Liability','Partners carry their own commercial insurance. Claims for damage during a service are handled between you, the partner and their insurer; VAT will supply the job record and evidence photos.']]
+    .map(t=>`<div><div class="${H4}">${t[0]}</div><p class="mt-1.5 ${SM}">${t[1]}</p></div>`).join('')}
+  <div class="${card('shadow-none')}"><div class="${XS} leading-relaxed">Questions about these terms? <b class="${T1}">legal@vatroadside.com</b><br>Vehicle &amp; Towing Services, Inc. · Austin, TX</div></div>
+  <div class="h-2"></div>
+ </div>`+tabs('profile')+hind()};
+
+S.privacy={t:'Privacy Policy',mod:'account',tag:'Legal',desc:'What is collected, why, who sees it and how long it is kept — with location called out first, because that is the sensitive one.',
+ notes:['Location is addressed first and in plain terms, not buried mid-document','Retention periods are stated as numbers, not "as long as necessary"','Links straight to the data export and deletion controls'],
+ comps:['LegalScreen','useLegalDoc("privacy")'],
+ render:()=>`<div class="${BODY}">${nav({back:'profile',title:'Privacy Policy'})}
+ <div class="${SCR}">
+  <div><div class="${H2}">Privacy Policy</div><div class="mt-1.5 ${XS}">Version 3.1 · Effective March 1, 2026</div></div>
+  ${banner('info','Your live location is shared only while a job is open, and only with the partner assigned to it.')}
+  ${[['Location','Collected while the app is open and continuously during an active job, so your partner can reach you. Sharing stops the moment the job closes. You can revoke it in Settings at any time.'],
+     ['Account details','Name, email and phone. Your phone number is masked in calls — partners reach you through a VAT relay and never see the real number.'],
+     ['Vehicle and job history','Make, model, plate and what went wrong, kept so a partner arrives with the right equipment and so you have receipts.'],
+     ['Payment','Card details are tokenised by our payment processor. VAT stores only the last four digits and a network token — never the full number.'],
+     ['Who we share with','Your assigned partner (name, location, vehicle, fault), our payment processor, and law enforcement where legally required. We do not sell personal data.'],
+     ['How long we keep it','Job records and invoices for 7 years as tax law requires. Sign-in records for 90 days. Deleted accounts are purged after a 30-day grace period.']]
+    .map(t=>`<div><div class="${H4}">${t[0]}</div><p class="mt-1.5 ${SM}">${t[1]}</p></div>`).join('')}
+  <div class="${group()}">
+    <div class="${lrow()}"><span class="${iconbox()}">${ic('download')}</span><span class="min-w-0 flex-1"><span class="block ${H4}">Download my data</span><span class="block ${XS}">A copy of everything, by email</span></span>${chevr()}</div>
+    <div class="${lrow()}"${g('delete-account')}><span class="${iconbox('err')}">${ic('trash')}</span><span class="min-w-0 flex-1"><span class="block ${H4}">Delete my account</span><span class="block ${XS}">30-day grace period</span></span>${chevr()}</div></div>
+  <div class="h-2"></div>
+ </div>`+tabs('profile')+hind()};
+
+S.logout={t:'Log Out',mod:'account',tag:'Dialog',desc:'Confirmation over the dimmed profile. Cancel is the default-weight action; logging out is explicit.',
+ notes:['Cancel sits first and carries no visual penalty','States what is kept, so the decision is informed','On confirm: clear SecureStore, reset the query cache, reset navigation'],
+ comps:['<ConfirmDialog/>','useLogout()','queryClient.clear()'],
+ render:()=>`<div class="${BODY}">
+  <div class="${SCR} opacity-45 blur-[2px]">${[104,52,150,120].map(h=>`<div class="${card()}" style="height:${h}px"></div>`).join('')}</div>
+  <div class="${SCRIM}"></div>
+  <div class="absolute inset-x-[22px] top-1/2 z-[8] flex -translate-y-1/2 flex-col items-center gap-3.5 rounded-[22px] ${SURF} px-5 pb-[18px] pt-[22px] text-center shadow-[0_24px_60px_rgba(8,12,17,.4)]">
+    <span class="grid h-14 w-14 place-items-center rounded-[19px] ${TONE.err} [&>svg]:h-[27px] [&>svg]:w-[27px]">${ic('logout')}</span>
+    <div><div class="${H2}">Log out of VAT?</div>
+      <p class="mt-2 ${SM}">You’ll need your password to get back in. Your vehicle, payment method and job history stay on your account.</p></div>
+    <div class="flex w-full gap-2"><button class="${btn('sec','md','flex-1')}"${g('profile')}>Cancel</button>
+      <button class="${btn('danger','md','flex-1')}"${g('welcome')}>Log out</button></div>
+  </div>`+hind()};
+
+S['delete-account']={t:'Delete Account',mod:'account',tag:'Dialog',desc:'Destructive confirmation. States exactly what is destroyed, what is legally retained, and the 30-day window to change your mind.',
+ notes:['Consequences are listed before the button, not after','A checkbox acknowledgement gates the destructive action','30-day grace period — logging back in restores everything'],
+ comps:['<DestructiveDialog/>','useDeleteAccountMutation()','useReauthenticate()'],
+ render:()=>`<div class="${BODY}">
+  <div class="${SCR} opacity-45 blur-[2px]">${[104,52,150,120].map(h=>`<div class="${card()}" style="height:${h}px"></div>`).join('')}</div>
+  <div class="${SCRIM}"></div>
+  <div class="absolute inset-x-4 top-1/2 z-[8] flex -translate-y-1/2 flex-col gap-3.5 rounded-[22px] ${SURF} px-5 pb-[18px] pt-[22px] shadow-[0_24px_60px_rgba(8,12,17,.4)]">
+    <div class="flex flex-col items-center gap-3 text-center">
+      <span class="grid h-14 w-14 place-items-center rounded-[19px] ${TONE.err} [&>svg]:h-[27px] [&>svg]:w-[27px]">${ic('alert')}</span>
+      <div><div class="${H2}">Delete your account?</div>
+        <p class="mt-2 ${SM}">This cannot be undone after 30 days.</p></div></div>
+    <div class="${card('shadow-none')}">
+      ${['4 job records and their receipts','Your saved vehicle and payment method','$24.00 of wallet balance']
+        .map(t=>`<div class="flex items-start gap-2 py-1"><span class="mt-px h-4 w-4 flex-none text-err-500 dark:text-err-400 [&>svg]:h-full [&>svg]:w-full">${ic('xC')}</span><span class="flex-1 ${SM}">${t}</span></div>`).join('')}
+    </div>
+    ${banner('info','Invoices are kept for 7 years as tax law requires, unlinked from your identity.')}
+    <div class="flex items-start gap-2.5">${cbx(false)}<span class="flex-1 ${SM}">I understand my jobs, vehicle and payment method will be deleted.</span></div>
+    <div class="flex gap-2"><button class="${btn('sec','md','flex-1')}"${g('profile')}>Cancel</button>
+      <button class="${btn('danger','md','flex-1')}"${g('welcome')}>Delete</button></div>
+  </div>`+hind()};
+
+/* ================= MODULES ================= */
+    const MODULES = [
+      { id: 'start', n: 'Get Started', c: '#D9480F', s: ['splash', 'welcome', 'signup', 'otp', 'login'] },
+      { id: 'request', n: 'Request Help', c: '#0B7A55', s: ['home', 'request', 'matching', 'tracking', 'in-progress', 'complete'] },
+      { id: 'payment', n: 'Payment', c: '#1B5FCC', s: ['payment', 'receipt'] },
+      { id: 'partner', n: 'Partner', c: '#133A63', s: ['pv-offer'] },
+      { id: 'account', n: 'Account', c: '#C4342A', s: ['activity', 'profile', 'edit-profile', 'crop', 'appearance', 'terms', 'privacy', 'logout', 'delete-account'] },
+    ];
+    const ORDER = MODULES.flatMap(m => m.s.filter(id => S[id]));
+    const MOD = {}; MODULES.forEach(m => MOD[m.id] = m);
+
+    /* ================= INTERACTION LAYER =================
+       Delegated on #vp so every control the kit emits is live in the demo. */
+    const SEG_ON = (SURF + ' ' + T1 + ' font-bold shadow-card').split(' ').filter(Boolean);
+    const SEG_OFF = ('font-semibold ' + T2).split(' ').filter(Boolean);
+    const CHIP_OFF = (LINE + ' ' + SURF + ' ' + T2).split(' ').filter(Boolean);
+    const CHIP_ACC = ['border-rescue-500', 'bg-rescue-500', 'text-white'];
+    const CHIP_INK = ['border-ink', 'bg-ink', 'text-white', 'dark:border-road-50', 'dark:bg-road-50', 'dark:text-ink'];
+    const RAD_OFF = ['border-road-200', 'dark:border-road-600'];
+
+    function groupOf(node, sel) {
+      const vpEl = document.getElementById('vp');
+      let el = node.parentElement;
+      while (el && el !== vpEl) {
+        if (el.querySelectorAll(sel).length > 1) return el;
+        el = el.parentElement;
+      }
+      return vpEl;
+    }
+    function actSwitch(n) {
+      const on = n.dataset.on === '1', acc = n.dataset.acc === '1', knob = n.firstElementChild;
+      n.classList.remove('bg-rescue-500', 'bg-ok-500', 'bg-road-200', 'dark:bg-road-600');
+      if (on) { n.classList.add('bg-road-200', 'dark:bg-road-600'); knob.classList.replace('left-[21px]', 'left-[3px]'); }
+      else { n.classList.add(acc ? 'bg-rescue-500' : 'bg-ok-500'); knob.classList.replace('left-[3px]', 'left-[21px]'); }
+      n.dataset.on = on ? '0' : '1';
+    }
+    function actRadio(n) {
+      groupOf(n, '[data-act="radio"]').querySelectorAll('[data-act="radio"]').forEach(r => {
+        r.classList.remove('border-rescue-500'); r.classList.add(...RAD_OFF); r.innerHTML = '';
+      });
+      n.classList.remove(...RAD_OFF); n.classList.add('border-rescue-500');
+      n.innerHTML = '<span class="h-[11px] w-[11px] rounded-full bg-rescue-500"></span>';
+    }
+    function actCheck(n) {
+      const on = n.dataset.on === '1';
+      if (on) { n.classList.remove('border-rescue-500', 'bg-rescue-500'); n.classList.add(...RAD_OFF); n.innerHTML = ''; }
+      else { n.classList.add('border-rescue-500', 'bg-rescue-500'); n.classList.remove(...RAD_OFF); n.innerHTML = ic('check'); }
+      n.dataset.on = on ? '0' : '1';
+    }
+    function actSeg(n) {
+      [...n.parentElement.children].forEach(b => { b.classList.remove(...SEG_ON); b.classList.add(...SEG_OFF); });
+      n.classList.remove(...SEG_OFF); n.classList.add(...SEG_ON);
+    }
+    function actChip(n) {
+      const on = n.dataset.on === '1', acc = n.dataset.acc === '1';
+      const ON = acc ? CHIP_ACC : CHIP_INK;
+      const label = n.dataset.label || n.textContent.trim();
+      if (on) { n.classList.remove(...ON); n.classList.add(...CHIP_OFF); n.innerHTML = label; }
+      else { n.classList.remove(...CHIP_OFF); n.classList.add(...ON); n.innerHTML = ic('check') + label; }
+      n.dataset.on = on ? '0' : '1';
+    }
+    function actStar(n) {
+      const wrap = n.closest('[data-act="stars"]'), i = +n.dataset.i;
+      [...wrap.children].forEach((sEl, k) => {
+        sEl.classList.toggle('text-[#E8901A]', k < i);
+        sEl.classList.toggle('text-road-200', k >= i);
+        sEl.classList.toggle('dark:text-road-600', k >= i);
+      });
+    }
+    function actPick(n) {
+      const box = n.closest('[data-pick]');
+      const ON = (box.dataset.on || '').split(' ').filter(Boolean);
+      const OFF = (box.dataset.off || '').split(' ').filter(Boolean);
+      box.querySelectorAll('[data-pi]').forEach(b => { b.classList.remove(...ON); b.classList.add(...OFF); });
+      n.classList.remove(...OFF); n.classList.add(...ON);
+    }
+    function actInput(box) {
+      const span = box.querySelector('.flex-1');
+      if (!span) return;
+      box.querySelectorAll('.animate-blink').forEach(c => c.remove());
+      if (span.getAttribute('contenteditable') !== 'true') {
+        span.setAttribute('contenteditable', 'true');
+        span.classList.add('outline-none');
+        if (span.classList.contains('text-road-400')) { span.textContent = ''; span.classList.remove('text-road-400'); }
+      }
+      box.classList.add('border-rescue-500', 'ring-[3px]', 'ring-rescue-50', 'dark:ring-rescue-900');
+      span.focus();
+      const r = document.createRange(); r.selectNodeContents(span); r.collapse(false);
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r);
+    }
+    function wireInteractions(root) {
+      root.addEventListener('click', ev => {
+        const t = ev.target;
+        if (!t.closest) return;
+        const themeRow = t.closest('[data-theme-set]');
+        if (themeRow) { ev.stopPropagation(); setTheme(themeRow.dataset.themeSet); go('appearance'); return; }
+        const inpBox = t.closest('.js-inp');
+        if (inpBox) { actInput(inpBox); return; }
+        const star = t.closest('[data-i]');
+        if (star && star.parentElement && star.parentElement.dataset.act === 'stars') { ev.stopPropagation(); actStar(star); return; }
+        const pi = t.closest('[data-pi]');
+        if (pi) { ev.stopPropagation(); actPick(pi); return; }
+        const sg = t.closest('[data-act="seg"]');
+        if (sg) { ev.stopPropagation(); actSeg(sg); return; }
+        const chip = t.closest('[data-act="chip"]');
+        if (chip) { ev.stopPropagation(); actChip(chip); return; }
+        let ctl = t.closest('[data-act="switch"],[data-act="check"],[data-act="radio"]');
+        if (!ctl) {
+          /* tapping the row that owns a control drives that control */
+          const row = t.closest('div,button,label');
+          if (row && !row.hasAttribute('data-go')) ctl = row.querySelector('[data-act="switch"],[data-act="check"],[data-act="radio"]');
+        }
+        if (!ctl) return;
+        ev.stopPropagation();
+        if (ctl.dataset.act === 'switch') actSwitch(ctl);
+        else if (ctl.dataset.act === 'check') actCheck(ctl);
+        else actRadio(ctl);
+      }, true);
+      root.addEventListener('focusout', ev => {
+        const box = ev.target.closest && ev.target.closest('.js-inp');
+        if (box) box.classList.remove('ring-[3px]', 'ring-rescue-50', 'dark:ring-rescue-900');
+      }, true);
+    }
+
+    /* ================= ENGINE ================= */
+    const $ = s => document.querySelector(s);
+    const el = {
+      tree: $('#tree'), vp: $('#vp'), doc: $('#doc'), dev: $('#device'), screen: $('#screen'), label: $('#devlabel'),
+      insp: $('#inspector'), pos: $('#stepPos'), cnt: $('#cnt'), q: $('#q'), qx: $('#qx'), stage: $('#stage'),
+      devgrp: $('#devgrp'), zval: $('#zVal'), shell: $('#shell'), deck: $('#deck')
+    };
+    let cur = 'splash', devIdx = 0, userZoom = null, filter = '', fs = false;
+    const closed = new Set();
+
+    const TB = 'flex h-7 items-center gap-1.5 whitespace-nowrap rounded-[7px] px-2.5 text-[12px] font-semibold text-road-700 transition hover:bg-road-100 hover:text-ink dark:text-road-350 dark:hover:bg-road-700 dark:hover:text-road-50 [&>svg]:h-[15px] [&>svg]:w-[15px] [&>svg]:flex-none';
+    const TB_ON = 'bg-white text-ink shadow-card dark:bg-road-900 dark:text-road-50';
+    const TB_IO = 'w-7 justify-center !px-0';
+
+    function buildDeviceBar() {
+      el.devgrp.innerHTML = DEVICES.map((d, i) => `<button class="${TB} ${i === devIdx ? TB_ON : ''}" data-dev="${i}">${d.short}</button>`).join('');
+      el.devgrp.querySelectorAll('[data-dev]').forEach(b => b.onclick = () => { devIdx = +b.dataset.dev; buildDeviceBar(); applyDevice(); });
+    }
+    const mq = window.matchMedia('(max-width: 767px)');
+    const isMobile = () => mq.matches;
+    function openDrawer(on) {
+      $('#rail').classList.toggle('max-md:!translate-x-0', on);
+      $('#mscrim').classList.toggle('hidden', !on);
+    }
+    function applyDevice() {
+      const d = DEVICES[devIdx], b = d.bez;
+      if (isMobile()) {
+        /* phone viewing: the app screen IS the viewport — no bezel, no scaling */
+        el.dev.querySelectorAll('[data-chrome]').forEach(n => n.remove());
+        el.dev.style.cssText = 'width:' + el.stage.clientWidth + 'px;height:' + el.stage.clientHeight + 'px;border-radius:0;transform:none;margin:0;box-shadow:none';
+        el.screen.style.cssText = 'position:absolute;inset:0;border-radius:0;overflow:hidden';
+        el.vp.dataset.nt = 'none';
+        applyNotchChrome('none');
+        el.label.textContent = '';
+        return;
+      }
+      el.dev.style.boxShadow = '';
+      el.dev.style.width = (d.w + b * 2) + 'px'; el.dev.style.height = (d.h + b * 2) + 'px'; el.dev.style.borderRadius = (d.r + b) + 'px';
+      el.screen.style.cssText = `position:absolute;left:${b}px;top:${b}px;right:${b}px;bottom:${b}px;border-radius:${d.r}px;overflow:hidden`;
+      el.dev.querySelectorAll('[data-chrome]').forEach(n => n.remove());
+      const add = (cls, style) => { const n = document.createElement('div'); n.dataset.chrome = '1'; n.className = cls; n.style.cssText = style; el.dev.appendChild(n); };
+      if (d.notch === 'island') add('absolute left-1/2 z-[7] -translate-x-1/2 rounded-[20px] bg-black', `top:${b + 11}px;width:118px;height:34px`);
+      if (d.notch === 'punchC') add('absolute left-1/2 z-[7] -translate-x-1/2 rounded-full bg-black', `top:${b + 11}px;width:11px;height:11px`);
+      const side = 'absolute rounded-sm bg-bezel-rim';
+      if (d.id !== 'ipadm' && d.id !== 'ipadp') {
+        add(side, `right:-2.5px;top:${b + 118}px;width:3px;height:76px`);
+        add(side, `left:-2.5px;top:${b + 92}px;width:3px;height:34px`);
+        add(side, `left:-2.5px;top:${b + 140}px;width:3px;height:58px`);
+      } else add(side, `right:-2.5px;top:${b + 70}px;width:3px;height:60px`);
+      el.vp.dataset.nt = d.notch;
+      applyNotchChrome(d.notch);
+      el.label.textContent = `${d.name} · ${d.w}×${d.h} · ${d.os}`;
+      fit();
+    }
+    /* status-bar + home-indicator geometry differs per device family */
+    function applyNotchChrome(nt) {
+      const bar = el.vp.querySelector('.sbar'), home = el.vp.querySelector('.homeind');
+      if (bar) {
+        bar.classList.remove('h-14', 'items-end', 'pb-[7px]', 'h-9', 'h-[22px]', 'h-[26px]', 'text-[12px]', 'text-[13px]', 'px-3.5', 'px-[22px]');
+        if (nt === 'island') bar.classList.add('h-14', 'items-end', 'pb-[7px]');
+        else if (nt === 'punchC') bar.classList.add('h-9', 'text-[13px]');
+        else if (nt === 'se') bar.classList.add('h-[22px]', 'text-[12px]', 'px-3.5');
+        else bar.classList.add('h-[26px]', 'text-[13px]', 'px-[22px]');
+      }
+      if (home) { home.classList.toggle('hidden', nt === 'se'); }
+      el.vp.querySelectorAll('.scr,.homeind i').forEach(() => { });
+    }
+    function fit() {
+      if (isMobile()) return 1;
+      const d = DEVICES[devIdx], W = d.w + d.bez * 2, H = d.h + d.bez * 2;
+      const aw = el.stage.clientWidth - (fs ? 24 : 70), ah = el.stage.clientHeight - (fs ? 24 : 84);
+      const base = Math.min(1, aw / W, ah / H);
+      const s = userZoom == null ? base : Math.min(userZoom, aw / W * 1.6);
+      el.dev.style.transform = `scale(${s})`;
+      el.dev.style.margin = `${(H * s - H) / 2}px ${(W * s - W) / 2}px`;
+      el.zval.textContent = Math.round(s * 100) + '%';
+      return s;
+    }
+    function zoomBy(delta) {
+      const d = DEVICES[devIdx], W = d.w + d.bez * 2, H = d.h + d.bez * 2;
+      const base = Math.min(1, (el.stage.clientWidth - 70) / W, (el.stage.clientHeight - 84) / H);
+      const c = userZoom == null ? base : userZoom;
+      userZoom = Math.max(.25, Math.min(2, Math.round((c + delta) * 20) / 20));
+      fit();
+    }
+
+    function buildTree() {
+      const f = filter.trim().toLowerCase();
+      let shown = 0, html = '';
+      MODULES.forEach(m => {
+        const kids = m.s.filter(id => S[id] && (!f || `${S[id].t} ${m.n} ${S[id].tag || ''} ${id}`.toLowerCase().includes(f)));
+        if (!kids.length) return;
+        shown += kids.length;
+        const open = f ? true : !closed.has(m.id);
+        html += `<div data-mod="${m.id}" class="mb-0.5">
+      <button data-head class="flex w-full items-center gap-2 rounded-lg px-2 py-1.5 text-left hover:bg-road-50 dark:hover:bg-road-800">
+        <span data-chev class="h-[13px] w-[13px] flex-none text-road-400 transition-transform ${open ? '' : '-rotate-90'} [&>svg]:h-full [&>svg]:w-full">${ic('chevD')}</span>
+        <span class="h-[7px] w-[7px] flex-none rounded-sm" style="background:${m.c}"></span>
+        <span class="flex-1 font-display text-[11.5px] font-bold uppercase tracking-wide text-road-700 dark:text-road-350">${m.n}</span>
+        <span class="rounded-full bg-road-50 px-1.5 py-px font-mono text-[10px] text-road-400 dark:bg-road-800">${kids.length}</span></button>
+      <div data-kids class="ml-1.5 flex flex-col gap-px border-l border-road-100 py-0.5 pb-1.5 pl-[15px] dark:border-road-800 ${open ? '' : 'hidden'}">
+      ${kids.map(id => {
+          const n = ORDER.indexOf(id) + 1, on = id === cur;
+          return `<button data-go-screen="${id}" class="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[12.5px] transition ${on ? 'bg-rescue-50 font-semibold text-rescue-700 dark:bg-rescue-900 dark:text-rescue-300' : 'text-road-700 hover:bg-road-50 hover:text-ink dark:text-road-350 dark:hover:bg-road-800 dark:hover:text-road-50'}">
+          <span class="w-4 flex-none font-mono text-[9.5px] ${on ? 'text-rescue-500' : 'text-road-400'}">${String(n).padStart(2, '0')}</span>
+          <span class="min-w-0 flex-1 truncate">${S[id].t}</span>
+          <span class="ml-auto flex-none rounded border px-1 py-px text-[8.5px] font-bold uppercase tracking-wider ${on ? 'border-current' : 'border-road-300 text-road-400 dark:border-road-600'}">${S[id].tag || ''}</span></button>`;
+        }).join('')}</div></div>`;
+      });
+      el.tree.innerHTML = html || `<div class="px-3.5 py-6 text-center text-[12px] leading-relaxed text-road-400">
+    <b>No screens match “${filter}”</b><br>Try a module name, a screen name or a tag.</div>`;
+      el.cnt.textContent = `${shown} of ${ORDER.length} screens`;
+      el.tree.querySelectorAll('[data-head]').forEach(h => h.onclick = () => {
+        const mod = h.parentElement, id = mod.dataset.mod;
+        const kids = mod.querySelector('[data-kids]'), chev = h.querySelector('[data-chev]');
+        if (closed.has(id)) { closed.delete(id); kids.classList.remove('hidden'); chev.classList.remove('-rotate-90'); }
+        else { closed.add(id); kids.classList.add('hidden'); chev.classList.add('-rotate-90'); }
+      });
+      el.tree.querySelectorAll('[data-go-screen]').forEach(b => b.onclick = () => go(b.dataset.goScreen));
+    }
+
+    function inspector(id) {
+      const e = S[id], m = MOD[e.mod], i = ORDER.indexOf(id), d = DEVICES[devIdx];
+      const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+      const links = [...new Set((e._html || '').match(/data-go="[a-z0-9-]+"/g) || [])].map(s => s.slice(9, -1)).filter(x => S[x] && x !== id).slice(0, 8);
+      const SEC = 'mb-2 font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-road-400';
+      const JBTN = 'flex items-center gap-1.5 rounded-lg border border-road-300 bg-road-50 px-2.5 py-1.5 text-[11px] font-semibold text-road-700 hover:border-rescue-500 hover:bg-rescue-50 hover:text-rescue-700 dark:border-road-550 dark:bg-road-800 dark:text-road-350 dark:hover:bg-rescue-900 dark:hover:text-rescue-300 [&>svg]:h-3 [&>svg]:w-3';
+      el.insp.innerHTML = `
+  <div class="sticky top-0 z-[3] border-b border-road-100 bg-white px-4 pb-3 pt-3.5 dark:border-road-800 dark:bg-road-900">
+    <div class="font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-rescue-700 dark:text-rescue-300">${m.n}</div>
+    <h2 class="my-1 font-display text-[17px] font-bold leading-tight tracking-tight text-ink dark:text-road-50">${e.t}</h2>
+    <p class="text-[12px] leading-relaxed text-road-700 dark:text-road-350">${e.desc}</p></div>
+  <div class="flex flex-col gap-4 px-4 pb-10 pt-3.5">
+    ${e.notes ? `<div><h3 class="${SEC}">Design decisions</h3><ul class="flex flex-col gap-1.5">${e.notes.map(n => `
+      <li class="relative pl-4 text-[12px] leading-relaxed text-road-700 dark:text-road-350"><span class="absolute left-0 top-[6.5px] h-[5px] w-[5px] rounded-sm bg-rescue-500 opacity-75"></span>${n}</li>`).join('')}</ul></div>` : ''}
+    ${e.comps ? `<div><h3 class="${SEC}">Implementation</h3><div class="flex flex-wrap gap-1.5">${e.comps.map(c => `
+      <span class="rounded-full border border-transparent bg-navy-50 px-2 py-0.5 text-[10.5px] font-semibold text-navy-500 dark:bg-navy-900 dark:text-navy-400">${esc(c)}</span>`).join('')}</div></div>` : ''}
+    <div><h3 class="${SEC}">Screen facts</h3><dl class="grid grid-cols-[92px_1fr] gap-x-2.5 gap-y-1.5 text-[11.5px]">
+      ${[['Screen', `${String(i + 1).padStart(2, '0')} of ${ORDER.length}`], ['Route id', id], ['Module', m.id],
+        ['Type', e.doc ? 'specification' : 'device screen'], ['Canvas', e.doc ? 'document' : `${d.w}×${d.h}`]]
+          .map(r => `<dt class="font-semibold text-road-400">${r[0]}</dt><dd class="m-0 font-mono text-[11px] text-road-700 dark:text-road-350">${r[1]}</dd>`).join('')}
+    </dl></div>
+    ${links.length ? `<div><h3 class="${SEC}">Goes to</h3><div class="flex flex-wrap gap-1.5">${links.map(l => `
+      <button data-go-screen="${l}" class="${JBTN}">${ic('arrR')}${S[l].t}</button>`).join('')}</div></div>` : ''}
+    <div><h3 class="${SEC}">Sequence</h3><div class="flex flex-wrap gap-1.5">
+      ${i > 0 ? `<button data-go-screen="${ORDER[i - 1]}" class="${JBTN}">${ic('arrL')}${S[ORDER[i - 1]].t}</button>` : ''}
+      ${i < ORDER.length - 1 ? `<button data-go-screen="${ORDER[i + 1]}" class="${JBTN}">${S[ORDER[i + 1]].t}${ic('arrR')}</button>` : ''}
+    </div></div></div>`;
+      el.insp.querySelectorAll('[data-go-screen]').forEach(b => b.onclick = () => go(b.dataset.goScreen));
+      el.insp.scrollTop = 0;
+    }
+
+    let autoTimer = null;
+    function go(id) {
+      if (!S[id]) return;
+      if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; }
+      cur = id;
+      const e = S[id], html = e.render();
+      e._html = html;
+      if (e.doc) {
+        el.doc.classList.remove('hidden'); el.deck.classList.add('hidden');
+        el.doc.innerHTML = html; el.doc.scrollTop = 0;
+      } else {
+        el.doc.classList.add('hidden'); el.deck.classList.remove('hidden');
+        const isNav = html.slice(0, 300).includes('border-b ' + LINE2);
+        el.vp.style.background = e.vpbg || '';
+        if (el.vp.dataset.vpc) el.vp.classList.remove(...el.vp.dataset.vpc.split(' ').filter(Boolean));
+        el.vp.dataset.vpc = e.vpclass || '';
+        if (e.vpclass) el.vp.classList.add(...e.vpclass.split(' ').filter(Boolean));
+        el.vp.innerHTML = statusBar(e.sb || (isNav ? 'navbg' : '')) + html;
+        el.vp.classList.remove('animate-screenIn'); void el.vp.offsetWidth; el.vp.classList.add('animate-screenIn');
+        applyNotchChrome(DEVICES[devIdx].notch);
+        el.vp.querySelectorAll('[data-go]').forEach(n => {
+          n.onclick = ev => { ev.stopPropagation(); go(n.dataset.go); };
+          n.onkeydown = ev => { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); go(n.dataset.go); } };
+        });
+      }
+      el.pos.textContent = `${String(ORDER.indexOf(id) + 1).padStart(2, '0')} / ${ORDER.length}`;
+      $('#mPos').textContent = el.pos.textContent;
+      if (isMobile()) openDrawer(false);
+      if (e.next && e.nextIn) autoTimer = setTimeout(() => { if (cur === id) go(e.next); }, e.nextIn);
+      inspector(id);
+      el.tree.querySelectorAll('[data-go-screen]').forEach(b => {
+        const on = b.dataset.goScreen === id;
+        b.className = `flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-left text-[12.5px] transition ${on ? 'bg-rescue-50 font-semibold text-rescue-700 dark:bg-rescue-900 dark:text-rescue-300' : 'text-road-700 hover:bg-road-50 hover:text-ink dark:text-road-350 dark:hover:bg-road-800 dark:hover:text-road-50'}`;
+        b.querySelector('span').className = `w-4 flex-none font-mono text-[9.5px] ${on ? 'text-rescue-500' : 'text-road-400'}`;
+      });
+      const active = el.tree.querySelector(`[data-go-screen="${id}"]`);
+      if (active) {
+        const mod = active.closest('[data-mod]');
+        if (mod && closed.has(mod.dataset.mod)) {
+          closed.delete(mod.dataset.mod);
+          mod.querySelector('[data-kids]').classList.remove('hidden');
+          mod.querySelector('[data-chev]').classList.remove('-rotate-90');
+        }
+        const r = active.getBoundingClientRect(), t = el.tree.getBoundingClientRect();
+        if (r.top < t.top + 8 || r.bottom > t.bottom - 8)
+          el.tree.scrollTo({ top: active.offsetTop - el.tree.clientHeight / 2 + active.offsetHeight / 2, behavior: 'smooth' });
+      }
+    }
+    const step = n => { const i = ORDER.indexOf(cur); go(ORDER[(i + n + ORDER.length) % ORDER.length]); };
+
+    function setTheme(t) {
+      const dark = t === 'dark' || (t === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      document.documentElement.classList.toggle('dark', dark);
+      $('#tLight').className = `${TB} ${t === 'light' ? TB_ON : ''}`;
+      $('#tDark').className = `${TB} ${t === 'dark' ? TB_ON : ''}`;
+      try { localStorage.setItem('vat-theme', t); } catch (e) { }
+    }
+    function setFs(on) {
+      fs = on;
+      ['#rail', '#inspector', '#brand', '#topbar'].forEach(s => $(s).classList.toggle('hidden', on));
+      el.shell.style.gridTemplateColumns = on ? '0 minmax(0,1fr) 0' : '';
+      el.shell.style.gridTemplateRows = on ? '0 minmax(0,1fr)' : '';
+      $('#fsx').classList.toggle('hidden', !on);
+      $('#fsx').classList.toggle('grid', on);
+      setTimeout(fit, 260);
+    }
+
+    /* ---- wire up ---- */
+    [['#zIn', 'zoomIn', 1], ['#zOut', 'zoomOut', 1], ['#goSplash', 'power', 1], ['#goHome', 'home', 1], ['#goRestart', 'refresh', 1],
+    ['#goFs', 'max', 1], ['#pv', 'chevL', 1], ['#nx', 'chevR', 1]].forEach(([sel, icon, io]) => {
+      const b = $(sel); b.innerHTML = ic(icon); b.className = `${TB} ${io ? TB_IO : ''}`;
+    });
+    $('#zFit').className = TB;
+    $('#fsx').innerHTML = ic('min');
+    el.q.insertAdjacentHTML('beforebegin', `<span class="pointer-events-none absolute left-[22px] top-1/2 h-[15px] w-[15px] -translate-y-1/2 text-road-400 [&>svg]:h-full [&>svg]:w-full">${ic('search')}</span>`);
+
+    $('#zIn').onclick = () => zoomBy(.1);
+    $('#zOut').onclick = () => zoomBy(-.1);
+    $('#zFit').onclick = () => { userZoom = null; fit(); };
+    $('#tLight').onclick = () => setTheme('light');
+    $('#tDark').onclick = () => setTheme('dark');
+    $('#goSplash').onclick = () => go('splash');
+    $('#goHome').onclick = () => go('home');
+    $('#goRestart').onclick = () => { closed.clear(); filter = ''; el.q.value = ''; el.qx.classList.add('hidden'); userZoom = null; buildTree(); go('splash'); };
+    $('#goFs').onclick = () => setFs(true);
+    $('#fsx').onclick = () => setFs(false);
+    $('#pv').onclick = () => step(-1);
+    $('#nx').onclick = () => step(1);
+    $('#expAll').onclick = () => { closed.clear(); buildTree(); };
+    $('#colAll').onclick = () => { MODULES.forEach(m => closed.add(m.id)); buildTree(); };
+    el.q.oninput = () => { filter = el.q.value; el.qx.classList.toggle('hidden', !filter); el.qx.classList.toggle('grid', !!filter); buildTree(); };
+    el.qx.onclick = () => { filter = ''; el.q.value = ''; el.qx.classList.add('hidden'); buildTree(); el.q.focus(); };
+
+    document.addEventListener('keydown', ev => {
+      const typing = ev.target.tagName === 'INPUT';
+      if (ev.key === '/' && !typing) { ev.preventDefault(); el.q.focus(); return; }
+      if (ev.key === 'Escape') { if (fs) setFs(false); else if (typing) el.q.blur(); return; }
+      if (typing) return;
+      if (ev.key === 'ArrowRight') { ev.preventDefault(); step(1); }
+      if (ev.key === 'ArrowLeft') { ev.preventDefault(); step(-1); }
+      if (ev.key === 'f') setFs(!fs);
+      if (ev.key === 't') setTheme(document.documentElement.classList.contains('dark') ? 'light' : 'dark');
+    });
+    let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(applyDevice, 90); });
+    mq.addEventListener('change', () => { openDrawer(false); applyDevice(); });
+    window.addEventListener('load', () => applyDevice());
+    let lastW = 0, lastH = 0;
+    new ResizeObserver(() => {
+      const w = el.stage.clientWidth, h = el.stage.clientHeight;
+      if (w === lastW && h === lastH) return;
+      lastW = w; lastH = h; applyDevice();
+    }).observe(el.stage);
+
+    /* mobile control bar */
+    $('#mMenu').innerHTML = ic('list') + '<span>Screens</span>';
+    $('#mPv').innerHTML = ic('chevL');
+    $('#mNx').innerHTML = ic('chevR');
+    $('#mTheme').innerHTML = ic('moon');
+    $('#mMenu').onclick = () => openDrawer(true);
+    $('#mscrim').onclick = () => openDrawer(false);
+    $('#mPv').onclick = () => step(-1);
+    $('#mNx').onclick = () => step(1);
+    $('#mTheme').onclick = () => { const dark = document.documentElement.classList.contains('dark'); setTheme(dark ? 'light' : 'dark'); $('#mTheme').innerHTML = ic(dark ? 'moon' : 'sun'); };
+
+    /* ---- boot ---- */
+    let saved = 'light'; try { saved = localStorage.getItem('vat-theme') || 'light'; } catch (e) { }
+    setTheme(saved === 'dark' ? 'dark' : 'light');
+    buildDeviceBar();
+    applyDevice();
+    buildTree();
+    wireInteractions(el.vp);
+    go('splash');
+  </script>
+</body>
+
+</html>

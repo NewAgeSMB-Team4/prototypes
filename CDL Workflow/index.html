@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cascade Driving Academy · workflow by programme</title>
+    <style>
+        :root {
+            --brand: #F26A1B;
+            --brand-dark: #C4520F;
+            --brand-soft: #FDEDE1;
+            --coal: #1C1A17;
+            --ink: #26231F;
+            --muted: #7A736A;
+            --line: #E4DFD8;
+            --canvas: #F7F5F2;
+            --ok: #1C7A45;
+            --ok-soft: #E3F3E9;
+            --warn: #B26A00;
+            --warn-soft: #FCF0DC;
+            --state: #3A5BA0;
+            --state-soft: #E6ECF7;
+        }
+
+        * {
+            box-sizing: border-box
+        }
+
+        body {
+            margin: 0;
+            background: var(--canvas);
+            color: var(--ink);
+            font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif
+        }
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 30px 22px 60px
+        }
+
+        header.top {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            align-items: flex-end;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--line);
+            padding-bottom: 16px
+        }
+
+        .brandmark {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .logo {
+            height: 38px;
+            width: 38px;
+            border-radius: 11px;
+            background: var(--brand);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 18px
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 22px;
+            letter-spacing: -.2px
+        }
+
+        .sub {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 2px
+        }
+
+        .key {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .key span {
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+
+        .sw {
+            height: 10px;
+            width: 10px;
+            border-radius: 3px;
+            display: inline-block
+        }
+
+        .prog {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            margin-top: 20px;
+            overflow: hidden;
+            box-shadow: 0 1px 2px rgba(28, 26, 23, .04)
+        }
+
+        .phead {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 18px;
+            background: var(--coal);
+            color: #fff
+        }
+
+        .phead .l {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 0
+        }
+
+        .badge {
+            height: 34px;
+            min-width: 34px;
+            padding: 0 9px;
+            border-radius: 9px;
+            background: rgba(255, 255, 255, .14);
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 13px;
+            flex: none
+        }
+
+        .phead h2 {
+            margin: 0;
+            font-size: 16px;
+            line-height: 1.2
+        }
+
+        .phead .meta {
+            font-size: 12px;
+            color: rgba(255, 255, 255, .66);
+            margin-top: 2px
+        }
+
+        .facts {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px
+        }
+
+        .fact {
+            font-size: 11.5px;
+            background: rgba(255, 255, 255, .12);
+            border-radius: 999px;
+            padding: 3px 9px;
+            color: #fff
+        }
+
+        .steps {
+            display: flex;
+            gap: 0;
+            overflow-x: auto;
+            padding: 16px 18px 6px
+        }
+
+        .step {
+            min-width: 168px;
+            flex: 1 1 0;
+            padding: 0 12px 4px;
+            position: relative
+        }
+
+        .step+.step::before {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 15px;
+            width: 12px;
+            height: 2px;
+            background: var(--line)
+        }
+
+        .step+.step::after {
+            content: "";
+            position: absolute;
+            left: 2px;
+            top: 11px;
+            border: 5px solid transparent;
+            border-left-color: var(--line)
+        }
+
+        .sn {
+            height: 30px;
+            width: 30px;
+            border-radius: 9px;
+            display: grid;
+            place-items: center;
+            font-size: 12px;
+            font-weight: 700;
+            color: #fff
+        }
+
+        .sn.stu {
+            background: var(--brand)
+        }
+
+        .sn.off {
+            background: var(--state)
+        }
+
+        .sn.ins {
+            background: var(--ok)
+        }
+
+        .sn.ext {
+            background: #8B8278
+        }
+
+        .st {
+            font-weight: 600;
+            font-size: 13px;
+            margin-top: 8px;
+            line-height: 1.3
+        }
+
+        .sd {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 3px;
+            line-height: 1.45
+        }
+
+        .who {
+            font-size: 10.5px;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: #A29A90;
+            margin-top: 6px
+        }
+
+        .prow {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border-top: 1px solid var(--line)
+        }
+
+        .pcell {
+            padding: 13px 18px;
+            font-size: 12.5px
+        }
+
+        .pcell+.pcell {
+            border-left: 1px solid var(--line)
+        }
+
+        .pcell .h {
+            font-size: 11px;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: #A29A90;
+            margin-bottom: 5px
+        }
+
+        .docs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px
+        }
+
+        .doc {
+            background: var(--canvas);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 2px 9px;
+            font-size: 11.5px
+        }
+
+        .doc.hl {
+            background: var(--brand-soft);
+            border-color: #F3C6A5;
+            color: var(--brand-dark);
+            font-weight: 600
+        }
+
+        .note {
+            background: var(--warn-soft);
+            border-top: 1px solid #F0DDBB;
+            padding: 10px 18px;
+            font-size: 12.5px;
+            color: #7A4A00
+        }
+
+        .note b {
+            color: #5E3800
+        }
+
+        .tail {
+            margin-top: 26px;
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 18px
+        }
+
+        .tail h3 {
+            margin: 0 0 10px;
+            font-size: 15px
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px
+        }
+
+        th,
+        td {
+            text-align: left;
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--line)
+        }
+
+        th {
+            font-size: 11px;
+            letter-spacing: .05em;
+            text-transform: uppercase;
+            color: #A29A90;
+            background: var(--canvas)
+        }
+
+        td.y {
+            color: var(--ok);
+            font-weight: 600
+        }
+
+        td.n {
+            color: #B9B1A7
+        }
+
+        @media (max-width:900px) {
+            .prow {
+                grid-template-columns: 1fr
+            }
+
+            .pcell+.pcell {
+                border-left: 0;
+                border-top: 1px solid var(--line)
+            }
+        }
+
+        @media print {
+            body {
+                background: #fff
+            }
+
+            .prog {
+                page-break-inside: avoid
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <header class="top">
+            <div class="brandmark">
+                <div class="logo">A</div>
+                <div>
+                    <h1>Workflow by programme</h1>
+                    <div class="sub">Cascade Driving Academy · six FMCSA programmes, enrolment to licence · prototype
+                        reference, 10 September 2026</div>
+                </div>
+            </div>
+            <div class="key">
+                <span><i class="sw" style="background:var(--brand)"></i> Student</span>
+                <span><i class="sw" style="background:var(--state)"></i> Office</span>
+                <span><i class="sw" style="background:var(--ok)"></i> Instructor</span>
+                <span><i class="sw" style="background:#8B8278"></i> State / FMCSA</span>
+            </div>
+        </header>
+
+        <!-- CLASS A -->
+        <section class="prog">
+            <div class="phead">
+                <div class="l">
+                    <div class="badge">A</div>
+                    <div>
+                        <h2>Class A CDL</h2>
+                        <div class="meta">Appendix A · sections A1–A5 · tractor-trailer · the full pathway</div>
+                    </div>
+                </div>
+                <div class="facts"><span class="fact">A1–A5 · 30 units</span><span class="fact">32 h range</span><span
+                        class="fact">24 h road</span><span class="fact">7 range · 12 road units</span><span
+                        class="fact">$4,950</span></div>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="sn stu">1</div>
+                    <div class="st">Enrol</div>
+                    <div class="sd">Sign up, choose programme and plan, upload 6 documents, sign the agreement, pay
+                    </div>
+                    <div class="who">Student · Office approves</div>
+                </div>
+                <div class="step">
+                    <div class="sn stu">2</div>
+                    <div class="st">Theory · A1–A5</div>
+                    <div class="sd">5 sections, 30 units, section quizzes, then the final test at 80% once A5 is
+                        complete</div>
+                    <div class="who">Student</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">3</div>
+                    <div class="st">Knowledge test → CLP</div>
+                    <div class="sd">Theory record filed; student tests at the DOL and uploads the permit for
+                        verification</div>
+                    <div class="who">State · Office verifies</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">4</div>
+                    <div class="st">Range then road</div>
+                    <div class="sd">7 range skills signed off, then 12 road units; hours from the clock, both signatures
+                        per session</div>
+                    <div class="who">Instructor</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">5</div>
+                    <div class="st">Two assessments</div>
+                    <div class="sd">Final range and final road, by an assessor who is not the lead instructor</div>
+                    <div class="who">Assessor</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">6</div>
+                    <div class="st">Skills test → CDL</div>
+                    <div class="sd">BTW record filed and accepted, test booked, result and licence recorded</div>
+                    <div class="who">Office · State</div>
+                </div>
+            </div>
+            <div class="prow">
+                <div class="pcell">
+                    <div class="h">Documents at enrolment</div>
+                    <div class="docs"><span class="doc hl">Driver's license</span><span class="doc">Identity and
+                            eligibility</span><span class="doc">Medical certificate</span><span class="doc">Drug and
+                            alcohol test</span><span class="doc">Clearinghouse registration</span><span
+                            class="doc">Motor vehicle record</span></div>
+                </div>
+                <div class="pcell">
+                    <div class="h">Registry filings</div>Theory certification after the final test · behind-the-wheel
+                    certification after both assessments. <b>Two filings.</b>
+                </div>
+            </div>
+        </section>
+
+        <!-- CLASS B -->
+        <section class="prog">
+            <div class="phead">
+                <div class="l">
+                    <div class="badge">B</div>
+                    <div>
+                        <h2>Class B CDL</h2>
+                        <div class="meta">Appendix B · sections B1–B5 · straight truck, dump, box</div>
+                    </div>
+                </div>
+                <div class="facts"><span class="fact">B1–B5 · 30 units</span><span class="fact">16 h range</span><span
+                        class="fact">12 h road</span><span class="fact">6 range · 12 road units</span><span
+                        class="fact">$2,900</span></div>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="sn stu">1</div>
+                    <div class="st">Enrol</div>
+                    <div class="sd">Same six documents as Class A</div>
+                    <div class="who">Student · Office approves</div>
+                </div>
+                <div class="step">
+                    <div class="sn stu">2</div>
+                    <div class="st">Theory · B1–B5</div>
+                    <div class="sd">5 sections, 30 units. Final test unlocks when B5 is complete</div>
+                    <div class="who">Student</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">3</div>
+                    <div class="st">Knowledge test → CLP</div>
+                    <div class="sd">Class B permit, verified by the office</div>
+                    <div class="who">State · Office verifies</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">4</div>
+                    <div class="st">Range then road</div>
+                    <div class="sd">6 range skills (no trailer coupling), then the 12 road units in a straight truck
+                    </div>
+                    <div class="who">Instructor</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">5</div>
+                    <div class="st">Two assessments</div>
+                    <div class="sd">Final range and final road</div>
+                    <div class="who">Assessor</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">6</div>
+                    <div class="st">Skills test → CDL</div>
+                    <div class="sd">Class B licence issued by the state</div>
+                    <div class="who">Office · State</div>
+                </div>
+            </div>
+            <div class="prow">
+                <div class="pcell">
+                    <div class="h">Documents at enrolment</div>
+                    <div class="docs"><span class="doc hl">Driver's license</span><span class="doc">Identity and
+                            eligibility</span><span class="doc">Medical certificate</span><span class="doc">Drug and
+                            alcohol test</span><span class="doc">Clearinghouse registration</span><span
+                            class="doc">Motor vehicle record</span></div>
+                </div>
+                <div class="pcell">
+                    <div class="h">Registry filings</div>Two filings, as Class A. A Class B holder can later upgrade to
+                    Class A on Appendix C rather than starting again.
+                </div>
+            </div>
+        </section>
+
+        <!-- UPGRADE -->
+        <section class="prog">
+            <div class="phead">
+                <div class="l">
+                    <div class="badge">B→A</div>
+                    <div>
+                        <h2>Class B to Class A upgrade</h2>
+                        <div class="meta">Appendix C · sections C1–C4 · for a working Class B driver adding combination
+                            vehicles</div>
+                    </div>
+                </div>
+                <div class="facts"><span class="fact">C1–C4 · 20 units</span><span class="fact">20 h range</span><span
+                        class="fact">14 h road</span><span class="fact">7 range · 12 road units</span><span
+                        class="fact">$3,100</span></div>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="sn stu">1</div>
+                    <div class="st">Enrol</div>
+                    <div class="sd">Brings their <b>existing CDL</b> instead of a car licence</div>
+                    <div class="who">Student · Office approves</div>
+                </div>
+                <div class="step">
+                    <div class="sn stu">2</div>
+                    <div class="st">Theory · C1–C4</div>
+                    <div class="sd">C1 basic operation incl. coupling · C2 safe operating procedures · C3 advanced
+                        practices · C4 vehicle systems. No "non-driving activities" section, so 4 sections not 5</div>
+                    <div class="who">Student</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">3</div>
+                    <div class="st">Knowledge test → Class A CLP</div>
+                    <div class="sd">Class A permit issued by the state; they keep driving Class B commercially meanwhile
+                    </div>
+                    <div class="who">State · Office verifies</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">4</div>
+                    <div class="st">Range then road</div>
+                    <div class="sd">Heavy on coupling and uncoupling and backing a trailer, which is what the upgrade is
+                        for</div>
+                    <div class="who">Instructor</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">5</div>
+                    <div class="st">Two assessments</div>
+                    <div class="sd">Final range and final road in a combination vehicle</div>
+                    <div class="who">Assessor</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">6</div>
+                    <div class="st">Skills test → Class A</div>
+                    <div class="sd">Licence class upgraded by the state</div>
+                    <div class="who">Office · State</div>
+                </div>
+            </div>
+            <div class="prow">
+                <div class="pcell">
+                    <div class="h">Documents at enrolment</div>
+                    <div class="docs"><span class="doc hl">Existing CDL</span><span class="doc">Identity and
+                            eligibility</span><span class="doc">Medical certificate</span><span class="doc">Drug and
+                            alcohol test</span><span class="doc">Clearinghouse registration</span><span
+                            class="doc">Motor vehicle record</span></div>
+                </div>
+                <div class="pcell">
+                    <div class="h">Registry filings</div>Two filings. Shorter theory and fewer hours than Class A, so it
+                    is the school's best-margin full programme.
+                </div>
+            </div>
+        </section>
+
+        <!-- P -->
+        <section class="prog">
+            <div class="phead">
+                <div class="l">
+                    <div class="badge">P</div>
+                    <div>
+                        <h2>Passenger (P) endorsement</h2>
+                        <div class="meta">Appendix D · sections D1–D4 · buses and coaches over 16 passengers</div>
+                    </div>
+                </div>
+                <div class="facts"><span class="fact">D1–D4</span><span class="fact">2 h range</span><span
+                        class="fact">4 h road</span><span class="fact">Bus required</span><span class="fact">$650</span>
+                </div>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="sn stu">1</div>
+                    <div class="st">Enrol</div>
+                    <div class="sd">Four documents only; no Clearinghouse or MVR because they are already a commercial
+                        driver on file</div>
+                    <div class="who">Student · Office approves</div>
+                </div>
+                <div class="step">
+                    <div class="sn stu">2</div>
+                    <div class="st">Theory · D1–D4</div>
+                    <div class="sd">D1 post-crash and emergency procedures · D2 vehicle orientation and inspection · D3
+                        baggage, cargo and passenger management · D4 hours of service and safety belts</div>
+                    <div class="who">Student</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">3</div>
+                    <div class="st">Knowledge test → P restriction</div>
+                    <div class="sd">No separate CLP: the state adds P to their existing CDL with a restriction, so they
+                        may drive the bus <b>without passengers</b> until the skills test is passed</div>
+                    <div class="who">State · Office verifies</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">4</div>
+                    <div class="st">Short behind-the-wheel</div>
+                    <div class="who">Instructor</div>
+                    <div class="sd">2 h range and 4 h road, in a bus, not a truck</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">5</div>
+                    <div class="st">Assessments</div>
+                    <div class="sd">Final range and road, scaled to the shorter programme</div>
+                    <div class="who">Assessor</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">6</div>
+                    <div class="st">Skills test → P added</div>
+                    <div class="sd">Skills test must be taken in a passenger vehicle of that class</div>
+                    <div class="who">Office · State</div>
+                </div>
+            </div>
+            <div class="prow">
+                <div class="pcell">
+                    <div class="h">Documents at enrolment</div>
+                    <div class="docs"><span class="doc hl">Existing CDL</span><span class="doc">Identity and
+                            eligibility</span><span class="doc">Medical certificate</span><span class="doc">Drug and
+                            alcohol test</span></div>
+                </div>
+                <div class="pcell">
+                    <div class="h">Watch out</div>The school needs access to a bus for both training and the test. Most
+                    schools rent one or refer out, which is the real constraint on selling this programme.
+                </div>
+            </div>
+        </section>
+
+        <!-- S -->
+        <section class="prog">
+            <div class="phead">
+                <div class="l">
+                    <div class="badge">S</div>
+                    <div>
+                        <h2>School bus (S) endorsement</h2>
+                        <div class="meta">Appendix E · sections E1–E5 · school bus · P endorsement required first</div>
+                    </div>
+                </div>
+                <div class="facts"><span class="fact">E1–E5</span><span class="fact">3 h range</span><span
+                        class="fact">5 h road</span><span class="fact">School bus required</span><span
+                        class="fact">$750</span></div>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="sn stu">1</div>
+                    <div class="st">Enrol</div>
+                    <div class="sd">Five documents, including <b>proof of the P endorsement</b>, which is a prerequisite
+                    </div>
+                    <div class="who">Student · Office approves</div>
+                </div>
+                <div class="step">
+                    <div class="sn stu">2</div>
+                    <div class="st">Theory · E1–E5</div>
+                    <div class="sd">E1 danger zones and mirrors · E2 loading and unloading · E3 railroad crossings and
+                        evacuation · E4 student management and special safety · E5 emergency exits, inspections,
+                        post-crash</div>
+                    <div class="who">Student</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">3</div>
+                    <div class="st">Knowledge test → S restriction</div>
+                    <div class="sd">S added to the existing CDL with a restriction; no students carried until the skills
+                        test is passed</div>
+                    <div class="who">State · Office verifies</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">4</div>
+                    <div class="st">Behind-the-wheel</div>
+                    <div class="sd">3 h range and 5 h road in a school bus, heavy on the loading sequence</div>
+                    <div class="who">Instructor</div>
+                </div>
+                <div class="step">
+                    <div class="sn ins">5</div>
+                    <div class="st">Assessments</div>
+                    <div class="sd">Final range and road, assessor-led</div>
+                    <div class="who">Assessor</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">6</div>
+                    <div class="st">Skills test → S added</div>
+                    <div class="sd">Taken in a school bus; districts usually add their own checks on top</div>
+                    <div class="who">Office · State</div>
+                </div>
+            </div>
+            <div class="prow">
+                <div class="pcell">
+                    <div class="h">Documents at enrolment</div>
+                    <div class="docs"><span class="doc hl">Existing CDL</span><span class="doc hl">P endorsement
+                            proof</span><span class="doc">Identity and eligibility</span><span class="doc">Medical
+                            certificate</span><span class="doc">Drug and alcohol test</span></div>
+                </div>
+                <div class="pcell">
+                    <div class="h">Watch out</div>S cannot be trained before P exists. Buyers are often school districts
+                    paying for a cohort, which makes this a contract sale rather than a walk-in.
+                </div>
+            </div>
+        </section>
+
+        <!-- HAZMAT -->
+        <section class="prog">
+            <div class="phead">
+                <div class="l">
+                    <div class="badge">H</div>
+                    <div>
+                        <h2>Hazmat (H) endorsement</h2>
+                        <div class="meta">Appendix F · sections F1–F3 · theory only · no permit, no driving, no skills
+                            test</div>
+                    </div>
+                </div>
+                <div class="facts"><span class="fact">F1–F3 · theory only</span><span class="fact">No BTW</span><span
+                        class="fact">TSA check</span><span class="fact">One filing</span><span class="fact">$180</span>
+                </div>
+            </div>
+            <div class="steps">
+                <div class="step">
+                    <div class="sn stu">1</div>
+                    <div class="st">Enrol</div>
+                    <div class="sd">Three documents; pay in full, $180</div>
+                    <div class="who">Student · Office approves</div>
+                </div>
+                <div class="step">
+                    <div class="sn stu">2</div>
+                    <div class="st">Theory · F1–F3</div>
+                    <div class="sd">F1 introduction and hazard classes · F2 placards, shipping papers and loading · F3
+                        emergency response and safe driving</div>
+                    <div class="who">Student</div>
+                </div>
+                <div class="step">
+                    <div class="sn stu">3</div>
+                    <div class="st">Final test at 80%</div>
+                    <div class="sd">Unlocks when F3 is complete · same auto-graded test and attempt rules as any
+                        programme</div>
+                    <div class="who">Student</div>
+                </div>
+                <div class="step">
+                    <div class="sn off">4</div>
+                    <div class="st">One registry filing</div>
+                    <div class="sd">Theory certification only; there is no behind-the-wheel certification for hazmat
+                    </div>
+                    <div class="who">Office</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">5</div>
+                    <div class="st">TSA background check</div>
+                    <div class="sd">Fingerprints and security threat assessment. Weeks, not days, and the usual cause of
+                        delay</div>
+                    <div class="who">Student · TSA</div>
+                </div>
+                <div class="step">
+                    <div class="sn ext">6</div>
+                    <div class="st">Knowledge test → H added</div>
+                    <div class="sd">State hazmat test, then H is added to the existing CDL. No permit and no
+                        restriction, because there is no skills test</div>
+                    <div class="who">State</div>
+                </div>
+            </div>
+            <div class="prow">
+                <div class="pcell">
+                    <div class="h">Documents at enrolment</div>
+                    <div class="docs"><span class="doc hl">Existing CDL</span><span class="doc">Identity and
+                            eligibility</span><span class="doc hl">TSA determination letter</span></div>
+                </div>
+                <div class="pcell">
+                    <div class="h">Watch out</div>Tell students to start the TSA check on day one. Hazmat also renews
+                    every five years with a fresh TSA check, which makes the refresher a repeatable product.
+                </div>
+            </div>
+            <div class="note"><b>Why hazmat is the exception:</b> it grants no new vehicle class, so FMCSA requires
+                theory only. The school's work ends at the registry filing; the remaining two steps belong to TSA and
+                the state.</div>
+        </section>
+
+        <!-- COMPARISON -->
+        <div class="tail">
+            <h3>Side by side</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Programme</th>
+                        <th>Theory sections</th>
+                        <th>Permit stage</th>
+                        <th>Range / road</th>
+                        <th>Assessments</th>
+                        <th>Registry filings</th>
+                        <th>State test</th>
+                        <th>Fee</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><b>Class A CDL</b></td>
+                        <td>A1–A5 · 30 units</td>
+                        <td class="y">CLP</td>
+                        <td>32 h / 24 h</td>
+                        <td class="y">Range + road</td>
+                        <td>2</td>
+                        <td>Knowledge + skills</td>
+                        <td>$4,950</td>
+                    </tr>
+                    <tr>
+                        <td><b>Class B CDL</b></td>
+                        <td>B1–B5 · 30 units</td>
+                        <td class="y">CLP</td>
+                        <td>16 h / 12 h</td>
+                        <td class="y">Range + road</td>
+                        <td>2</td>
+                        <td>Knowledge + skills</td>
+                        <td>$2,900</td>
+                    </tr>
+                    <tr>
+                        <td><b>B → A upgrade</b></td>
+                        <td>C1–C4 · 20 units</td>
+                        <td class="y">Class A CLP</td>
+                        <td>20 h / 14 h</td>
+                        <td class="y">Range + road</td>
+                        <td>2</td>
+                        <td>Knowledge + skills</td>
+                        <td>$3,100</td>
+                    </tr>
+                    <tr>
+                        <td><b>Passenger (P)</b></td>
+                        <td>D1–D4</td>
+                        <td class="y">Restriction on the CDL</td>
+                        <td>2 h / 4 h · bus</td>
+                        <td class="y">Range + road</td>
+                        <td>2</td>
+                        <td>Knowledge + skills in a bus</td>
+                        <td>$650</td>
+                    </tr>
+                    <tr>
+                        <td><b>School bus (S)</b></td>
+                        <td>E1–E5</td>
+                        <td class="y">Restriction on the CDL</td>
+                        <td>3 h / 5 h · school bus</td>
+                        <td class="y">Range + road</td>
+                        <td>2</td>
+                        <td>Knowledge + skills in a school bus</td>
+                        <td>$750</td>
+                    </tr>
+                    <tr>
+                        <td><b>Hazmat (H)</b></td>
+                        <td>F1–F3</td>
+                        <td class="n">None</td>
+                        <td class="n">None</td>
+                        <td class="n">None</td>
+                        <td>1</td>
+                        <td>Knowledge + TSA check</td>
+                        <td>$180</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="font-size:12.5px;color:var(--muted);margin:12px 0 0">The final theory test unlocks the moment the
+                last section of that appendix is complete, whichever programme it is. Every programme uses the same
+                machinery: one status lifecycle, one session model, one signature rule, one compliance check. What
+                differs is the required documents, the hour targets, the number of registry filings, and whether a
+                vehicle and a state skills test are involved at all.</p>
+        </div>
+
+    </div>
+</body>
+
+</html>

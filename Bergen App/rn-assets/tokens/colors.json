@@ -1,0 +1,90 @@
+{
+  "light": {
+    "ink": "#1a2e4a",
+    "ink2": "#33455e",
+    "muted": "#54637a",
+    "faint": "#78899c",
+    "grass": "#2d7a4f",
+    "teal": "#1e8c7a",
+    "cream": "#fdf8f0",
+    "card": "#ffffff",
+    "line": "#e7ecf1",
+    "sun": "#f5a623"
+  },
+  "dark": {
+    "ink": "#e9f2ec",
+    "ink2": "#e9f2ec",
+    "muted": "#a0b4a8",
+    "faint": "#7f948a",
+    "grass": "#6cc490",
+    "teal": "#4fc3ae",
+    "cream": "#0f1915",
+    "card": "#17241e",
+    "line": "rgba(255,255,255,0.11)",
+    "sun": "#f5a623"
+  },
+  "sky": {
+    "welcomeLight": [
+      [
+        "#fffdf7",
+        0
+      ],
+      [
+        "#fdf9f0",
+        0.38
+      ],
+      [
+        "#f7faee",
+        0.66
+      ],
+      [
+        "#eff8ea",
+        1
+      ]
+    ],
+    "signupLight": [
+      [
+        "#fffdf7",
+        0
+      ],
+      [
+        "#fdf9f0",
+        0.44
+      ],
+      [
+        "#f6faee",
+        0.76
+      ],
+      [
+        "#eff8ea",
+        1
+      ]
+    ],
+    "dark": [
+      [
+        "#101b17",
+        0
+      ],
+      [
+        "#0f1915",
+        0.46
+      ],
+      [
+        "#0e1a16",
+        0.78
+      ],
+      [
+        "#0d1b16",
+        1
+      ]
+    ]
+  },
+  "iconInk": {
+    "light": "#1a2e4a",
+    "dark": "#e9f2ec"
+  },
+  "illustrationDarkOpacity": {
+    "hills": 0.14,
+    "sunAndKite": 0.55
+  }
+}
