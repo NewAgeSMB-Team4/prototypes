@@ -205,6 +205,13 @@
             opacity: .85
         }
 
+        .navi>span:not(.cnt) {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap
+        }
+
         .navi .cnt {
             margin-left: auto;
             font-family: 'IBM Plex Mono', monospace;
@@ -223,6 +230,52 @@
 
         .navi.parent.on svg {
             stroke: var(--gold2)
+        }
+
+        /* Parents are collapsible groups: the chevron turns and the sub-menu
+           slides open (grid rows 0fr → 1fr), as in the app's sidebar. */
+        .navi.parent .chev {
+            width: 14px;
+            height: 14px;
+            margin-left: auto;
+            stroke: rgba(255, 255, 255, .45);
+            opacity: 1;
+            transition: transform .2s
+        }
+
+        .navi.parent.on .chev {
+            stroke: rgba(255, 255, 255, .45)
+        }
+
+        .navi.parent .cnt+.chev {
+            margin-left: 0
+        }
+
+        .navgrp-item.open>.navi.parent .chev {
+            transform: rotate(90deg)
+        }
+
+        .navgrp-item.open>.navi.parent .cnt {
+            display: none
+        }
+
+        .navgrp-item.open>.navi.parent .cnt+.chev {
+            margin-left: auto
+        }
+
+        .subwrap {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows .2s ease
+        }
+
+        .navgrp-item.open>.subwrap {
+            grid-template-rows: 1fr
+        }
+
+        .subwrap>.subnav {
+            min-height: 0;
+            overflow: hidden
         }
 
         .subnav {
@@ -4083,6 +4136,288 @@
             margin-top: 8px
         }
 
+        /* ── account recovery (forgot password) ───────────────────── */
+        .lg-recover .sub b {
+            color: var(--ink);
+            font-weight: 600
+        }
+
+        .lg-recover .lg-go {
+            margin-top: 6px
+        }
+
+        .lg-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 18px;
+            font-size: 14.5px;
+            font-weight: 500;
+            color: var(--steel);
+            background: none;
+            border: 0;
+            padding: 0;
+            cursor: pointer
+        }
+
+        .lg-back:hover {
+            color: var(--gold3)
+        }
+
+        .lg-steps {
+            display: flex;
+            gap: 6px;
+            margin: 0 0 20px
+        }
+
+        .lg-steps i {
+            width: 28px;
+            height: 3px;
+            border-radius: 2px;
+            background: var(--rule)
+        }
+
+        .lg-steps i.on {
+            background: var(--gold)
+        }
+
+        /* the code: one box per digit */
+        .lg-otp {
+            display: flex;
+            gap: 10px;
+            margin: 26px 0 8px
+        }
+
+        .lg-otp input {
+            width: 58px;
+            height: 62px;
+            text-align: center;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 26px;
+            font-weight: 500;
+            color: var(--ink);
+            background: var(--paper);
+            border: 1px solid var(--slv2);
+            border-radius: 8px;
+            outline: none;
+            caret-color: var(--gold);
+            transition: border-color .15s, box-shadow .15s
+        }
+
+        .lg-otp input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(168, 127, 40, .14)
+        }
+
+        .lg-otp input:disabled {
+            background: var(--mist);
+            color: var(--slv)
+        }
+
+        .lg-otp.bad input {
+            border-color: var(--bad)
+        }
+
+        /* #login: outranks the column's staggered entrance on the same element */
+        #login .lg-otp.shake {
+            animation: lgShake .4s cubic-bezier(.36, .07, .19, .97)
+        }
+
+        @keyframes lgShake {
+
+            20%,
+            60% {
+                transform: translateX(-6px)
+            }
+
+            40%,
+            80% {
+                transform: translateX(6px)
+            }
+        }
+
+        .lg-otp-msg {
+            min-height: 20px;
+            font-size: 13.5px;
+            color: var(--silver)
+        }
+
+        .lg-otp-msg.bad {
+            color: var(--bad)
+        }
+
+        .lg-resend {
+            margin-top: 14px;
+            font-size: 14.5px;
+            color: var(--silver)
+        }
+
+        .lg-resend button {
+            background: none;
+            border: 0;
+            padding: 0;
+            font: inherit;
+            font-weight: 600;
+            color: var(--gold3);
+            cursor: pointer
+        }
+
+        .lg-resend button:hover {
+            text-decoration: underline
+        }
+
+        .lg-resend button:disabled {
+            color: var(--slv);
+            font-weight: 500;
+            cursor: default;
+            text-decoration: none
+        }
+
+        /* the new password: rules tick off as they are met */
+        .lg-rules {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6px 14px;
+            margin: -2px 0 14px;
+            padding: 0;
+            list-style: none;
+            font-size: 13.5px;
+            color: var(--silver)
+        }
+
+        .lg-rules li,
+        .lg-match {
+            display: flex;
+            align-items: center;
+            gap: 7px
+        }
+
+        .lg-rules li::before,
+        .lg-match::before {
+            content: '';
+            width: 14px;
+            height: 14px;
+            flex: none;
+            border-radius: 50%;
+            border: 1.5px solid var(--slv2);
+            box-sizing: border-box
+        }
+
+        .lg-rules li.met,
+        .lg-match.met {
+            color: var(--ok)
+        }
+
+        .lg-rules li.met::before,
+        .lg-match.met::before {
+            border: 0;
+            background: var(--ok) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M4 7.2l2 2 4-4.4' fill='none' stroke='white' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 14px no-repeat
+        }
+
+        .lg-rules.bad li:not(.met),
+        .lg-match.bad {
+            color: var(--bad)
+        }
+
+        .lg-rules.bad li:not(.met)::before,
+        .lg-match.bad::before {
+            border-color: var(--bad)
+        }
+
+        .lg-match {
+            margin: -4px 0 14px;
+            font-size: 13.5px;
+            color: var(--silver)
+        }
+
+        .lg-first,
+        .lg-recover .lg-go.lg-first {
+            margin-top: 22px
+        }
+
+        /* Laptop screens under ~820px of viewport (1366×768, 1280×720): the right
+           column tightens so sign-in and recovery fit without scrolling. */
+        @media (max-height: 820px) and (min-width: 901px) {
+            .lg-side {
+                padding-top: 24px;
+                padding-bottom: 52px
+            }
+
+            #login .loginbox>img {
+                display: none
+            }
+
+            #login .loginbox h1 {
+                font-size: 30px
+            }
+
+            #login .loginbox .sub {
+                margin-top: 6px
+            }
+
+            .lg-rolelbl {
+                margin-top: 18px
+            }
+
+            #login .roles button {
+                padding-top: 10px;
+                padding-bottom: 10px
+            }
+
+            .lg-steps {
+                margin-bottom: 14px
+            }
+
+            .lg-first,
+            .lg-recover .lg-go.lg-first {
+                margin-top: 16px
+            }
+
+            .lg-otp {
+                margin-top: 20px
+            }
+
+            .lg-inp input.f {
+                padding-top: 10px;
+                padding-bottom: 10px
+            }
+
+            .lg-back {
+                margin-top: 14px
+            }
+        }
+
+        /* Under ~680px (a 1280×720 screen once the browser bar is counted). */
+        @media (max-height: 680px) and (min-width: 901px) {
+
+            #lgSignIn .sub,
+            #login .roles button span {
+                display: none
+            }
+        }
+
+        /* done */
+        .lg-done-ic {
+            display: grid;
+            place-items: center;
+            width: 56px;
+            height: 56px;
+            margin-bottom: 20px;
+            border-radius: 50%;
+            background: #E8F1EB;
+            color: var(--ok)
+        }
+
+        .lg-done-ic svg {
+            width: 26px;
+            height: 26px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2.2;
+            stroke-linecap: round;
+            stroke-linejoin: round
+        }
+
         .lg-foot {
             position: absolute;
             left: 40px;
@@ -4804,7 +5139,7 @@
             </div>
         </section>
         <section class="lg-side">
-            <div class="loginbox">
+            <div class="loginbox" id="lgSignIn">
                 <img id="loginMark" alt="">
                 <div class="eyebrow lg-eyebrow">Administration · Sign in</div>
                 <h1>Welcome back to the desk</h1>
@@ -4830,8 +5165,7 @@
                             </svg></button></div>
                 </div>
                 <div class="lg-row"><label class="lg-check"><input type="checkbox" checked> Keep me signed in on this
-                        device</label><a href="#"
-                        onclick="event.preventDefault();toast('A reset link would be emailed to you.')">Forgot
+                        device</label><a href="#" onclick="event.preventDefault();recoverStart()">Forgot
                         password?</a></div>
                 <button class="btn gold lg-go" onclick="signIn()">Sign in <svg viewBox="0 0 24 24">
                         <path d="M5 12h14M13 6l6 6-6 6" />
@@ -4843,6 +5177,8 @@
                 <p class="small muted lg-note">Prototype — any password works. Choose a role above to see what each
                     person gets.</p>
             </div>
+            <!-- Account recovery: email → code → new password → done. Filled by recoverView(). -->
+            <div class="loginbox lg-recover" id="lgRecover" hidden aria-live="polite"></div>
             <div class="lg-foot"><span>© 2026 VeriChain</span><span>Desk v2.6</span></div>
         </section>
     </div>
@@ -5638,7 +5974,7 @@
             ['Work', [['dash', 'Dashboard', 'M3 12l9-8 9 8v8H3z'], ['subs', 'Submissions', 'M4 5h16v14H4zM4 10h16M9 14h6'], ['auth', 'Authentication', 'M4 20l4-1 11-11-3-3L5 16zM13 7l3 3'], ['invoices', 'Invoices', 'M6 3h12v18l-3-2-3 2-3-2-3 2zM9 8h6M9 12h6']]],
             ['Records', [['customers', 'Customers', 'M16 20v-2a4 4 0 00-8 0v2M12 12a4 4 0 100-8 4 4 0 000 8z'], ['certs', 'Certificates', 'M12 3l2.5 2.5H18v3.5L20.5 12 18 15v3.5h-3.5L12 21l-2.5-2.5H6V15L3.5 12 6 9V5.5h3.5z'], ['chain', 'Blockchain', 'M4 7h6v4H4zM14 7h6v4h-6zM9 17h6v4H9zM7 11v3h10v-3M12 14v3'], ['signers', 'Signer database', 'M12 20h9M16.5 3.5a2.1 2.1 0 013 3L7 19l-4 1 1-4z'], ['contacts', 'Contact form', 'M4 4h16v12H5.2L4 17.2zM8 8h8M8 12h5']]],
             ['Events', [['events', 'Event management', 'M3 5h18v16H3zM3 10h18M8 3v4M16 3v4']]],
-            ['Manage', [['cms', 'Content', 'M4 6h16M4 12h10M4 18h7'], ['team', 'Access management', 'M17 20v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M10 11a4 4 0 100-8 4 4 0 000 8zM21 20v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8'], ['settings', 'Settings', 'M12 8a4 4 0 100 8 4 4 0 000-8zM4 12h2M18 12h2M12 4v2M12 18v2'], ['audit', 'Audit log', 'M4 5h16M4 12h16M4 19h10']]]
+            ['Manage', [['cms', 'Content', 'M4 6h16M4 12h10M4 18h7'], ['blog', 'Blog posts', 'M4 5h13v14a2 2 0 01-2 2H6a2 2 0 01-2-2zM17 9h3v10a2 2 0 01-2 2M8 9h5M8 13h5M8 17h3'], ['team', 'Access management', 'M17 20v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2M10 11a4 4 0 100-8 4 4 0 000 8zM21 20v-2a4 4 0 00-3-3.9M16 3.1a4 4 0 010 7.8'], ['settings', 'Settings', 'M12 8a4 4 0 100 8 4 4 0 000-8zM4 12h2M18 12h2M12 4v2M12 18v2'], ['audit', 'Audit log', 'M4 5h16M4 12h16M4 19h10']]]
         ];
         // Left-menu entries shown to authenticators in place of the single Authentication item (sub-route, label, icon path).
         const EVENTS_MENU = [['cms', 'Event CMS', 'M4 6h16M4 12h10M4 18h7'], ['submissions', 'Event submissions', 'M4 5h16v14H4zM4 10h16M9 14h6']];
@@ -5738,8 +6074,161 @@
             render();
             $$('#nav .navi').forEach((n, k) => n.style.setProperty('--n', k));
         }
-        function signOut() { PT_KEY = ''; ME = null; setTimeout(() => loginSlide(0), 0); closeDrawer(); $('#shell').classList.remove('on'); $('#login').style.display = ''; location.hash = ''; }
+        function signOut() { PT_KEY = ''; ME = null; recoverBack(); setTimeout(() => loginSlide(0), 0); closeDrawer(); $('#shell').classList.remove('on'); $('#login').style.display = ''; location.hash = ''; }
+
+        /* ── account recovery (forgot password) ──────────────────── */
+        // Email → a 4-digit code → a new password → done, in the login's right column.
+        // "Send code" always moves on, whether or not an account matches, so the screen
+        // never tells anyone which emails have an account.
+        const RC_LEN = 4, RC_COOLDOWN = 30;
+        const PW_RULES = [
+            ['At least 8 characters', v => v.length >= 8],
+            ['An uppercase letter', v => /[A-Z]/.test(v)],
+            ['A lowercase letter', v => /[a-z]/.test(v)],
+            ['A number', v => /\d/.test(v)],
+            ['A special character', v => /[^A-Za-z0-9]/.test(v)],
+        ];
+        let RC = null; // { step, email, code, left, timer }
+        const RC_ICON = {
+            mail: '<svg viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 7l9 6 9-6"/></svg>',
+            lock: '<svg viewBox="0 0 24 24"><path d="M6 11h12v9H6zM8.5 11V8a3.5 3.5 0 017 0v3"/></svg>',
+            eye: '<svg viewBox="0 0 24 24"><path d="M2.5 12s3.5-6.5 9.5-6.5S21.5 12 21.5 12s-3.5 6.5-9.5 6.5S2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+            go: '<svg viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>',
+            done: '<svg viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>',
+        };
+        function recoverStart() {
+            const typed = $('#liEmail').value.trim();
+            RC = { step: 'email', email: /@/.test(typed) ? typed : '', code: '', left: 0, timer: 0 };
+            $('#lgSignIn').hidden = true; $('#lgRecover').hidden = false;
+            recoverView();
+        }
+        // Leave recovery. After a reset the sign-in is ready for the new password.
+        function recoverBack(done) {
+            if (RC) clearInterval(RC.timer);
+            const email = RC && RC.email; RC = null;
+            $('#lgRecover').hidden = true; $('#lgRecover').innerHTML = ''; $('#lgSignIn').hidden = false;
+            if (done && email) { $('#liEmail').value = email; $('#liPass').value = ''; setTimeout(() => $('#liPass').focus(), 30); }
+        }
+        function recoverView() {
+            const n = { email: 1, code: 2, password: 3 }[RC.step];
+            const head = (h1, sub) => `${n ? `<div class="lg-steps" aria-hidden="true">${[1, 2, 3].map(k => `<i class="${k <= n ? 'on' : ''}"></i>`).join('')}</div>` : ''}
+                <div class="eyebrow lg-eyebrow">Account recovery${n ? ` · Step ${n} of 3` : ''}</div><h1>${h1}</h1><p class="sub">${sub}</p>`;
+            const back = (label, fn) => `<button type="button" class="lg-back" onclick="${fn}">&larr; ${label}</button>`;
+            let html = '';
+            if (RC.step === 'email') html = `${head('Forgot your password?', 'Enter the email you sign in with and we’ll send you a 4‑digit code to set a new password.')}
+                <div class="field lg-first"><label class="lbl" for="rcEmail">Email</label>
+                  <div class="lg-inp">${RC_ICON.mail}<input class="f" id="rcEmail" type="email" placeholder="you@verichain.com" autocomplete="username" value="${esc(RC.email)}" onkeydown="if(event.key==='Enter')rcSend()"></div>
+                  <p class="err" id="rcEmailErr">Enter a valid email address.</p></div>
+                <button class="btn gold lg-go" onclick="rcSend()">Send code ${RC_ICON.go}</button>
+                ${back('Back to sign in', 'recoverBack()')}
+                <p class="small muted lg-note">Prototype — no email is sent; the code is shown on the next step.</p>`;
+            if (RC.step === 'code') html = `${head('Check your email', `Enter the 4‑digit code we sent to <b>${esc(RC.email)}</b>. It expires in 10 minutes.`)}
+                <div class="lg-otp" id="rcOtp" role="group" aria-label="Verification code">${Array.from({ length: RC_LEN }, (_, i) => `<input inputmode="numeric" autocomplete="${i ? 'off' : 'one-time-code'}" maxlength="1" aria-label="Digit ${i + 1}" oninput="rcDigit(this,${i})" onkeydown="rcKey(event,${i})" onpaste="rcPaste(event)">`).join('')}</div>
+                <div class="lg-otp-msg" id="rcMsg" role="status"></div>
+                <div class="lg-resend">Didn’t get it? <button type="button" id="rcResend" onclick="rcResend()"></button></div>
+                ${back('Use a different email', "RC.step='email';clearInterval(RC.timer);recoverView()")}
+                <p class="small muted lg-note">Prototype — the code is <b class="mono">${RC.code}</b>.</p>`;
+            if (RC.step === 'password') html = `${head('Set a new password', 'Choose a password you don’t use anywhere else.')}
+                <div class="field lg-first"><label class="lbl" for="rcPass">New password</label>
+                  <div class="lg-inp">${RC_ICON.lock}<input class="f" id="rcPass" type="password" placeholder="At least 8 characters" autocomplete="new-password" oninput="rcPw()"><button type="button" class="lg-eye" aria-label="Show password" onclick="lgEye(this,'rcPass')">${RC_ICON.eye}</button></div></div>
+                <ul class="lg-rules" id="rcRules">${PW_RULES.map(([t]) => `<li>${t}</li>`).join('')}</ul>
+                <div class="field"><label class="lbl" for="rcConfirm">Confirm new password</label>
+                  <div class="lg-inp">${RC_ICON.lock}<input class="f" id="rcConfirm" type="password" placeholder="Type it again" autocomplete="new-password" oninput="rcPw()" onkeydown="if(event.key==='Enter')rcSave()"><button type="button" class="lg-eye" aria-label="Show password" onclick="lgEye(this,'rcConfirm')">${RC_ICON.eye}</button></div>
+                  <p class="err" id="rcConfirmErr">Confirm your new password.</p></div>
+                <div class="lg-match" id="rcMatch" hidden>Both passwords match</div>
+                <button class="btn gold lg-go" onclick="rcSave()">Set password ${RC_ICON.go}</button>
+                ${back('Back to sign in', 'recoverBack()')}`;
+            if (RC.step === 'done') html = `<div class="lg-done-ic">${RC_ICON.done}</div>
+                ${head('Password updated', `You can now sign in as <b>${esc(RC.email)}</b> with your new password. Other devices signed in to this account have been signed out.`)}
+                <button class="btn gold lg-go lg-first" onclick="recoverBack(true)">Back to sign in ${RC_ICON.go}</button>`;
+            $('#lgRecover').innerHTML = html;
+            if (RC.step === 'code') rcTick();
+            setTimeout(() => { const f = $('#lgRecover input'); if (f) f.focus(); }, 30);
+        }
+        function lgEye(btn, id) { const i = document.getElementById(id); const on = i.type === 'password'; i.type = on ? 'text' : 'password'; btn.classList.toggle('on', on); btn.setAttribute('aria-label', on ? 'Hide password' : 'Show password'); }
+        function rcNewCode() { RC.code = String(Math.floor(Math.random() * 10 ** RC_LEN)).padStart(RC_LEN, '0'); }
+        function rcSend() {
+            const email = $('#rcEmail').value.trim();
+            if (!fieldErr('rcEmail', !/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test(email))) return;
+            RC.email = email.toLowerCase(); RC.step = 'code'; rcNewCode(); RC.left = RC_COOLDOWN;
+            recoverView();
+            toast(`If ${RC.email} has an account, a code is on its way.`);
+        }
+        // Resend unlocks after a cooldown; the button stays put and just goes grey.
+        function rcTick() {
+            clearInterval(RC.timer);
+            const paint = () => { const b = $('#rcResend'); if (!b) return; b.disabled = RC.left > 0; b.textContent = RC.left > 0 ? `Resend code in ${RC.left}s` : 'Resend code'; };
+            paint();
+            RC.timer = setInterval(() => { if (!RC || RC.step !== 'code') return; RC.left = Math.max(0, RC.left - 1); paint(); if (!RC.left) clearInterval(RC.timer); }, 1000);
+        }
+        function rcResend() {
+            rcNewCode(); RC.left = RC_COOLDOWN;
+            $$('#rcOtp input').forEach(i => { i.value = ''; }); rcMsg(''); $('#rcOtp').classList.remove('bad');
+            $('#lgRecover .lg-note').innerHTML = `Prototype — the code is <b class="mono">${RC.code}</b>.`;
+            rcTick(); $('#rcOtp input').focus();
+            toast(`A new code is on its way to ${RC.email}.`);
+        }
+        const rcBoxes = () => $$('#rcOtp input');
+        function rcMsg(text, bad) { const m = $('#rcMsg'); m.textContent = text; m.classList.toggle('bad', !!bad); }
+        function rcDigit(el, i) {
+            el.value = el.value.replace(/\D/g, '').slice(-1);
+            $('#rcOtp').classList.remove('bad'); rcMsg('');
+            if (el.value && i < RC_LEN - 1) rcBoxes()[i + 1].focus();
+            if (rcBoxes().every(b => b.value)) rcCheck();
+        }
+        function rcKey(e, i) {
+            const boxes = rcBoxes();
+            if (e.key === 'Backspace' && !boxes[i].value && i > 0) { boxes[i - 1].value = ''; boxes[i - 1].focus(); e.preventDefault(); }
+            if (e.key === 'ArrowLeft' && i > 0) boxes[i - 1].focus();
+            if (e.key === 'ArrowRight' && i < RC_LEN - 1) boxes[i + 1].focus();
+        }
+        function rcPaste(e) {
+            const digits = (e.clipboardData.getData('text') || '').replace(/\D/g, '').slice(0, RC_LEN);
+            if (!digits) return;
+            e.preventDefault();
+            rcBoxes().forEach((b, k) => { b.value = digits[k] || ''; });
+            rcBoxes()[Math.min(digits.length, RC_LEN - 1)].focus();
+            if (digits.length === RC_LEN) rcCheck();
+        }
+        // Checked the moment the last digit lands — no button to press.
+        function rcCheck() {
+            const boxes = rcBoxes(); const code = boxes.map(b => b.value).join('');
+            boxes.forEach(b => { b.disabled = true; }); rcMsg('Checking…');
+            setTimeout(() => {
+                if (!RC || RC.step !== 'code') return;
+                if (code === RC.code) { clearInterval(RC.timer); RC.step = 'password'; recoverView(); return; }
+                const otp = $('#rcOtp');
+                boxes.forEach(b => { b.disabled = false; b.value = ''; });
+                otp.classList.add('bad'); otp.classList.remove('shake'); void otp.offsetWidth; otp.classList.add('shake');
+                rcMsg('That code isn’t right. Check the email and try again.', true);
+                boxes[0].focus();
+            }, 500);
+        }
+        function rcPw() {
+            const v = $('#rcPass').value, c = $('#rcConfirm').value;
+            $$('#rcRules li').forEach((li, k) => li.classList.toggle('met', PW_RULES[k][1](v)));
+            const m = $('#rcMatch'); m.hidden = !c;
+            m.classList.toggle('met', !!c && c === v);
+            m.textContent = c && c === v ? 'Both passwords match' : 'Both passwords have to match';
+            if (c) fieldErr('rcConfirm', false);
+            if (PW_RULES.every(([, t]) => t(v))) { $('#rcRules').classList.remove('bad'); fieldErr('rcPass', false); }
+            if (c === v) m.classList.remove('bad');
+        }
+        function rcSave() {
+            const v = $('#rcPass').value, c = $('#rcConfirm').value;
+            const strong = PW_RULES.every(([, t]) => t(v));
+            $('#rcRules').classList.toggle('bad', !strong); fieldErr('rcPass', !strong);
+            fieldErr('rcConfirm', !c);
+            const same = !!c && c === v;
+            if (c) { $('#rcMatch').hidden = false; $('#rcMatch').classList.toggle('bad', !same); }
+            if (!strong || !same) { toast(!strong ? 'The new password doesn’t meet every rule yet.' : 'The two passwords don’t match.'); return; }
+            const who = TEAM.find(t => t.email.toLowerCase() === RC.email);
+            if (who) AUDIT.unshift({ at: TODAY + ' ' + NOW(), who: who.id, what: 'Reset their password by email code' });
+            RC.step = 'done'; recoverView();
+        }
         /* ══════════════════════════ RENDER ══════════════════════════ */
+        let NAV_OPEN = {}, NAV_SEEN = '';   // which sidebar groups are open; the route they were last opened for
+        function toggleNavGroup(k, btn) { NAV_OPEN[k] = !NAV_OPEN[k]; btn.parentElement.classList.toggle('open', NAV_OPEN[k]); btn.setAttribute('aria-expanded', NAV_OPEN[k]); }
         function paintNav() {
             const counts = {
                 subs: SUBS.filter(s => ['received', 'priced'].includes(s.status)).length, auth: SUBS.filter(s => s.status === 'paid').length + SUBS.filter(s => s.status === 'in_auth' && s.by === ME.id).length,
@@ -5751,8 +6240,19 @@
                 team: SUBS.filter(s => s.status === 'in_auth' && s.by && s.by !== ME.id).length
             };
             const ico = d => `<svg viewBox="0 0 24 24"><path d="${d}"/></svg>`;
+            // Blog posts has its own menu entry (as in the app), so it leaves the Content group.
+            const inBlog = ROUTE.page === 'cms' && ROUTE.sub === 'posts';
+            const inGroup = { auth: ROUTE.page === 'auth', cms: ROUTE.page === 'cms' && !inBlog, events: ROUTE.page === 'events' };
+            // The group holding the current page opens on arrival; the rest stay as the user left them.
+            const at = ROUTE.page + '/' + (ROUTE.sub || '');
+            if (at !== NAV_SEEN) { NAV_SEEN = at; Object.keys(inGroup).forEach(k => { if (inGroup[k]) NAV_OPEN[k] = true; }); }
+            // A collapsible parent. Closed, it still shows what is waiting inside it.
+            const group = (k, l, d, children, waiting) => {
+                const open = !!NAV_OPEN[k];
+                return `<div class="navgrp-item ${open ? 'open' : ''}"><button class="navi parent ${inGroup[k] ? 'on' : ''}" aria-expanded="${open}" onclick="toggleNavGroup('${k}', this)">${ico(d)}<span>${l}</span>${waiting ? `<span class="cnt" title="Waiting">${waiting}</span>` : ''}<svg class="chev" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button><div class="subwrap"><div class="subnav">${children}</div></div></div>`;
+            };
             $('#nav').innerHTML = NAV.map(([g, items]) => {
-                const vis = items.filter(([k]) => CAN[ME.role].includes(k)); if (!vis.length) return '';
+                const vis = items.filter(([k]) => CAN[ME.role].includes(k === 'blog' ? 'cms' : k)); if (!vis.length) return '';
                 return `<div class="navgrp">${g.toUpperCase()}</div>` + vis.map(([k, l, d]) => {
                     if (k === 'auth') {
                         // The desk is split by stage in the menu. Authenticators see the stages as top-level entries;
@@ -5761,17 +6261,22 @@
                         const stages = AUTH_MENU.filter(m => !m[3] || m[3] === ME.role);
                         const items = stages.map(([sub, label, icon]) => `<button class="navi ${ME.role === 'admin' ? 'subi' : ''} ${cur === sub ? 'on' : ''}" onclick="go('auth','${sub}')">${ico(icon)}<span>${label}</span>${authCounts[sub] ? `<span class="cnt">${authCounts[sub]}</span>` : ''}</button>`).join('');
                         if (ME.role === 'authenticator') return items;
-                        return `<button class="navi parent ${ROUTE.page === 'auth' ? 'on' : ''}" onclick="go('auth','queue')">${ico(d)}<span>${l}</span></button><div class="subnav">${items}</div>`;
+                        return group(k, l, d, items, stages.reduce((t, [sub]) => t + (authCounts[sub] || 0), 0));
                     }
                     if (k === 'cms') {
-                        const cur = ROUTE.page === 'cms' ? (ROUTE.sub || 'home') : '';
-                        const flag = key => CMS_DRAFTS[key] ? Object.keys(CMS_DRAFTS[key]).length : key === 'posts' && POSTS.some(p => p.status === 'draft') ? POSTS.filter(p => p.status === 'draft').length : 0;
-                        return `<button class="navi parent ${ROUTE.page === 'cms' ? 'on' : ''}" onclick="go('cms','home')">${ico(d)}<span>${l}</span></button><div class="subnav">${CMS_MENU.map(([sub, label]) => `<button class="navi subi ${cur === sub ? 'on' : ''}" onclick="go('cms','${sub}')">${ico('M4 6h16M4 12h10M4 18h7')}<span>${label}</span>${flag(sub) ? `<span class="cnt" title="Unpublished edits">${flag(sub)}</span>` : ''}</button>`).join('')}</div>`;
+                        const cur = inGroup.cms ? (ROUTE.sub || 'home') : '';
+                        const flag = key => CMS_DRAFTS[key] ? Object.keys(CMS_DRAFTS[key]).length : 0;
+                        const menu = CMS_MENU.filter(([sub]) => sub !== 'posts');
+                        return group(k, l, d, menu.map(([sub, label]) => `<button class="navi subi ${cur === sub ? 'on' : ''}" onclick="go('cms','${sub}')">${ico('M4 6h16M4 12h10M4 18h7')}<span>${label}</span>${flag(sub) ? `<span class="cnt" title="Unpublished edits">${flag(sub)}</span>` : ''}</button>`).join(''), menu.reduce((t, [sub]) => t + flag(sub), 0));
+                    }
+                    if (k === 'blog') {
+                        const drafts = POSTS.filter(p => p.status === 'draft').length;
+                        return `<button class="navi ${inBlog ? 'on' : ''}" onclick="go('cms','posts')">${ico(d)}<span>${l}</span>${drafts ? `<span class="cnt" title="Drafts">${drafts}</span>` : ''}</button>`;
                     }
                     if (k === 'events') {
                         const cur = ROUTE.page === 'events' ? (ROUTE.sub === 'event' ? 'cms' : (ROUTE.sub || 'cms')) : '';
                         const evCounts = { cms: EVENTS.filter(e => e.status === 'draft').length, submissions: SUBS.filter(s => s.event && !['complete', 'returned'].includes(s.status)).length };
-                        return `<button class="navi parent ${ROUTE.page === 'events' ? 'on' : ''}" onclick="go('events','cms')">${ico(d)}<span>${l}</span></button><div class="subnav">${EVENTS_MENU.map(([sub, label, icon]) => `<button class="navi subi ${cur === sub ? 'on' : ''}" onclick="go('events','${sub}')">${ico(icon)}<span>${label}</span>${evCounts[sub] ? `<span class="cnt">${evCounts[sub]}</span>` : ''}</button>`).join('')}</div>`;
+                        return group(k, l, d, EVENTS_MENU.map(([sub, label, icon]) => `<button class="navi subi ${cur === sub ? 'on' : ''}" onclick="go('events','${sub}')">${ico(icon)}<span>${label}</span>${evCounts[sub] ? `<span class="cnt">${evCounts[sub]}</span>` : ''}</button>`).join(''), evCounts.cms + evCounts.submissions);
                     }
                     return `<button class="navi ${ROUTE.page === k ? 'on' : ''}" onclick="go('${k}')">${ico(d)}<span>${l}</span>${counts[k] ? `<span class="cnt">${counts[k]}</span>` : ''}</button>`;
                 }).join('');
