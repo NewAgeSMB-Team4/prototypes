@@ -23,6 +23,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script type="text/javascript"
+    src="https://gc.kes.v2.scr.kaspersky-labs.com/7EA5E9BB-55E1-4C31-9C21-4943DDFED2E4/main.js?attr=MR5MPwHy86SZlX9gFUKUpGzBEnOEcFQlCNlJrcW3oQNIycvSuxMYGCEiYkWPG3iwHY9r0mEikeenUsJD0kgUWMRJ7IHVyJ51cbR0YNr8u_g1nGmZCB9iweOrOXMDnNDjSvgyHg5XvL2HB0lcG3v_TuGSKRi6Mftn-FoO3H9LHxyFmpn-dsKN39bAjXTw_oMtjE3mpTbz89mpIDmZ5G_U0wSmM-zodBhGRCcUFuIt0Nq1CI6YfcQam0en0f-dNZaLAbpEwC6rEQppT8wO9dRTNm-VU1yndtuflvlk6Lp7G6LjBy46dSm1KVQ8N4twyLylTRmbsnPWrwfdM_6xoqO9VuYXrumlI2qbqy5LOgeFxKoHHpkHvE6ZURAf7sBtcdhswXl36_EPxgni1lmZX_63MVD8lfrjpb7NNAOC7JyVFgkt6D7a1hw5kOFFb2MzfYzDF6TgznZAtGw49R-S8VsP35NI0q1OQsXZ2Y1uOE_UqybP-E_n8seNZ9ctRzl4EHV3g4QEFn7mPnE96ZxVTRmGYpVx65GaCFhAv3LRh3KPIHOg4z35a9PqxOpkxpd2bvLoyna1z7N-BgUKEVpQtLJoN3SXs24a1YIEqtwxXj2wbXwu4dnuUcx5lHor7pYlfoD_oroiTs0nUZ4U_uS7rH379qsQn8xQ0x53EMqiCZWdIfQkFCBqWBmDYzeW14p8prNcOZHcQzJCFJXFiPqbLWmRyyG7TisPrcUTY6FMB7Un8ATQyez1OC3aiXCcTL1igSHBf9aRsyiZe5RgVIvOw9n_Jy_po10M5IMk96Gb4JMTrDTRYtb-gZBN29h-WNimirk82LaCSkl4l-rWP93JGMDr5BaDbSlBV6OIsB3MySWE-iuiprhvPgkgUlF73_nVSxyK7MZn1E1Vz9BIsT-X1rPeTTkCSoQ1inozLPLO3rgqn161B1YOIojupe5agA_hDmd0-9lPzg-7yIw7wAloYay70zrZJdiyYoFk2qz19pxN8PGOPUw3ms0AWMtztvn9Vo2DY_yW6bcttqrRBicWcgFtHa3-zoxdEuTCGQ_brWguMj_B0SANFxGpAWSnGvj8ZtCt7xh38GyVRuTYesvDKFhNmRg8yhZHLEwVQxLMibcw2CzMnJfcmxW0ZQeRwE_fEAX4B2el05ppK2cDyqPE9NgHP21LwNjAivl0hassXiLEb3HtSfnljFEIp54KaAUNwyv0gnk7GzN-r1qs8UsaC9Xe7p78XlM5bAM5HUQYojwLVmQsp8K508Kj7jO9S35twHXMzEgRd2PQf69E0fuOMIOzY1y6cUBpvqKR4xtU3PnrGjkbxcJSYR4i3l2MVgL10zUl--JBCCjiGuw8n_AR7Pzn3y-QE1zxhaz3J--bn9ycACkKUyJYbrOjrNeNMoeQWB6wxD2mUNK0509uZq9BRYD0-64agBMPUlnQvaaaGxh7dhB2iFAhdcCyaokNGHhMaiyz61lKgK8oq7I-uCxPqaJIEphfoekAPNHDEusv01Mj-b6K340rzrlfV-dEyB8hSuCsYnvUORWaRt8TNrvjFNVLUgHFfpAM5IlCSX5rNESXvwjkxUPFbonMuznFneX8_EXuv1kn4AcXbFSVJRUP-ygoKbCkUqasfxbfVfyQFfE-5zO9HPmxuxVd2gDJuu3RBouYpOjYm0VwG6dSfpdXmPunxH68j2ilyI0qv5S9_fGiyKn_fuzjVoZ3tm8gqM1gR83m"
+    nonce="799f3a9dab4bfb55e802aa359f843a7c" charset="UTF-8"></script>
   <style>
     *,
     :after,
@@ -2481,12 +2484,42 @@
     }
 
     .ad-title {
-      margin-top: 5px;
+      margin-top: 3px;
       font-size: 20px;
       font-weight: 700;
       line-height: 1.18;
       color: #fff;
       text-shadow: 0 1px 10px rgba(11, 22, 38, .45)
+    }
+
+    /* The mark and the copy, side by side. The tile is the same 40px square the
+       category banner gives it, so the two placements identify an advertiser
+       the same way rather than each inventing a size. */
+    .ad-hero-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px
+    }
+
+    .ad-hero-chip {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: rgba(255, 255, 255, .2)
+    }
+
+    /* Where the ad is filed, under the name it belongs to. Lighter than the
+       advertiser above it: two lines of the same weight either side of the
+       title would frame it rather than rank it. */
+    .ad-hero-cat {
+      margin-top: 3px;
+      font-size: 11.5px;
+      line-height: 1.35;
+      color: rgba(255, 255, 255, .8)
     }
 
     .ad-foot {
@@ -2538,9 +2571,33 @@
        tab bar, measured at mount, so neither is ever covered. */
     .ad-side-wrap {
       position: absolute;
-      z-index: 5;
+      /* Above the page's own sticky furniture, and this is the actual reason
+         the card looked cut off.
+
+         It sat at 5. The directory page's heading, search box, filter row and
+         preferences notice are one sticky block at z-10 inside #screen, and
+         #screen sets no z-index or transform of its own — so it forms no
+         stacking context and that block competes with this rail directly at
+         the root. At 5 the rail lost, and the block's cream background painted
+         straight over the top of the card: the artwork, the advertiser's name
+         and the head of the headline all disappeared behind it, with the cut
+         landing exactly where the block ends.
+
+         Nothing was wrong with the card's size. 25 clears the z-10 and z-20
+         page furniture and stays under the page top bar at 30, which the rail
+         starts below anyway, and well under the sheets and modals at 70+. */
+      z-index: 25;
       left: 0;
       right: 0;
+      /* Tall enough for the card, whatever the measurement says.
+
+         top and bottom are written at runtime from the page header and the
+         bottom nav, so the rail's height is whatever those two happen to
+         measure — and the card is clipped to it. This is the floor that stops
+         a bad measurement from cutting the card: 280px for the card plus the
+         24px its max-height reserves. The rail grows downward past `bottom`
+         rather than shrinking the ad. */
+      min-height: 304px;
       overflow: hidden;
       pointer-events: none
     }
@@ -2596,7 +2653,22 @@
       right: 0;
       top: 50%;
       width: 172px;
-      height: min(300px, 78%);
+      /* A fixed height, not a share of the rail.
+
+         It was 78% of the rail, and the rail is measured at runtime from the
+         page header down to the bottom nav — two elements that are different
+         heights on Home and on a stacked page, and absent altogether on some.
+         Whenever that measurement came out small the card came out small with
+         it, and since the copy sits at the bottom, what got cut was the top:
+         the advertiser's name and the head of the headline, flush against the
+         edge with no padding above them.
+
+         Nothing was gained by the percentage. The rail is hundreds of pixels
+         tall on any phone this runs on, so 78% was only ever a way for a bad
+         measurement to reach the card. A flat 280px is what the contents want;
+         max-height keeps it inside a rail that really is shorter than that. */
+      height: 280px;
+      max-height: calc(100% - 24px);
       pointer-events: auto;
       border-radius: 18px 0 0 18px;
       overflow: hidden;
@@ -2720,12 +2792,24 @@
     .ad-side-body {
       position: relative;
       z-index: 1;
-      height: 100%;
+      min-height: 100%;
       /* Bottom padding clears the dot row, which is pinned to the panel. */
       padding: 15px 14px 34px;
       display: flex;
-      flex-direction: column;
-      justify-content: flex-end
+      flex-direction: column
+    }
+
+    /* The copy sits at the bottom of the card, pushed there by a margin rather
+       than by justify-content: flex-end.
+
+       The two look identical while the card has room to spare and behave
+       oppositely when it does not. flex-end overflows at the start, so a card
+       shorter than its contents was cut across the top — losing the
+       advertiser's name and the top of the headline, the two things the card
+       exists to say. An auto margin collapses to nothing instead, so the copy
+       starts at the top edge and stays whole. */
+    .ad-side-body> :first-child {
+      margin-top: auto
     }
 
     .ad-side-kicker {
@@ -3617,6 +3701,91 @@
        the handful of colour utilities it actually uses rather than restyling
        every screen. Scoped to the device screen, so the presenter chrome and
        the picker both switch from one attribute. */
+    /* Ad detail — the card of facts, sized and coloured to match the website's
+       listing panel: 34px mint icon tiles, spaced uppercase labels, 16px values. */
+    .ad-info-card {
+      margin-top: 1.5rem;
+      border-radius: 18px;
+      border: 1px solid rgba(26, 46, 74, .1);
+      background: #fbfcfd;
+      overflow: hidden
+    }
+
+    .ad-info-row {
+      display: flex;
+      gap: .85rem;
+      align-items: flex-start;
+      padding: .9rem 1rem
+    }
+
+    .ad-info-row+.ad-info-row {
+      border-top: 1px solid rgba(26, 46, 74, .1)
+    }
+
+    .ad-info-ic {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: #e3f2e9;
+      color: #20643d;
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      margin-top: 1px
+    }
+
+    .ad-info-lbl {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: #4e5f72;
+      margin-bottom: .15rem
+    }
+
+    .ad-info-val {
+      font-size: 16px;
+      font-weight: 600;
+      color: #1a2e4a;
+      line-height: 1.5
+    }
+
+    .ad-info-val a {
+      color: #20643d;
+      text-decoration: underline;
+      overflow-wrap: anywhere
+    }
+
+    .ad-info-val>div+div {
+      margin-top: .15rem
+    }
+
+    #viewport[data-theme="dark"] .ad-info-card {
+      background: var(--d-card);
+      border-color: var(--d-line)
+    }
+
+    #viewport[data-theme="dark"] .ad-info-row+.ad-info-row {
+      border-top-color: var(--d-line)
+    }
+
+    #viewport[data-theme="dark"] .ad-info-ic {
+      background: rgba(45, 122, 79, .26);
+      color: #6cc490
+    }
+
+    #viewport[data-theme="dark"] .ad-info-lbl {
+      color: var(--d-muted)
+    }
+
+    #viewport[data-theme="dark"] .ad-info-val {
+      color: var(--d-text)
+    }
+
+    #viewport[data-theme="dark"] .ad-info-val a {
+      color: #6cc490
+    }
+
     #viewport[data-theme="dark"] {
       --d-bg: #0f1915;
       --d-card: #17241e;
@@ -4511,12 +4680,40 @@
          while the footer and the phone below carried on overlapping whatever
          had overflowed. Here the panel is the scroller and the index is just a
          list inside it, at its natural height. */
+      /* The stage is the scroller once the layout stacks.
+
+         It is `position:fixed; inset:0; overflow:hidden`, which is right beside
+         the phone — the window is the frame and nothing moves. Stacked, it was
+         wrong: the panel and the device are now one column taller than the
+         window, and with the only scrollable box being the panel's own 44vh
+         cap, everything below it was simply unreachable. In a preview pane
+         short enough the phone was cut off at the bottom with no way to get to
+         it, which is why it only came right in full screen.
+
+         So the stage scrolls, the panel flows at its natural height inside it,
+         and the device sits under it in the same column. */
+      #stage {
+        overflow-y: auto;
+        overscroll-behavior-y: contain
+      }
+
       #panel {
         width: 100%;
-        max-height: 44vh;
+        max-height: none;
         padding: 22px 22px 16px;
-        overflow-y: auto;
-        overscroll-behavior: contain
+        overflow-y: visible
+      }
+
+      /* Natural height, both of them: `flex:1` against a scrolling parent has
+         no share to take, and would collapse the device to nothing. */
+      #stage-right {
+        flex: 0 0 auto;
+        padding: 0 16px 28px
+      }
+
+      #device-wrap {
+        flex: 0 0 auto;
+        overflow: visible
       }
 
       #screen-index {
@@ -4626,6 +4823,12 @@
         <path
           d="M12.6 2.6A2 2 0 0 0 11.2 2H4a2 2 0 0 0-2 2v7.2a2 2 0 0 0 .6 1.4l8.8 8.8a2 2 0 0 0 2.8 0l6.8-6.8a2 2 0 0 0 0-2.8Z" />
         <circle cx="7.5" cy="7.5" r="1.3" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="i-layers" viewBox="0 0 24 24">
+        <path
+          d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z" />
+        <path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65" />
+        <path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65" />
       </symbol>
       <symbol id="i-chart" viewBox="0 0 24 24">
         <path d="M3 3v16a2 2 0 0 0 2 2h16" />
@@ -4950,11 +5153,27 @@
       const c = catOf(a.cat);
       // The advertiser's own artwork replaces the body, never the frame — the
       // Ad chip and the dismiss stay exactly where a reader expects them.
+      /* The order every placement now uses: the category mark, who is
+         advertising, what they are advertising, and where it is filed. The
+         watermark glyph was the only thing standing in for a logo — it is a
+         132px wash behind the copy, which is decoration rather than
+         identification — so the mark is a tile beside the words, the size the
+         banner and the sidebar card both give it.
+
+         The kicker was the category, which meant the line naming the business
+         did not exist and the category was said at the top instead of under
+         the name where the other units say it. */
       const body = a.creative ? adCustomHero(a) : `<div class="ad-hero bg-gradient-to-br ${c.grad}">
       <div class="ad-hero-art">${ic(c.ic, 132)}</div>
       <div class="ad-hero-body">
-        <div class="ad-kicker">${c.name}</div>
-        <div class="ad-title">${a.name}</div>
+        <div class="ad-hero-top">
+          <span class="ad-hero-chip">${ic(c.ic, 20)}</span>
+          <span class="min-w-0">
+            <span class="ad-kicker block truncate">${a.advertiser || ''}</span>
+            <span class="ad-title block">${a.name}</span>
+            <span class="ad-hero-cat block truncate">${c.name}${a.sub ? ' · ' + a.sub : ''}</span>
+          </span>
+        </div>
         <div class="ad-foot">
           <button type="button" data-adcta="${a.id}" class="ad-cta">${AD_CTA}${ic('arrow-right', 14)}</button>
         </div>
@@ -4988,9 +5207,13 @@
       <span class="ad-side-tag">Ad</span>
       <span class="ad-side-art">${ic(c.ic, 260)}</span>
       <div class="ad-side-body">
-        <div class="ad-side-kicker">${c.name}</div>
+        <!-- Advertiser on top, then the ad, then where it is filed. The sub
+             line used to end in "Now open to Bergen County families." — copy
+             the card wrote on the advertiser's behalf, true of nothing in
+             particular and appended to every ad in the deck. -->
+        <div class="ad-side-kicker">${a.advertiser || c.name}</div>
         <div class="ad-side-title">${a.name}</div>
-        <div class="ad-side-sub">${a.sub ? a.sub + ' · ' : ''}Now open to Bergen County families.</div>
+        <div class="ad-side-sub">${c.name}${a.sub ? ' · ' + a.sub : ''}</div>
         <button type="button" data-adcta="${a.id}" class="ad-side-cta">${AD_CTA}${ic('arrow-right', 15)}</button>
       </div>
     </div>`;
@@ -5056,14 +5279,26 @@
       <span class="absolute inset-0" style="background:linear-gradient(90deg,rgba(4,10,26,.82) 0%,rgba(4,10,26,.5) 100%)"></span>
       <div class="relative min-w-0 flex-1">
         ${adLogo(a.creative)}
-        <div class="text-white/90 text-[11.5px] mt-1 truncate">${a.creative.title}</div>
+        <!-- Advertiser and filing under the supplied headline, so a custom
+             creative says the same three things the house template does — an
+             ad that brought its own artwork should not be the one that tells a
+             family less about who is behind it. -->
+        <div class="text-white/75 text-[10px] font-extrabold uppercase tracking-wide mt-1 truncate">${a.advertiser || ''}</div>
+        <div class="text-white/90 text-[11.5px] truncate">${a.creative.title}</div>
+        <div class="text-white/65 text-[11px] mt-0.5 truncate">${c.name}${a.sub ? ' · ' + a.sub : ''}</div>
       </div>
       <button type="button" data-adcta="${a.id}" class="ad-feed-cta">${AD_CTA}${ic('arrow-right', 14)}</button>
     </div>`
         : `<div class="bg-gradient-to-r from-navy to-teal px-3.5 py-3 min-h-[74px] flex items-center gap-3">
+      <!-- Logo, advertiser, ad, category — the order the create form previews
+           it in. It led with the ad name and never named the business at all,
+           so the unit a family meets first was the one that did not say who was
+           talking. -->
       <div class="w-10 h-10 rounded-xl bg-white/20 text-white grid place-items-center shrink-0">${ic(c.ic, 20)}</div>
-      <div class="min-w-0 flex-1"><div class="text-white font-bold text-[13.5px] leading-snug truncate">${a.name}</div>
-        <div class="text-white/80 text-[11.5px] mt-0.5 truncate">${c.name}${a.sub ? ' · ' + a.sub : ''}</div></div>
+      <div class="min-w-0 flex-1">
+        <div class="text-white/75 text-[10px] font-extrabold uppercase tracking-wide truncate">${a.advertiser || ''}</div>
+        <div class="text-white font-bold text-[13.5px] leading-snug truncate">${a.name}</div>
+        <div class="text-white/70 text-[11px] mt-0.5 truncate">${c.name}${a.sub ? ' · ' + a.sub : ''}</div></div>
       <button type="button" data-adcta="${a.id}" class="ad-feed-cta">${AD_CTA}${ic('arrow-right', 14)}</button>
     </div>`;
       return `<div data-adclick="${a.id}" class="relative rounded-2xl overflow-hidden shadow-soft active:scale-[.99] transition cursor-pointer">
@@ -5108,7 +5343,11 @@
       e6: 'tutoring',   // flasks — science night
       e7: 'sports',     // a kids' team round its coach
       e8: 'paintkid',   // a toddler mid-mess — play and movement
+      e28: 'swim',      // stroke clinic
     };
+    // An event with no photo of its own shows its category's photo, so every
+    // event row and page has a picture.
+    const evImgKey = e => EV_IMG[e.id] || CAT_IMG[e.cat];
     /* What an event carries beyond the one photo that leads its page: any
        number of extra stills, and at most one video. One is the cap, not a
        convention — an event page is something a parent scans on a Tuesday
@@ -5120,14 +5359,20 @@
        are generated per event and per index, so a number is the whole state. */
     const EV_MEDIA = {
       e1: { shots: 5, video: { len: '0:48' } },
-      e2: { shots: 3 },
-      e4: { shots: 9, video: { len: '1:22' } },
-      e5: { shots: 4 },
-      e7: { shots: 6, video: { len: '2:05' } },
-      e8: { shots: 2 },
+      e2: { shots: 3, video: { len: '0:36' } },
+      e4: { shots: 5, video: { len: '1:22' } },
+      e5: { shots: 4, video: { len: '1:05' } },
+      e7: { shots: 5, video: { len: '2:05' } },
+      e8: { shots: 3, video: { len: '0:42' } },
     };
-    const evShots = e => (EV_MEDIA[e.id] || {}).shots || 0;
-    const evVideo = e => (EV_MEDIA[e.id] || {}).video || null;
+    // An event page shows at most 5 photos and 1 video.
+    const EV_MAX_PHOTOS = 5;
+    /* Every event carries media. One with no entry above gets 3–5 photos and a
+       short clip, picked stably from its id so it is the same on every visit. */
+    const evSeed = e => { let h = 0; for (const ch of String(e.id)) h = (h * 31 + ch.charCodeAt(0)) >>> 0; return h; };
+    const evMediaOf = e => EV_MEDIA[e.id] || { shots: 3 + evSeed(e) % 3, video: { len: `0:${String(30 + evSeed(e) % 29).padStart(2, '0')}` } };
+    const evShots = e => Math.min(evMediaOf(e).shots || 0, EV_MAX_PHOTOS);
+    const evVideo = e => evMediaOf(e).video || null;
     // Same generator the listing galleries use: stable per event and index.
     /* Gallery frames come out of the embedded set rather than off picsum, which
        needs a network and returned a different random photograph on every load
@@ -5135,7 +5380,7 @@
        each time the page is drawn, which is what makes a grid of them read as
        one gallery rather than a slideshow. The lead photo is skipped so the
        first tile is not the frame already at the top of the page. */
-    const evShotSrc = (e, i, w, h) => shotFrom(e.id, i, EV_IMG[e.id]);
+    const evShotSrc = (e, i, w, h) => shotFrom(e.id, i, evImgKey(e));
     /* ---- category photography ----
        The eight category pictures, plus two extras the events and guides draw
        on, carried inside the file as data URIs rather than fetched.
@@ -5232,7 +5477,7 @@
     <div class="absolute -right-4 -bottom-5 text-white/20 rotate-[-8deg]">${ic(cat.ic, iconSize)}</div>
     ${src ? `<img src="${src}" alt="" loading="lazy" class="relative w-full h-full object-cover" onerror="this.remove()">` : ''}</div>`;
     }
-    const evPhoto = (e, cat, style, w, h, iconSize) => photoBox(EV_IMG[e.id] ? unsplash(EV_IMG[e.id], w, h) : '', cat, style, iconSize);
+    const evPhoto = (e, cat, style, w, h, iconSize) => photoBox(evImgKey(e) ? unsplash(evImgKey(e), w, h) : '', cat, style, iconSize);
     const artPhoto = (a, cat, style, w, h, iconSize) => photoBox(ART_IMG[a.id] ? unsplash(ART_IMG[a.id], w, h) : '', cat, style, iconSize);
     function banner(cat, h = 'h-24', extra = '') {
       return `<div class="${h} bg-gradient-to-br ${cat.grad} relative overflow-hidden ${extra}">
@@ -5293,6 +5538,10 @@
     ];
     const DEFAULT_DIAL = 'us';
     const dialOf = id => DIAL_CODES.find(c => c.id === id) || DIAL_CODES[0];
+    // Working hours, one range per line — split on the separator they are
+    // already written with.
+    const whLines = v => String(v || '').split(/\s*·\s*/).map(x => x.trim()).filter(Boolean)
+      .map((x, i) => `<div class="${i ? 'mt-0.5' : ''}">${x}</div>`).join('');
     // What a saved number reads as anywhere it is shown back: "+1 (201) 555-0142".
     const fullPhone = u => u && u.phone ? `${dialOf(u.dial).dial} ${u.phone}` : '';
     /* The picker itself. Each option is the ISO code and the dial — "US +1",
@@ -5325,7 +5574,11 @@
     ];
     const TODAY = new Date();
     const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-    function evd(off) { const d = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1); d.setDate(off); return d.toISOString().slice(0, 10); }
+    // Days from today — the sample events stay ahead of whoever opens the app.
+    // A date as YYYY-MM-DD in the device's own time zone. toISOString() is UTC,
+    // which moves every date back a day for anyone east of Greenwich.
+    const isoLocal = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    function evd(off) { const d = new Date(TODAY.getFullYear(), TODAY.getMonth(), TODAY.getDate() + off); return isoLocal(d); }
     /* `sub` is the event's subcategory — one of its own category's, and the
        last positional because it arrived after the rest. It is what the
        Subcategory filter on the events list matches against, and it is
@@ -5342,7 +5595,79 @@
       ev('e6', 'Little Scientists Lab', 'tutoring', 'book', evd(17), '4:00 PM', 'Paramus', 6, 10, 'Bergen STEM Academy', 'Hands-on experiments with volcanoes, slime, and circuits. Lab coats provided!'),
       ev('e7', 'Summer Soccer Camp', 'sports', 'soccer', evd(23), '9:00 AM', 'Paramus', 5, 12, 'Bergen United Soccer Club', 'A multi-day clinic focused on dribbling, passing, and small-sided games with licensed coaches.', evd(27), 'Soccer'),
       ev('e8', 'Music & Movement', 'music', 'music', evd(26), '11:00 AM', 'Wyckoff', 1, 4, 'Grace Ballet Academy', 'Parent-and-me class with instruments, scarves, and lots of dancing. Great for toddlers.', '', 'Ballet'),
+      /* More sample events, four per category, so every category page has a
+         list — most sit in the demo parent's towns (Ridgewood, Paramus) and
+         ages (6–13), which the category page applies as filters on arrival. */
+      ev('e9', 'Back-to-School Health Fair', 'medical', 'stethoscope', evd(3), '10:00 AM', 'Paramus', 0, 18, 'Valley Pediatrics', 'Free vision and hearing screenings, flu shot info, and healthy-snack demos for the whole family.', '', 'Pediatricians'),
+      ev('e10', 'Healthy Smiles Day', 'medical', 'tooth', evd(8), '1:00 PM', 'Ridgewood', 3, 12, 'Ridgewood Kids Dental', 'Meet the dentists, tour the office, and take home a brushing kit. Short check-ups available.', '', 'Dentists'),
+      ev('e11', 'Kids Feelings Workshop', 'medical', 'heart', evd(16), '4:30 PM', 'Paramus', 6, 12, 'Bergen Family Therapy', 'A gentle, play-based session on naming big feelings and calming down. Parents join for the last 15 minutes.', '', 'Therapy'),
+      ev('e12', 'Vision Screening Morning', 'medical', 'eye', evd(29), '9:00 AM', 'Hackensack', 2, 14, 'ClearSight Pediatric Eye', 'Quick, free eye checks for children, with guidance on next steps if anything needs a closer look.', '', 'Vision & Hearing'),
+      ev('e13', 'Preschool Open House', 'schools', 'school', evd(5), '10:00 AM', 'Ridgewood', 2, 5, 'Little Oaks Preschool', 'Visit the classrooms, meet the teachers, and see a morning of play-based learning in action.', '', 'Preschool'),
+      ev('e14', 'K–8 Info Night', 'schools', 'school', evd(11), '6:30 PM', 'Paramus', 5, 13, 'Paramus Day School', 'Hear from the head of school, tour the campus, and talk with current families about the programs.', '', 'Private K–8'),
+      ev('e15', 'Family Science Night', 'schools', 'school', evd(19), '6:00 PM', 'Ridgewood', 6, 12, 'Ridgewood Public Schools', 'Hands-on science stations run by teachers and students. Open to all families in town.', '', 'Public'),
+      ev('e16', 'Learning Support Q&A', 'schools', 'school', evd(33), '7:00 PM', 'Paramus', 4, 14, 'Bergen Learning Partners', 'An evening with special-education specialists on IEPs, 504 plans and support at home.', '', 'Special Education'),
+      ev('e17', 'Math Games Afternoon', 'tutoring', 'book', evd(6), '3:30 PM', 'Paramus', 6, 11, 'Mathnasium Paramus', 'Puzzles, strategy games and quick challenges that make number sense fun. Free trial session.', '', 'Math'),
+      ev('e18', 'Reading Buddies Club', 'tutoring', 'book', evd(12), '4:00 PM', 'Ridgewood', 6, 10, 'Ridgewood Public Library', 'Small-group reading circles with trained tutors. Each child leaves with a new book.', '', 'Reading'),
+      ev('e19', 'SAT Strategy Workshop', 'tutoring', 'book', evd(20), '10:00 AM', 'Paramus', 13, 18, 'Bergen Test Prep', 'Timing, question types and a practice section with a full walkthrough of the answers.', '', 'SAT / ACT'),
+      ev('e20', 'Spanish Storytime', 'tutoring', 'book', evd(27), '11:00 AM', 'Ridgewood', 4, 9, 'Hola Kids Language Center', 'Songs, stories and simple games in Spanish. No experience needed.', '', 'Languages'),
+      ev('e21', 'Paint Your Own Canvas', 'arts', 'palette', evd(4), '1:00 PM', 'Paramus', 6, 13, 'Color Me Studio', 'Step-by-step acrylic painting with an instructor. Every child takes a finished canvas home.', '', 'Painting'),
+      ev('e22', 'Clay Creatures Class', 'arts', 'palette', evd(10), '10:30 AM', 'Ridgewood', 5, 12, 'Ridgewood Pottery', 'Hand-build little animals from clay; pieces are glazed and fired for pickup the following week.', '', 'Pottery'),
+      ev('e23', 'Fall Crafts Fair for Kids', 'arts', 'palette', evd(18), '11:00 AM', 'Ridgewood', 3, 12, 'Ridgewood Arts Council', 'Leaf prints, paper lanterns and pumpkin decorating at drop-in craft tables.', '', 'Crafts'),
+      ev('e24', 'Junior Art Studio', 'arts', 'palette', evd(31), '4:00 PM', 'Teaneck', 8, 14, 'Teaneck Art Center', 'Drawing and mixed media for older kids, with a mini-exhibit at the end of the session.', '', 'Painting'),
+      ev('e25', 'Youth Soccer Skills Day', 'sports', 'soccer', evd(2), '9:00 AM', 'Ridgewood', 6, 12, 'Ridgewood Soccer Club', 'Drills, scrimmages and a skills challenge with licensed coaches. All levels welcome.', '', 'Soccer'),
+      ev('e26', 'Karate Try-It Class', 'sports', 'soccer', evd(7), '5:00 PM', 'Paramus', 5, 13, 'Bergen Martial Arts', 'A free intro class covering basic stances, blocks and respect on the mat.', '', 'Martial Arts'),
+      ev('e27', 'Gymnastics Open Gym', 'sports', 'soccer', evd(15), '10:00 AM', 'Paramus', 4, 12, 'Flip Zone Gymnastics', 'Supervised open gym with trampolines, beams and foam pits. Grip socks provided.', '', 'Gymnastics'),
+      ev('e28', 'Stroke Clinic for Swimmers', 'sports', 'waves', evd(24), '8:30 AM', 'Ridgewood', 7, 13, 'Ridgewood Swim Club', 'Coaches work on freestyle and backstroke technique with small lanes and video feedback.', '', 'Swimming'),
+      ev('e29', 'Kids Piano Recital', 'music', 'music', evd(5), '3:00 PM', 'Ridgewood', 6, 14, 'Ridgewood Music Academy', 'Students of all levels perform short pieces. Families welcome; reception to follow.', '', 'Piano'),
+      ev('e30', 'Guitar Jam for Beginners', 'music', 'music', evd(13), '4:30 PM', 'Paramus', 8, 14, 'Paramus School of Rock', 'Learn three chords and play along with the band in a relaxed group session.', '', 'Guitar'),
+      ev('e31', 'Ballet Showcase', 'music', 'theater', evd(21), '2:00 PM', 'Paramus', 5, 12, 'Grace Ballet Academy', 'An afternoon of short ballet pieces performed by the academy’s young dancers.', '', 'Ballet'),
+      ev('e32', 'Kids Choir Open Rehearsal', 'music', 'music', evd(30), '6:00 PM', 'Ridgewood', 7, 13, 'Bergen Youth Chorus', 'Sit in on a rehearsal, then try a warm-up with the choir. Great for new singers.', '', 'Voice'),
+      ev('e33', 'Weekend STEM Camp', 'camps', 'tent', evd(3), '9:00 AM', 'Paramus', 7, 12, 'Bergen STEM Academy', 'Two days of robotics, coding and engineering challenges in small teams.', evd(4), 'STEM'),
+      ev('e34', 'Fall Break Day Camp', 'camps', 'tent', evd(9), '8:30 AM', 'Ridgewood', 5, 11, 'Ridgewood YMCA', 'Games, crafts, swim time and a nature walk. Lunch and snacks included.', '', 'Day Camp'),
+      ev('e35', 'Outdoor Adventure Day', 'camps', 'leaf', evd(17), '9:00 AM', 'Ridgewood', 8, 13, 'Bergen County Parks', 'Orienteering, fort building and a guided hike through the county trails.', '', 'Adventure'),
+      ev('e36', 'Summer Camp Preview Night', 'camps', 'tent', evd(35), '6:30 PM', 'Paramus', 5, 14, 'Camp Bergen', 'Meet the counselors, see this year’s activities and get early-bird pricing for next summer.', '', 'Summer'),
+      ev('e37', 'Halloween Costume Parade', 'parties', 'cake', evd(8), '4:00 PM', 'Ridgewood', 2, 12, 'Ridgewood Chamber of Commerce', 'Parade down Ridgewood Avenue, then trick-or-treat at participating shops.', '', 'Entertainers'),
+      ev('e38', 'Magic Show Matinee', 'parties', 'star', evd(14), '1:00 PM', 'Paramus', 4, 12, 'Marvelous Mike Magic', 'An hour of close-up tricks, comedy and audience volunteers. Seats fill fast.', '', 'Entertainers'),
+      ev('e39', 'Party Venue Open House', 'parties', 'cake', evd(22), '11:00 AM', 'Paramus', 3, 13, 'FunZone Paramus', 'Try the laser tag and arcade free, tour the party rooms and see the packages.', '', 'Venues'),
+      ev('e40', 'Birthday Planning Workshop', 'parties', 'cake', evd(28), '10:00 AM', 'Ridgewood', 0, 12, 'Bergen Party Planners', 'Themes, timelines and budgets for a stress-free kids party, with a free checklist.', '', 'Planning'),
     ];
+    /* An event can run in several towns and for several age groups. These
+       sample events carry lists; the rest fall back to their one town and age
+       range. */
+    const EV_REACH = {
+      e1: { towns: ['Saddle Brook', 'Lodi', 'Garfield'], ages: ['preschool', 'early', 'tween'] },
+      e4: { towns: ['Paramus', 'Ridgewood', 'Hackensack'], ages: ['infant', 'preschool', 'early', 'tween', 'teen'] },
+      e25: { towns: ['Ridgewood', 'Glen Rock', 'Paramus'], ages: ['early', 'tween'] },
+      e37: { towns: ['Ridgewood', 'Ho-Ho-Kus'] },
+    };
+    EVENTS.forEach(e => { if (EV_REACH[e.id]) Object.assign(e, EV_REACH[e.id]); });
+    /* Events that repeat until a later date: days from the first session to
+       the last. Their detail page shows both dates. */
+    const EV_REPEAT = { e2: 28, e11: 21, e18: 30, e22: 28, e29: 35, e34: 14 };
+    EVENTS.forEach(e => {
+      const n = EV_REPEAT[e.id]; if (!n || e.end) return;
+      const d = new Date(e.date + 'T00:00'); d.setDate(d.getDate() + n);
+      e.end = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    });
+    const evTownList = e => (e.towns && e.towns.length ? e.towns : e.town ? [e.town] : []);
+    // End times. Most sample events run two hours; the fair runs all day.
+    const EV_END_TIME = { e4: '6:00 PM' };
+    function evEndTime(e) {
+      if (e.endTime) return e.endTime;
+      if (EV_END_TIME[e.id]) return EV_END_TIME[e.id];
+      const m = String(e.time || '').match(/(\d{1,2}):(\d{2})\s*([AP]M)/i); if (!m) return '';
+      let h = (+m[1] % 12) + (m[3].toUpperCase() === 'PM' ? 12 : 0) + 2; h %= 24;
+      return `${h % 12 || 12}:${m[2]} ${h >= 12 ? 'PM' : 'AM'}`;
+    }
+    const evTimeRange = e => { const end = evEndTime(e); return end ? `${e.time} – ${end}` : e.time; };
+    // An event that repeats until a later date shows both dates in full.
+    const evFullDate = iso => { const d = new Date(iso + 'T00:00'); return `${MON[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`; };
+    const evDateRange = e => e.end && e.end !== e.date ? `${evFullDate(e.date)} – ${evFullDate(e.end)}` : evFullDate(e.date);
+    // Age groups always come from the fixed list: a stored list as-is, or the
+    // groups an age range covers.
+    const evAgeLabels = e => e.ages && e.ages.length
+      ? e.ages.map(id => (AGES.find(a => a.id === id) || {}).l).filter(Boolean)
+      : AGES.filter(g => e.amin <= g.max && e.amax >= g.min).map(g => g.l);
     const ARTS = [
       { id: 'a1', t: 'Choosing the Right Pediatrician', cat: 'medical', by: 'Dr. Elena Ruiz', read: '5 min', date: 'May 2, 2026', ex: 'What to look for when picking a doctor your child will grow with.', body: ['Finding a pediatrician is one of the first big decisions new parents make, and it is worth taking your time.', 'Start with logistics: proximity, office hours, and same-day sick visits. A great doctor is only helpful if you can get an appointment when you need one.', 'Fit matters just as much — notice how they talk to you and your child, and whether they explain things clearly.'] },
       { id: 'a2', t: '10 Free Things to Do With Kids', cat: 'parties', by: 'Marcus Feld', read: '4 min', date: 'Apr 28, 2026', ex: 'Budget-friendly ways to fill a weekend across Bergen County.', body: ['You do not need to spend a fortune to make a memorable weekend. Bergen County is packed with free family fun.', 'Parks and libraries are the unsung heroes — storytimes, craft sessions, and even STEM workshops at no cost.', 'Round out your list with community festivals, museum free days, and a simple picnic.'] },
@@ -5493,10 +5818,10 @@
     }
     const AUTO_RENEWAL_POLICY = 'Renewal is set from the day the ad goes live. Your card is charged at the end of every term until you cancel — the ad stays live to the date already paid for.';
     const PLACE_RATE = { 'Leaderboard': 25, 'Sidebar': 15, 'Category page': 10 };
-    function adDate(o) { const d = new Date(TODAY); d.setDate(d.getDate() + o); return d.toISOString().slice(0, 10); }
+    function adDate(o) { const d = new Date(TODAY); d.setDate(d.getDate() + o); return isoLocal(d); }
     let ADS = [
       { id: 'ad1', name: 'Summer Swim Enrollment', placement: 'Leaderboard', cat: 'sports', sub: 'Swimming', dest: 'aquakidsswim.com', start: adDate(-10), end: adDate(20), town: 'Fort Lee', addr: '88 Palisade Ave', phone: '(201) 555-0182', amin: 3, amax: 14, plan: 'deluxe', desc: 'Small-group swim lessons for every level, from water confidence to competitive strokes.', status: 'live', impressions: 48200, clicks: 1310 },
-      { id: 'ad2', name: 'Open House — Fall 2026', placement: 'Sidebar', cat: 'schools', sub: '', dest: 'montclairacademy.org', start: adDate(-5), end: adDate(25), town: 'Montvale', addr: '12 Academy Rd', phone: '(201) 555-0110', amin: 5, amax: 18, plan: 'deluxe', desc: 'Come meet our teachers, tour the campus and see a school day in progress.', status: 'live', impressions: 22100, clicks: 640 },
+      { id: 'ad2', name: 'Open House — Fall 2026', placement: 'Sidebar', cat: 'schools', sub: 'Private K–8', dest: 'montclairacademy.org', start: adDate(-5), end: adDate(25), town: 'Montvale', addr: '12 Academy Rd', phone: '(201) 555-0110', amin: 5, amax: 18, plan: 'deluxe', desc: 'Come meet our teachers, tour the campus and see a school day in progress.', status: 'live', impressions: 22100, clicks: 640 },
       { id: 'ad3', name: 'Birthday Packages', placement: 'Category page', cat: 'parties', sub: 'Venues', dest: 'funzoneparamus.com', start: adDate(-2), end: adDate(28), town: 'Paramus', addr: '450 Route 17 N', phone: '(201) 555-0164', amin: 2, amax: 12, plan: 'basic', desc: 'All-inclusive birthday packages with games, food and a party host.', status: 'live', impressions: 8600, clicks: 210 },
       { id: 'ad4', name: 'Spring Music Recital', placement: 'Sidebar', cat: 'music', sub: 'Piano', dest: 'melodymusicnj.com', start: adDate(-40), end: adDate(-8), town: 'Ridgewood', addr: '27 Chestnut St', phone: '(201) 555-0139', amin: 4, amax: 16, plan: 'basic', desc: 'An evening of piano, strings and voice from our spring students.', status: 'ended', impressions: 15400, clicks: 410 },
       { id: 'ad5', name: 'Art Camp Early Bird', placement: 'Category page', cat: 'arts', sub: 'Drawing', dest: 'littlepicassos.com', start: adDate(2), end: adDate(32), town: 'Glen Rock', addr: '19 Rock Rd', phone: '(201) 555-0147', amin: 5, amax: 12, plan: 'deluxe', desc: 'Two weeks of drawing, painting and clay with working local artists.', status: 'pending', impressions: 0, clicks: 0 },
@@ -5548,13 +5873,38 @@
     const agesForRange = (min, max) => AGES.filter(g => min <= g.max && max >= g.min).map(g => g.id);
     const PLACEMENT_BY_NAME = { 'Leaderboard': 'leaderboard', 'Sidebar': 'sidebar', 'Category page': 'category' };
     // Which seeded ads took the video, and how long it runs.
+    /* What Deluxe buys, as numbers rather than as prose in a label. The
+       asterisk on Photos is enforced in adDraftValid: a Deluxe listing IS a
+       photo gallery, so one with no pictures renders as a Basic card that was
+       charged twice. The video carries no asterisk and is not checked.
+
+       Declared here rather than beside the ad form, because the seed pass
+       below caps against it and a `const` read before its own line has run is
+       a dead-zone error, not a fallback. */
+    const AD_MAX_PHOTOS = 5, AD_MAX_VIDEO = 1;
     const AD_VIDEO = { ad1: '0:52', ad5: '1:30', ad9: '0:41' };
+    /* The business behind each seeded ad. An ad has two names — what it is
+       selling and who is selling it — and the records only carried the first,
+       so every unit that wanted to name the advertiser had nothing to name.
+       An ad raised in the app takes the signed-in advertiser's name instead. */
+    const AD_ADVERTISER = {
+      ad1: 'Bergen Aquatic Center', ad2: 'Montclair Academy', ad3: 'Kumon Math & Reading',
+      ad4: 'Bright Smiles Pediatric Dentistry', ad5: 'Bergen United Soccer Club',
+      ad6: 'NJ Youth Theater', ad7: 'FunZone Paramus', ad8: 'Little Explorers Preschool',
+      ad9: 'Summit Test Prep', ad10: 'Wildwood Day Camp', ad11: 'Harmony Music School',
+      ad12: 'Grace Ballet Academy',
+    };
     ADS.forEach((a, i) => {
       a.type = a.type || a.plan || 'basic';
+      // Every ad type is filed under a category and a subcategory.
+      if (!a.sub) a.sub = (catOf(a.cat).sub || [])[0] || '';
+      a.advertiser = a.advertiser || AD_ADVERTISER[a.id] || a.name;
       a.addons = a.addons || [PLACEMENT_BY_NAME[a.placement]].filter(Boolean);
       a.towns = a.towns || (a.town ? [a.town] : []);
       a.ages = a.ages || agesForRange(a.amin, a.amax);
-      a.photos = a.photos || (a.type === 'deluxe' ? 3 + (i % 4) : 0);
+      // Never more than the allowance the form enforces — an ad that was
+      // seeded with six photos is quoting a gallery it could not have bought.
+      a.photos = Math.min(AD_MAX_PHOTOS, a.photos || (a.type === 'deluxe' ? 3 + (i % 4) : 0));
       /* A Deluxe ad may carry one video on top of its photos — one, not a
          reel, and never on a Basic ad, which has no gallery to put it in.
          Only some of the seeded ones have taken it up, so the detail page
@@ -5573,6 +5923,7 @@
     // sit on: it is the only thing still sold on top of a type, and only a type
     // that runs in the directory has a list to be pinned inside.
     ADS[4].types = ['deluxe'];
+    ADS[6].rejectReason = "The ad makes a medical claim we couldn't verify. Please remove it and resubmit.";
     ADS[4].addons = ['top10'];
     ADS[8].types = ['deluxe'];
     /* Everything else is described the old way — one placement, or none — so its
@@ -5869,6 +6220,7 @@
         case 'events': { const c = catOf(p.id); return { title: c ? c.name : 'Events', html: eventsCatPage(p.id) }; }
         case 'listing': { const l = LISTINGS.find(x => x.id === p.id); return { title: l ? l.name : 'Listing', html: listingPage(p.id) }; }
         case 'event': { const e = EVENTS.find(x => x.id === p.id); return { title: e ? e.name : 'Event', html: eventPage(p.id) }; }
+        case 'listEvent': return { title: 'List an event', html: evReqPage() };
         case 'article': return { title: 'Guide', html: articlePage(p.id) };
         case 'notifications': return { title: 'Notifications', html: notificationsPage() };
         case 'terms': return { title: 'Terms of Use', html: legalPage('terms') };
@@ -6054,11 +6406,11 @@
     ${KITE}
     <div class="bk-scene" style="height:200px">${HILLS('none')}</div>
     <div class="relative z-10 flex-1 min-h-0 overflow-y-auto no-scrollbar">
-      <!-- Back sits where back always sits on a phone: top left, as an arrow.
-           On the verify step the card carries its own way back to the form, so
-           this one is the way out of the whole run. -->
+      <!-- Back sits where back always sits on a phone: top left, as an arrow,
+           and it is the only one. From a verification step it returns to the
+           form; from the form it leaves for the welcome screen. -->
       <div class="px-5 pt-4">
-        <button data-act="auth-exit" aria-label="Back to welcome" class="w-10 h-10 -ml-2 rounded-full grid place-items-center text-navy active:bg-black/5">${ic('chev-left', 22)}</button>
+        <button data-act="auth-exit" aria-label="${S.authStep === 'identify' ? 'Back to welcome' : (S.authMode === 'signup' ? 'Back to sign up' : 'Back to log in')}" class="w-10 h-10 -ml-2 rounded-full grid place-items-center text-navy active:bg-black/5">${ic('chev-left', 22)}</button>
       </div>
       <!-- The wordmark is gone from all three steps, so each one leads with what
            it actually is instead. Verify already titles itself inside its card,
@@ -6110,7 +6462,7 @@
         // from the same account, so there is nothing extra to ask a "business".
         if (role === 'advertiser') {
           extras = `
-      <div><label class="${LABEL}">Business / advertiser name *</label><input id="au-org" value="Ridgewood Learning" placeholder="e.g. Ridgewood Learning Center" class="au-input"></div>
+      <div><label class="${LABEL}">Company / advertiser name *</label><input id="au-org" value="Ridgewood Learning" placeholder="e.g. Ridgewood Learning Center" class="au-input"></div>
       <div><label class="${LABEL}">Contact person name *</label><input id="au-name" value="Alex Chen" placeholder="Your name" class="au-input"></div>`;
           /* Where the business actually is — the same three fields the web
              sign-up asks for, in the same order, so an advertiser filling this
@@ -6146,12 +6498,13 @@
     function verifyCard() {
       /* Back goes to the form the code was asked for on — the sign-up form or
          the log-in one — never to whichever of the two it used to default to. */
-      const step = S.authStep; let target, isEmail, backLabel = S.authMode === 'signup' ? 'Back to Sign up' : 'Back to Log in', stepInfo = '';
+      const step = S.authStep; let target, isEmail, stepInfo = '';
       if (step === 'verify') { target = authTarget(); isEmail = S.authMethod === 'email'; }
       else if (step === 'verify-email') { target = S.authEmail; isEmail = true; stepInfo = 'Step 1 of 2 · Verify email'; }
       else { target = withDial(S.authPhone); isEmail = false; stepInfo = 'Step 2 of 2 · Verify phone'; }
+      /* No back link in the card. The arrow at the top left of the screen is
+         the way back now, and it lands on the same form this one did. */
       return `<div>
-    <button data-act="auth-back" class="inline-flex items-center gap-1 text-muted text-[13px] font-semibold mb-4">${ic('chev-left', 16)} ${backLabel}</button>
     ${stepInfo ? `<div class="text-[11px] font-extrabold uppercase tracking-wide text-grass mb-2">${stepInfo}</div>` : ''}
     <div class="font-display font-black text-[22px] text-navy leading-tight">Verify your ${isEmail ? 'email' : 'phone'}</div>
     <p class="text-[13.5px] text-muted mt-1.5">We sent a 4-digit code to <span class="font-semibold text-navy">${target}</span>.</p>
@@ -6361,11 +6714,118 @@
       toast(n ? `Preferences saved — ${n} picked` : (fromProfile ? 'Preferences cleared' : 'You can set preferences later in Profile'), n ? 'check' : 'sliders');
     }
 
+    /* ---- List an event (parent) ----
+       The website's List an event form, as an app page: the admin's Create
+       event fields minus Status, plus who is sending it. Nothing goes live on
+       its own — it is submitted for the team to review. */
+    const EVR_MAX_IMGS = 5;
+    const evrEsc = v => String(v == null ? '' : v).replace(/[&<>"]/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch]));
+    function newEvReq() {
+      const u = S.user || {};
+      return {
+        name: '', cat: CATS[0].id, sub: '', date: evd(7), time: '10:00 AM', endTime: '4:00 PM', repeat: false, endDate: '',
+        towns: [], other: '', ages: [], org: '', desc: '', imgs: [], video: null,
+        reqName: u.name || '', reqEmail: u.email || '', dial: u.dial || DEFAULT_DIAL, reqPhone: u.phone || '', sent: false
+      };
+    }
+    function openEventRequest() { S.evReq = newEvReq(); openPage('listEvent'); }
+    // Re-draw the page without jumping back to the top of it.
+    function repaintEvReq() { const s = el('screen'), t = s ? s.scrollTop : 0; render(); const s2 = el('screen'); if (s2) s2.scrollTop = t; }
+    function evReqPage() {
+      const d = S.evReq || (S.evReq = newEvReq());
+      if (d.sent) return `<div class="px-6 pt-16 pb-24 text-center">
+    <span class="rounded-full bg-emerald-50 text-grass grid place-items-center mx-auto mb-5" style="width:64px;height:64px">${ic('check', 30)}</span>
+    <div class="font-display font-black text-[22px] text-navy leading-tight">Your event request has been submitted</div>
+    <p class="text-[14px] text-muted leading-relaxed mt-2 mb-6">Thanks, ${evrEsc(d.reqName.split(/\s+/)[0])}. <b class="text-navy">${evrEsc(d.name)}</b> will be published after review by the Bergen Kids team. We'll contact you at ${evrEsc(d.reqEmail)} if we need anything.</p>
+    <button data-act="go-back" class="${BTN}">Done</button>
+  </div>`;
+      const c = catOf(d.cat) || CATS[0];
+      const req = ' <span style="color:#c0362c">*</span>';
+      const hint = t => ` <span class="font-normal text-muted">${t}</span>`;
+      const pick = (key, label, hintTxt) => `<div><label class="${LABEL}">${label}</label>
+      <button type="button" data-act="pick-open" data-scope="evReq" data-key="${key}" class="w-full flex items-center gap-2 ${FIELD} text-left">
+        <span class="text-grass shrink-0">${ic(FILTER_FIELDS[key].ic, 17)}</span>
+        <span class="flex-1 truncate ${d[key].length ? 'text-navy' : 'text-muted'}">${d[key].length ? d[key].map(v => key === 'ages' ? (AGES.find(a => a.id === v) || {}).l : v).join(', ') : 'None yet'}</span>
+        ${ic('chev-right', 16, 'text-faint')}</button>
+      ${hintTxt ? `<p class="text-[11.5px] text-muted mt-1">${hintTxt}</p>` : ''}</div>`;
+      const tile = 'relative rounded-2xl overflow-hidden border border-line bg-[#fbfcfd] shrink-0';
+      const TS = 'width:84px;height:84px';
+      const add = 'rounded-2xl border-2 border-dashed border-line bg-[#fbfcfd] text-muted grid place-content-center justify-items-center gap-1 shrink-0 active:scale-95 transition';
+      const rm = attr => `<button type="button" ${attr} aria-label="Remove" class="absolute rounded-full text-white grid place-items-center" style="top:4px;right:4px;width:24px;height:24px;background:rgba(15,26,44,.7)">${ic('x', 12)}</button>`;
+      return `<div class="pb-28 px-4 pt-4 space-y-3.5">
+    <p class="text-[13px] text-muted leading-relaxed">Tell us about your event. The Bergen Kids team reviews every request before it is published. Fields marked <span style="color:#c0362c">*</span> are required.</p>
+    <div><label class="${LABEL}">Event name${req}</label><input id="evr-name" data-evr="name" value="${evrEsc(d.name)}" placeholder="e.g. Family Fun Fair" class="${FIELD}"></div>
+    <div><label class="${LABEL}">Category${req}</label><select id="evr-cat" data-evr="cat" class="${FIELD}">${CATS.map(x => `<option value="${x.id}" ${x.id === d.cat ? 'selected' : ''}>${x.name}</option>`).join('')}</select></div>
+    <div><label class="${LABEL}">Subcategory${req}</label><select id="evr-sub" data-evr="sub" class="${FIELD}">
+      <option value="">${c.sub.length ? 'Select a subcategory' : 'This category has none'}</option>
+      ${c.sub.map(x => `<option ${x === d.sub ? 'selected' : ''}>${x}</option>`).join('')}</select></div>
+    <div><label class="${LABEL}">Event date${req}</label><input id="evr-date" data-evr="date" type="date" value="${d.date}" class="${FIELD}"></div>
+    ${pick('towns', 'Towns' + req, '')}
+    <div><label class="${LABEL}">Other town${hint('— not on the list')}</label><input id="evr-other" data-evr="other" value="${evrEsc(d.other)}" placeholder="Separate several with commas" class="${FIELD}"></div>
+    <div class="grid grid-cols-2 gap-3">
+      <div><label class="${LABEL}">Start time${req}</label><input id="evr-time" data-evr="time" value="${evrEsc(d.time)}" placeholder="e.g. 10:00 AM" class="${FIELD}"></div>
+      <div><label class="${LABEL}">End time${req}</label><input id="evr-end-time" data-evr="endTime" value="${evrEsc(d.endTime)}" placeholder="e.g. 4:00 PM" class="${FIELD}"></div>
+    </div>
+    <label class="flex items-center gap-3 rounded-2xl bg-emerald-50 border border-line px-3.5 py-3">
+      <input type="checkbox" id="evr-repeat" data-evr="repeat" ${d.repeat ? 'checked' : ''} style="width:18px;height:18px;accent-color:#20643d">
+      <span class="text-[14.5px] font-semibold text-navy">Repeat until</span></label>
+    ${d.repeat ? `<div><label class="${LABEL}">End date</label><input id="evr-end-date" data-evr="endDate" type="date" value="${d.endDate}" class="${FIELD}"></div>` : ''}
+    <div><label class="${LABEL}">Organizer${req}</label><input id="evr-org" data-evr="org" value="${evrEsc(d.org)}" placeholder="e.g. Bergen Kids" class="${FIELD}"></div>
+    ${pick('ages', 'Age group', 'Leave empty for all ages.')}
+    <div><label class="${LABEL}">Description${req}</label><textarea id="evr-desc" data-evr="desc" rows="4" placeholder="What happens at this event?" class="${FIELD} resize-none">${evrEsc(d.desc)}</textarea></div>
+    <div><label class="${LABEL}">Photos${req}${hint(`· at least one, max ${EVR_MAX_IMGS}`)}</label>
+      <div class="flex flex-wrap gap-2">
+        ${d.imgs.map((src, i) => `<div class="${tile}" style="${TS}"><img src="${src}" alt="" class="w-full h-full object-cover">${rm(`data-act="evr-rm-img" data-i="${i}"`)}</div>`).join('')}
+        ${d.imgs.length < EVR_MAX_IMGS ? `<label class="${add}" style="${TS}"><span class="text-grass">${ic('upload', 18)}</span><span class="text-[11.5px] font-bold">Add photo</span>
+          <input id="evr-img-file" type="file" accept="image/*" multiple class="hidden"></label>` : ''}
+      </div></div>
+    <div><label class="${LABEL}">Video${hint('· optional')}</label>
+      <div class="flex flex-wrap gap-2">
+        ${d.video ? `<div class="${tile}" style="${TS}"><video src="${d.video}" muted playsinline class="w-full h-full object-cover"></video>${rm('data-act="evr-rm-vid"')}</div>`
+          : `<label class="${add}" style="${TS}"><span class="text-grass">${ic('play', 18)}</span><span class="text-[11.5px] font-bold">Add video</span>
+          <input id="evr-vid-file" type="file" accept="video/*" class="hidden"></label>`}
+      </div></div>
+
+    <div class="pt-3">
+      <div class="font-display font-black text-[18px] text-navy">Your contact details</div>
+      <p class="text-[12.5px] text-muted mt-0.5">So the team can reach you about this request. These are not shown on the event.</p>
+    </div>
+    <div><label class="${LABEL}">Name${req}</label><input id="evr-req-name" data-evr="reqName" value="${evrEsc(d.reqName)}" autocomplete="name" placeholder="Your name" class="${FIELD}"></div>
+    <div><label class="${LABEL}">Email${req}</label><input id="evr-req-email" data-evr="reqEmail" type="email" inputmode="email" value="${evrEsc(d.reqEmail)}" autocomplete="email" placeholder="you@example.com" class="${FIELD}"></div>
+    <div><label class="${LABEL}">Phone number${req}</label><div class="au-field au-field-dial">${dialPicker('evr-dial', d.dial)}<input id="evr-req-phone" data-evr="reqPhone" type="tel" inputmode="tel" value="${evrEsc(d.reqPhone)}" placeholder="(201) 555-0000"></div></div>
+
+    <div class="space-y-2.5 pt-2">
+      <button data-act="evr-submit" class="${BTN}">${ic('check', 18)} Submit for review</button>
+      <button data-act="go-back" class="${BTN2}">Cancel</button>
+    </div>
+  </div>`;
+    }
+    function submitEvReq() {
+      const d = S.evReq; if (!d) return;
+      const need = [['name', 'evr-name', 'Enter an event name'], ['date', 'evr-date', 'Pick the event date'], ['time', 'evr-time', 'Enter the start time'],
+      ['endTime', 'evr-end-time', 'Enter the end time'], ['org', 'evr-org', 'Enter the organizer'], ['desc', 'evr-desc', 'Enter a description']];
+      const miss = (id, msg) => { const n = el(id); if (n) { n.focus(); n.scrollIntoView({ block: 'center' }); } toast(msg, 'x'); };
+      for (const [k, id, msg] of need.slice(0, 1)) if (!String(d[k]).trim()) return miss(id, msg);
+      if ((catOf(d.cat).sub || []).length && !d.sub) return miss('evr-sub', 'Choose a subcategory');
+      for (const [k, id, msg] of need.slice(1, 2)) if (!String(d[k]).trim()) return miss(id, msg);
+      const other = d.other.split(',').map(x => x.trim()).filter(Boolean);
+      if (!d.towns.length && !other.length) return miss('evr-other', 'Choose at least one town');
+      for (const [k, id, msg] of need.slice(2)) if (!String(d[k]).trim()) return miss(id, msg);
+      if (!d.imgs.length) return toast('Add at least one photo', 'x');
+      if (!d.reqName.trim()) return miss('evr-req-name', 'Please enter your name');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.reqEmail.trim())) return miss('evr-req-email', 'Please enter a valid email address');
+      if (!d.reqPhone.trim()) return miss('evr-req-phone', 'Please enter your phone number');
+      d.sent = true; render(); const s = el('screen'); if (s) s.scrollTop = 0;
+      toast('Event request submitted for review');
+    }
+
     /* ============ PARENT ============ */
     function pHome() {
       // Four rows fit where three of the old cards did, and Home ends on a
       // complete thought rather than a half-cut fifth.
-      const evs = EVENTS.slice(0, 4);
+      // The six soonest, across every category.
+      const todayIso = isoLocal(TODAY);
+      const evs = EVENTS.filter(e => (e.end || e.date) >= todayIso).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 6);
       /* Home runs two placements now, and they do not share stock: Sidebar ads
          belong to the panel that slides in from the right, so the banner takes
          everything else. Leaderboard leads it — that is what this slot is sold
@@ -6415,7 +6875,8 @@
       </div>
     </div>
     <div class="px-5 mt-7">
-      <div class="flex items-center justify-between mb-3"><h2 class="font-bold text-navy text-[15.5px]">Upcoming events</h2><button data-tab="events" class="text-grass text-[13px] font-bold">See all</button></div>
+      <div class="flex items-center justify-between mb-3"><h2 class="font-bold text-navy text-[15.5px]">Upcoming in Bergen County</h2><button data-tab="events" class="text-grass text-[13px] font-bold">See all</button></div>
+      <button data-act="list-event" class="inline-flex items-center gap-1 rounded-full bg-emerald-50 text-grass border border-line px-3 py-1.5 text-[12.5px] font-bold mb-3 active:scale-95 transition">${ic('plus', 14)} List an event</button>
       <div class="space-y-2.5">${evs.map(evCard).join('')}</div>
     </div>
   </div>`;
@@ -6426,9 +6887,10 @@
        date, and everything that decides whether an event is for your family —
        time, town, age band — sits beside it on two tight lines. Four rows now
        occupy less height than two cards did. */
+    // Home's Upcoming in Bergen County row: the date, who is running it, what
+    // it is, and its category — nothing else.
     function evCard(e) {
       const c = catOf(e.cat), d = new Date(e.date + 'T00:00'), multi = e.end && e.end !== e.date;
-      const meta = (icn, txt, grow) => `<span class="inline-flex items-center gap-1 ${grow ? 'min-w-0' : 'shrink-0'}"><span class="shrink-0">${ic(icn, 11)}</span><span class="truncate">${txt}</span></span>`;
       return `<button data-event="${e.id}" class="w-full ${CARD} p-2.5 flex items-center gap-3 text-left active:scale-[.99] transition">
     <div class="shrink-0 relative rounded-2xl overflow-hidden" style="width:62px;height:62px">
       ${evPhoto(e, c, 'height:62px', 160, 160, 38)}
@@ -6439,22 +6901,30 @@
       </div>
     </div>
     <div class="min-w-0 flex-1">
-      <div class="font-bold text-navy text-[14px] truncate">${e.name}</div>
-      <div class="text-[11.5px] text-muted mt-1 flex items-center gap-3">${meta('clock', e.time)}${meta('pin', e.town, true)}</div>
-      <div class="text-[11.5px] mt-0.5 flex items-center gap-3"><span class="text-teal font-semibold truncate">${c.name}</span><span class="text-muted shrink-0 inline-flex items-center gap-1">${ic('users', 11)} Ages ${e.amin}–${e.amax}</span></div>
+      <div class="text-[11.5px] text-muted font-semibold truncate">${e.org}</div>
+      <div class="font-bold text-navy text-[14px] truncate mt-0.5">${e.name}</div>
+      <div class="text-[11.5px] text-teal font-semibold truncate mt-0.5">${c.name}</div>
+      ${multi ? `<div class="text-[11px] text-muted font-semibold truncate mt-0.5 inline-flex items-center gap-1">${ic('calendar', 11)}${evDateRange(e)}</div>` : ''}
     </div>
     <span class="shrink-0 text-faint">${ic('chev-right', 16)}</span></button>`;
     }
+    /* A category's event list: the event's photo carrying its start date, then
+       the start time, the name and the category — nothing else. */
     function evRow(e) {
-      const c = catOf(e.cat); const d = new Date(e.date + 'T00:00'); const multi = e.end && e.end !== e.date; const de = multi ? new Date(e.end + 'T00:00') : null;
-      return `<button data-event="${e.id}" class="w-full ${CARD} p-3 flex gap-3 text-left active:scale-[.99]">
-    <div class="w-12 shrink-0 rounded-xl bg-emerald-50 text-grass grid place-content-center text-center py-1">
-      <div class="font-display font-black text-[18px] leading-none">${d.getDate()}${multi ? '+' : ''}</div><div class="text-[10px] font-bold uppercase">${MON[d.getMonth()]}</div></div>
-    <div class="min-w-0 flex-1"><div class="font-bold text-navy text-[14px] truncate">${e.name}</div>
-      <div class="text-[12px] text-muted mt-0.5 flex flex-wrap gap-x-3 gap-y-0.5"><span class="inline-flex items-center gap-1">${ic('clock', 12)}${e.time}</span><span class="inline-flex items-center gap-1">${ic('pin', 12)}${e.town}</span>${multi ? `<span class="inline-flex items-center gap-1">${ic('calendar', 12)}${MON[d.getMonth()]} ${d.getDate()}–${de.getMonth() === d.getMonth() ? de.getDate() : MON[de.getMonth()] + ' ' + de.getDate()}</span>` : ''}</div>
-      <!-- Subcategory rides with the category so a filtered list shows why
-           each row is in it. -->
-      <div class="text-[11.5px] text-teal font-semibold mt-0.5">${c.name}${e.sub ? ` · ${e.sub}` : ''}</div></div></button>`;
+      const c = catOf(e.cat), d = new Date(e.date + 'T00:00');
+      return `<button data-event="${e.id}" class="w-full ${CARD} p-2.5 flex items-center gap-3 text-left active:scale-[.99] transition">
+    <div class="shrink-0 relative rounded-2xl overflow-hidden" style="width:62px;height:62px">
+      ${evPhoto(e, c, 'height:62px', 160, 160, 38)}
+      <div class="absolute left-0 right-0 text-center text-white" style="bottom:0;padding:2px 0 3px;background:rgba(26,46,74,.74)">
+        <span class="text-[11px] font-extrabold leading-none">${MON[d.getMonth()].toUpperCase()} ${d.getDate()}</span>
+      </div>
+    </div>
+    <div class="min-w-0 flex-1">
+      <div class="text-[11.5px] text-muted font-semibold inline-flex items-center gap-1">${ic('clock', 12)}${e.time}</div>
+      <div class="font-bold text-navy text-[14px] truncate mt-0.5">${e.name}</div>
+      <div class="text-[11.5px] text-teal font-semibold truncate mt-0.5">${c.name}</div>
+    </div>
+    <span class="shrink-0 text-faint">${ic('chev-right', 16)}</span></button>`;
     }
     /* ---- category tiles ----
        One tile, two tabs. The Directory tab counts listings against each
@@ -6497,15 +6967,19 @@
     function pDirectory() {
       const f = S.dir; const cat = f.cat ? catOf(f.cat) : null;
       const list = LISTINGS.filter(l => {
-        if (f.cat && l.cat !== f.cat) return false; if (f.sub && l.sub !== f.sub) return false;
+        if (f.cat && l.cat !== f.cat) return false;
+        // Matched as category-and-subcategory together, the way events do it —
+        // two categories can spell a subcategory the same way.
+        if (f.subs.length && !f.subs.includes(subKey(l.cat, l.sub))) return false;
         // An empty list is not "nothing" — it is "no preference", which shows
         // everything. Any pick matching is enough: three towns means all three.
-        if (f.towns.length && !f.towns.includes(l.town)) return false;
+        // Any town it serves, not just the one it is filed under — a club
+        // covering five should surface when any of the five is picked.
+        if (f.towns.length && !listingTowns(l).some(t => f.towns.includes(t))) return false;
         if (f.ages.length && !f.ages.some(id => { const g = AGES.find(a => a.id === id); return g && l.amin <= g.max && l.amax >= g.min; })) return false;
         if (f.q) { const q = f.q.toLowerCase(); if (!(l.name.toLowerCase().includes(q) || l.desc.toLowerCase().includes(q) || l.sub.toLowerCase().includes(q) || catOf(l.cat).name.toLowerCase().includes(q) || l.town.toLowerCase().includes(q))) return false; }
         return true;
       }).sort((a, b) => a.plan === b.plan ? 0 : (a.plan === 'deluxe' ? -1 : 1));
-      const subs = cat ? cat.sub : [];
       /* One banner, at the very top of the page — above the category, the
          search and the filters, where the page begins. The second slot that
          used to sit among the results is gone: two banners on a page this
@@ -6529,10 +7003,17 @@
            opens a picker rather than a dropdown, because both can hold several
            answers at once. -->
       ${filterRow('dir')}
+      <!-- The subcategory rail is gone. It was a row of one-at-a-time tabs, so
+           a parent could ask for Soccer or for Swimming but never for both, and
+           on a category with six of them the later ones were off-screen behind
+           a horizontal scroll with nothing to say they were there. Subcategory
+           is a filter button in the row above now — same picker, same counts
+           and same multi-select the events list has always had.
+
+           The category rail below stays: that one is navigation, not a filter,
+           and picking two categories at once is not a thing the directory does. -->
       ${cat
-          ? `<div class="flex gap-2 overflow-x-auto no-scrollbar mt-2.5 -mx-4 px-4">
-            <button data-setsub="" class="shrink-0 px-3.5 py-1.5 rounded-full text-[12.5px] font-semibold border ${!f.sub ? 'bg-grass text-white border-grass' : 'bg-white text-navy border-line'}">All ${cat.name.split(' ')[0]}</button>
-            ${subs.map(s => `<button data-setsub="${s}" class="shrink-0 px-3.5 py-1.5 rounded-full text-[12.5px] font-semibold border ${f.sub === s ? 'bg-grass text-white border-grass' : 'bg-white text-navy border-line'}">${s}</button>`).join('')}</div>`
+          ? ''
           : `<div class="flex gap-2 overflow-x-auto no-scrollbar mt-2.5 -mx-4 px-4">
             <button data-setcat="" class="shrink-0 px-3.5 py-1.5 rounded-full text-[12.5px] font-semibold border ${!f.cat ? 'bg-navy text-white border-navy' : 'bg-white text-navy border-line'}">All</button>
             ${CATS.map(c => `<button data-setcat="${c.id}" class="shrink-0 px-3.5 py-1.5 rounded-full text-[12.5px] font-semibold border ${f.cat === c.id ? 'bg-navy text-white border-navy' : 'bg-white text-navy border-line'}">${c.name.split(' ')[0]}</button>`).join('')}</div>`}
@@ -6564,11 +7045,17 @@
     const subGroups = (catIds) => CATS.filter(c => (catIds || []).includes(c.id))
       .map(c => ({ cat: c, opts: c.sub.map(s => [subKey(c.id, s), s]) }));
     const subOpts = (catIds) => subGroups(catIds).flatMap(g => g.opts);
+    // The directory's one open category, or the events list's chosen ones.
+    const subScopeCats = scope => (scope === 'dir' ? (S.dir.cat ? [S.dir.cat] : []) : (S[scope].cats || []));
     const FILTER_FIELDS = {
       cats: { label: 'Category', btn: 'Category', ic: 'tag', word: 'category', opts: () => CATS.map(c => [c.id, c.name]) },
+      /* Which categories are in play depends on who is asking. Events narrow
+         by a list the parent picked; the directory is inside exactly one
+         category, and that is its whole spine — so the field reads the scope
+         rather than assuming S.ev. */
       subs: {
         label: 'Subcategory', btn: 'Subcategory', ic: 'sliders', word: 'subcategory',
-        opts: () => subOpts(S.ev.cats), groups: () => subGroups(S.ev.cats),
+        opts: scope => subOpts(subScopeCats(scope)), groups: scope => subGroups(subScopeCats(scope)),
       },
       ages: { label: 'Age group', btn: 'Age', ic: 'users', word: 'age', opts: () => AGES.map(a => [a.id, a.l]) },
       towns: { label: 'Town', btn: 'Town', ic: 'pin', word: 'town', opts: () => TOWNS.map(t => [t, t]) },
@@ -6578,7 +7065,7 @@
        it drops out and Subcategory takes its place. It reads and writes the
        same S.ev object — see the alias below — so a filter set here is the same
        filter the tab shows. */
-    const SCOPE_KEYS = { dir: ['ages', 'towns'], ev: ['cats', 'subs', 'ages', 'towns'], evcat: ['subs', 'ages', 'towns'] };
+    const SCOPE_KEYS = { dir: ['subs', 'ages', 'towns'], ev: ['cats', 'subs', 'ages', 'towns'], evcat: ['subs', 'ages', 'towns'] };
     /* The subset of the above that a parent's saved preferences can fill.
        Category and Subcategory are not among them — neither is asked at
        sign-up — so both are filters you set by hand and never something the
@@ -6592,12 +7079,17 @@
     /* Subcategory is the one field that cannot stand on its own: with no
        category chosen there is nothing for it to narrow, so the button is not
        there to press rather than there and offering everything. */
-    const scopeKeys = scope => SCOPE_KEYS[scope].filter(k => k !== 'subs' || (S[scope].cats || []).length);
+    const scopeKeys = scope => SCOPE_KEYS[scope].filter(k => k !== 'subs' || subScopeCats(scope).length);
     function filterRow(scope) {
       const keys = scopeKeys(scope), f = S[scope];
+      // Date range, after Town — only on a category's events list.
+      const dates = scope === 'evcat';
+      const dOn = dates && !!(f.from || f.to);
+      const dLabel = !dOn ? 'Date' : f.from && f.to ? `${fmtShort(f.from)} – ${fmtShort(f.to)}` : f.from ? `From ${fmtShort(f.from)}` : `Until ${fmtShort(f.to)}`;
       return `<div class="flex flex-wrap items-center gap-2 mt-2.5">
     ${keys.map(k => filterBtn(scope, k)).join('')}
-    ${keys.some(k => f[k].length) ? `<button data-act="clear-filters" data-scope="${scope}" class="df-clear ml-auto">Clear</button>` : ''}
+    ${dates ? `<button data-act="date-open" class="df-btn ${dOn ? 'on' : ''}">${ic('calendar', 14)} ${dLabel}${dOn ? '' : ' ' + ic('chev-down', 14)}</button>` : ''}
+    ${keys.some(k => f[k].length) || dOn ? `<button data-act="clear-filters" data-scope="${scope}" class="df-clear ml-auto">Clear</button>` : ''}
   </div>${prefNote(scope)}`;
     }
     /* Preferences a parent set at sign-up are poured into the filters, not kept
@@ -6608,7 +7100,7 @@
     const parentPrefs = () => (S.user && S.user.role === 'parent' && S.user.prefs) ? S.user.prefs : null;
     const fromPrefs = key => { const p = parentPrefs(); return [...(p ? p[key] : [])]; };
     function dirFromPrefs(catId) {
-      return { q: '', cat: catId || '', sub: '', ages: fromPrefs('ages'), towns: fromPrefs('towns') };
+      return { q: '', cat: catId || '', subs: [], ages: fromPrefs('ages'), towns: fromPrefs('towns') };
     }
     // The calendar day is a reading position, not a preference — a fresh visit
     // starts on the whole month.
@@ -6657,11 +7149,11 @@
          over it, so a chip is read together with the category it belongs to.
          Everything else is one flat run of chips, as before. */
       const body = fld.groups
-        ? `<div class="pk-groups cap">${fld.groups().map(g => `<div class="pk-group">
+        ? `<div class="pk-groups cap">${fld.groups(scope).map(g => `<div class="pk-group">
         <div class="pk-group-h">${ic(g.cat.ic, 13)} ${g.cat.name}</div>
         <div class="pk-chips">${g.opts.map(chip).join('')}</div>
       </div>`).join('')}</div>`
-        : `<div class="pk-chips cap">${fld.opts().map(chip).join('')}</div>`;
+        : `<div class="pk-chips cap">${fld.opts(scope).map(chip).join('')}</div>`;
       openSheet(`<div class="font-display font-bold text-[20px] text-navy">${fld.label}</div>
     <p class="text-[13px] text-muted mt-1 mb-3" id="pick-count">${pickSummary()}</p>
     ${body}
@@ -6678,9 +7170,19 @@
       <div class="min-w-0 flex-1">
         <div class="flex items-center gap-1.5"><span class="font-bold text-navy text-[15px] truncate">${l.name}</span>
           ${dlx ? `<span class="ml-auto text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full shrink-0 bg-sun text-navy">Featured</span>` : ''}</div>
-        <div class="text-[12px] text-muted mt-0.5">${l.sub} · ${c.name.split(' ')[0]}</div>
-        <div class="text-[12.5px] text-muted mt-1.5 line-clamp-2 leading-relaxed">${l.desc}</div>
-        <div class="text-[12px] text-muted mt-2 flex gap-3"><span class="inline-flex items-center gap-1">${ic('pin', 12)}${l.town}</span><span class="inline-flex items-center gap-1">${ic('users', 12)}${l.amin}–${l.amax}</span></div>
+        <!-- Category first, then subcategory, and the full category name — the
+             line opened on the narrowest fact and worked outwards, and clipped
+             "Schools & Preschools" to "Schools" for width it had. The operator
+             sits under the service name; town and ages come off, because both
+             are filters you have already set to get here. -->
+        <div class="text-[12px] text-muted mt-0.5">${c.name}${l.sub ? ' · ' + l.sub : ''}</div>
+        ${l.advertiser ? `<div class="text-[12px] text-muted font-semibold mt-0.5">${l.advertiser}</div>` : ''}
+        <!-- No description. Clamped to two lines it was a sentence cut mid-word
+             on nearly every card, which is not a summary — it is the top of one,
+             and a reader gets nothing from half a clause they cannot finish.
+             The card's job in a scrollable list is to be told apart from its
+             neighbours, and the name, the filing and the operator already do
+             that; the description is on the detail page, whole. -->
       </div>
     </div></button>`;
     }
@@ -6693,8 +7195,11 @@
          subcategory filter, so asking for one drops it — the same way asking
          for a town drops an event held somewhere else. */
       if (f.subs.length && !f.subs.includes(subKey(e.cat, e.sub))) return false;
-      if (f.towns.length && !f.towns.includes(e.town)) return false;
-      if (f.ages.length && !f.ages.some(id => { const g = AGES.find(a => a.id === id); return g && e.amin <= g.max && e.amax >= g.min; })) return false;
+      if (f.towns.length && !evTownList(e).some(t => f.towns.includes(t))) return false;
+      if (f.ages.length && !f.ages.some(id => {
+        if (e.ages && e.ages.length) return e.ages.includes(id);
+        const g = AGES.find(a => a.id === id); return g && e.amin <= g.max && e.amax >= g.min;
+      })) return false;
       /* The three things a parent knows an event by when they arrive already
          looking for it: what it is called, who is running it, and where. The
          subcategory rides along because the chips above the list name it, and
@@ -6726,7 +7231,7 @@
        Saturday?" rather than "what is there for a six-year-old who likes
        music?". */
     const evUpcoming = catId => EVENTS
-      .filter(e => e.cat === catId && (e.end || e.date) >= TODAY.toISOString().slice(0, 10))
+      .filter(e => e.cat === catId && (e.end || e.date) >= isoLocal(TODAY))
       .sort((a, b) => a.date.localeCompare(b.date));
     /* ---- an events category, as a card ----
        Deliberately not the tile the Directory tab uses. The two screens were
@@ -6748,9 +7253,6 @@
     ${photoBox(CAT_IMG[c.id] ? unsplash(CAT_IMG[c.id], 720, 340) : '', c, 'height:124px', 78)}
     <span class="absolute inset-0" style="background:linear-gradient(180deg,rgba(8,18,12,.12) 0%,rgba(8,18,12,.45) 48%,rgba(8,18,12,.88) 100%)"></span>
     <span class="absolute w-8 h-8 rounded-xl grid place-items-center text-white" style="top:10px;left:10px;background:rgba(8,18,32,.5)">${ic(c.ic, 16)}</span>
-    ${d ? `<span class="absolute rounded-xl bg-white text-center leading-none shadow-btn" style="top:10px;right:10px;padding:5px 8px">
-      <span class="block text-[9px] font-extrabold uppercase tracking-wide text-grass">${MON[d.getMonth()]}</span>
-      <span class="block font-display font-black text-[15px] text-navy" style="margin-top:2px">${d.getDate()}</span></span>` : ''}
     <div class="absolute left-0 right-0 bottom-0 px-3.5 pb-2.5">
       <div class="font-display font-bold text-white text-[16px] leading-tight">${c.name}</div>
       <div class="text-[11.5px] text-white/85 mt-1 flex items-center gap-1.5">
@@ -6762,7 +7264,7 @@
     function pEvents() {
       const total = CATS.reduce((s, c) => s + evUpcoming(c.id).length, 0);
       return `<div class="pb-24 px-4 pt-3">
-    <p class="text-[12.5px] text-muted leading-relaxed mb-3">Everything on for children across Bergen County, gathered by category. Open one to see its events and filter by age, town or date.</p>
+    <p class="text-[12.5px] text-muted leading-relaxed mb-3">Everything on for children across Bergen County, gathered by category. Open one to see its events and filter by age or town.</p>
     <div class="flex items-center justify-between mb-2.5">
       <h2 class="font-bold text-navy text-[15.5px]">What&rsquo;s coming up</h2>
       <span class="text-[11.5px] text-muted font-semibold">${total} event${total !== 1 ? 's' : ''} scheduled</span>
@@ -6770,11 +7272,6 @@
     <div class="space-y-3">
       ${CATS.map(evCatCard).join('')}
     </div>
-    <div class="mt-7">
-      <h2 class="font-bold text-navy text-[15.5px] mb-1">The whole calendar</h2>
-      <p class="text-[12px] text-muted leading-relaxed mb-3">Every category at once. Pick a day, or two for a range.</p>
-    </div>
-    ${evCalendar('ev')}
   </div>`;
     }
     /* ---- one category's events ----
@@ -6795,8 +7292,33 @@
       </div>
       ${filterRow('evcat')}
     </div>
-    <div class="px-4 pt-2">${evCalendar('evcat')}</div>
+    <div class="px-4 pt-2">${evCatList()}</div>
   </div>`;
+    }
+    // From and To, either optional: From alone means that day onwards.
+    function dateRangeSheet() {
+      const f = S.ev, todayIso = isoLocal(TODAY);
+      openSheet(`<div class="font-display font-bold text-[20px] text-navy">Date range</div>
+    <p class="text-[13px] text-muted mt-1 mb-3">Show events happening between these dates.</p>
+    <div class="grid grid-cols-2 gap-2.5">
+      <div><label class="${LABEL}">From</label><input id="dr-from" type="date" min="${todayIso}" value="${f.from || ''}" class="${FIELD}"></div>
+      <div><label class="${LABEL}">To</label><input id="dr-to" type="date" min="${todayIso}" value="${f.to || ''}" class="${FIELD}"></div>
+    </div>
+    <div class="grid grid-cols-2 gap-2.5 mt-5"><button data-act="date-clear" class="${BTN2}">Clear</button><button data-act="date-apply" class="${BTN}">${ic('check', 17)} Apply</button></div>`, true);
+    }
+    /* The category's upcoming events, matched against the search and filters
+       above — the list alone, without the month grid. */
+    function evCatList() {
+      const todayIso = isoLocal(TODAY);
+      const { from, to } = S.ev;
+      const inDates = e => (!from || (e.end || e.date) >= from) && (!to || e.date <= to);
+      const list = EVENTS.filter(e => eventMatches(e) && (e.end || e.date) >= todayIso && inDates(e)).sort((a, b) => a.date.localeCompare(b.date));
+      // How many of the category's upcoming events the filters leave showing.
+      const total = S.ev.cats.length === 1 ? evUpcoming(S.ev.cats[0]).length : EVENTS.filter(e => (e.end || e.date) >= todayIso).length;
+      return `<div class="flex items-center justify-between mt-3 mb-2">
+      <h2 class="font-bold text-navy text-[15px]">${list.length} of ${total} event${total !== 1 ? 's' : ''}</h2>
+    </div>
+    <div class="space-y-3">${list.length ? list.map(evRow).join('') : `<div class="text-center text-muted py-10">${ic('calendar', 30, 'text-faint mx-auto mb-2')}<div class="text-[13.5px]">No events match these filters.</div></div>`}</div>`;
     }
     /* The month grid and the list under it, shared by the tab and the category
        page. `scope` decides only which Clear button the filter row drew — the
@@ -6806,7 +7328,7 @@
       const startDow = new Date(y, m, 1).getDay(), days = new Date(y, m + 1, 0).getDate();
       const filtered = EVENTS.filter(eventMatches);
       const hasEv = d => filtered.some(e => evCovers(e, iso(d)));
-      const todayIso = new Date().toISOString().slice(0, 10);
+      const todayIso = isoLocal(new Date());
       const from = S.ev.from, to = S.ev.to;
       const dayList = from ? filtered.filter(e => evInRange(e, from, to)).sort((a, b) => a.date.localeCompare(b.date))
         : filtered.slice().sort((a, b) => a.date.localeCompare(b.date));
@@ -6993,16 +7515,17 @@
     <div class="flex flex-col items-center pt-1 pb-2">
       <div class="relative">
         ${avatarBlock(u, 88)}
-        <button data-act="pick-photo" aria-label="Change profile photo" class="absolute w-8 h-8 rounded-full bg-grass text-white grid place-items-center active:scale-95 transition" style="right:-2px;bottom:-2px;box-shadow:0 0 0 4px #fdf8f0">${ic('edit', 15)}</button>
+${u.photo ? '' : `        <button data-act="pick-photo" aria-label="Add profile photo" class="absolute w-8 h-8 rounded-full bg-grass text-white grid place-items-center active:scale-95 transition" style="right:-2px;bottom:-2px;box-shadow:0 0 0 4px #fdf8f0">${ic('edit', 15)}</button>`}
       </div>
-      <!-- Real device picker. The crop sheet opens on 'change'. -->
+      <!-- Real device picker; the chosen image is used as it is. -->
       <input id="ep-file" type="file" accept="image/*" class="hidden">
       <div class="flex items-center gap-3 mt-3">
-        <button data-act="pick-photo" class="text-grass font-semibold text-[13px]">${u.photo ? 'Change photo' : 'Add photo'}</button>
-        ${u.photo ? `<span class="bg-line" style="width:1px;height:12px"></span><button data-act="drop-photo" class="text-muted font-semibold text-[13px]">Remove</button>` : ''}
+        ${u.photo
+          ? `<button data-act="drop-photo" class="text-muted font-semibold text-[13px]">Remove Photo</button>`
+          : `<button data-act="pick-photo" class="text-grass font-semibold text-[13px]">Add photo</button>`}
       </div>
     </div>
-    <div><label class="${LABEL}">${u.role === 'parent' ? 'Full name' : 'Business / advertiser name'} *</label><input id="ep-name" value="${(u.name || '').replace(/"/g, '&quot;')}" class="${FIELD}"></div>
+    <div><label class="${LABEL}">${u.role === 'parent' ? 'Full name' : 'Company / advertiser name'} *</label><input id="ep-name" value="${(u.name || '').replace(/"/g, '&quot;')}" class="${FIELD}"></div>
     ${u.role !== 'parent' ? `<div><label class="${LABEL}">Contact person name *</label><input id="ep-contact" value="${(u.pctName || '').replace(/"/g, '&quot;')}" placeholder="Your name" class="${FIELD}"></div>` : ''}
     ${u.role === 'advertiser' ? `<div><label class="${LABEL}">Address line *</label><input id="ep-addr" value="${(u.addr || '').replace(/"/g, '&quot;')}" placeholder="e.g. 120 Ridgewood Ave, Suite 3" class="${FIELD}"></div>
     <div><label class="${LABEL}">Town *</label><select id="ep-town" class="${FIELD}">${TOWNS.map(t => `<option ${t === u.town ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
@@ -7299,11 +7822,36 @@
     // No placement here. An ad can be bought into several slots at once, and a
     // list that tries to name them all stops being scannable — the detail sheet
     // is where the buy is spelled out.
+    /* My Ads card: name and status, then Category · Placement · Plan in three
+       labelled columns, and the run dates once the ad has gone live. The whole
+       card opens the ad; editing and deleting live on the ad's page. */
     function adRow(a) {
-      return `<div class="${CARD} p-3.5 flex items-center gap-2.5">
-    <div class="min-w-0 flex-1"><div class="font-bold text-navy text-[14px] truncate">${a.name}</div>
-      <div class="mt-1">${statusPill(a.status)}</div></div>
-    ${adActions(a)}</div>`;
+      const g = adGroupOf(a), slots = adSlotTypes(a).map(t => t.slot === 'leaderboard' ? 'Leaderboard' : 'Sidebar');
+      const placement = g === 'directory' ? adTypeOf(a.type).name
+        : `${g === 'home' ? 'Home' : 'Category'}${slots.length ? `<div class="text-[11.5px] text-muted mt-0.5" style="font-weight:500">${slots.join(' · ')}</div>` : ''}`;
+      const cols = [
+        ['tag', 'Category', catOf(a.cat).name],
+        ['pin', 'Placement', placement],
+        ['layers', 'Plan', planOf(a.billPlan).name],
+      ].filter(Boolean);
+      // Columns share the width evenly; a short rule sits centred in the gap
+      // between each pair, spanning the label and the first line of the value
+      // — the same length on every card, however far a value wraps.
+      const col = ([icn, label, val]) => `<div class="min-w-0 flex-1">
+        <div class="flex items-center gap-1 text-[12px] text-muted">${ic(icn, 13)}${label}</div>
+        <div class="text-[13.5px] font-semibold text-navy mt-1 leading-snug" style="overflow-wrap:anywhere">${val}</div></div>`;
+      const runs = (a.status === 'live' || a.status === 'ended') && a.start && a.end;
+      return `<button data-viewad="${a.id}" class="w-full text-left ${CARD} p-4 active:scale-[.99] transition">
+    <div class="flex items-start gap-3">
+      <div class="font-bold text-navy text-[15px] leading-snug min-w-0 flex-1" style="overflow-wrap:anywhere">${a.name}</div>
+      <div class="shrink-0">${statusPill(a.status)}</div>
+    </div>
+    <div class="flex items-start mt-3">${cols.map(col).join('<span class="shrink-0 border-line" style="border-left-width:1px;height:42px;margin:0 12px" aria-hidden="true"></span>')}</div>
+    ${runs ? `<div class="mt-3">
+      <div class="flex items-center gap-1 text-[12px] text-muted">${ic('calendar', 13)}Runs</div>
+      <div class="text-[13.5px] font-semibold text-navy mt-1">${evFullDate(a.start)} – ${evFullDate(a.end)}</div>
+    </div>` : ''}
+  </button>`;
     }
     function aAds() {
       let list = ADS.slice(); const f = S.adf;
@@ -7408,7 +7956,7 @@
        written from it. `design` holds one entry per slot kind the chosen types
        render as — a banner and a card are laid out differently and take
        differently shaped artwork, so they cannot share one set of fields. */
-    const newAdDraft = () => ({ name: '', cat: CATS[0].id, sub: '', dest: '', towns: [], ages: [], addr: '', phone: '', hours: '', desc: '', types: ['basic'], type: 'basic', photos: 0, video: null, addons: [], design: {}, payMode: 'onetime', billPlan: 'monthly' });
+    const newAdDraft = () => ({ name: '', cat: CATS[0].id, sub: '', dest: '', towns: [], ages: [], addr: '', phone: '', hours: '', desc: '', types: ['basic'], type: 'basic', dial: DEFAULT_DIAL, photos: 0, video: null, addons: [], design: {}, payMode: 'onetime', billPlan: 'monthly' });
 
     /* The video slot on the ad form. One video is the whole allowance, so once
        there is one the uploader is replaced by the video itself with a way to
@@ -7416,14 +7964,14 @@
        button that silently overwrites the first would be a trap. */
     function adVideoField(d) {
       return `<div class="mt-3" id="nl-video-field">
-    <label class="${LABEL}">Video <span class="font-normal text-muted">— Deluxe · one per ad</span></label>
+    <label class="${LABEL}">Video <span class="font-normal text-muted">— Max ${AD_MAX_VIDEO}</span></label>
     ${d.video ? `${videoTile({ act: 'ad-video', id: 'draft', grad: catOf(d.cat).grad, ic: catOf(d.cat).ic, len: d.video.len, poster: adImg(d, 800, 450) })}
     <div class="flex items-center gap-2 mt-1.5">
       <span class="text-[12px] text-grass font-semibold flex-1">${ic('check', 13)} Video added · ${d.video.len}</span>
       <button type="button" data-act="mock-video-remove" class="text-[12px] font-semibold text-muted underline">Remove</button>
     </div>`
           : `<button type="button" data-act="mock-video" class="w-full border-2 border-dashed border-line rounded-xl py-5 grid place-items-center text-muted active:bg-slate-50"><span class="text-grass">${ic('video', 24)}</span><span class="text-[13px] mt-1">Upload a video</span></button>
-    <p class="text-[11.5px] text-muted mt-1.5">Optional. One video per ad, up to 2 minutes.</p>`}
+`}
   </div>`;
     }
     function aCreate() {
@@ -7467,6 +8015,9 @@
       const d = S.adDraft; if (!d) return;
       [['name', 'ad-name'], ['cat', 'ad-cat'], ['sub', 'ad-sub'], ['dest', 'ad-dest'], ['addr', 'ad-addr'], ['phone', 'ad-phone'], ['desc', 'ad-desc']]
         .forEach(pair => { const n = el(pair[1]); if (n) d[pair[0]] = n.value.trim(); });
+      // The country sits in its own control beside the number, so it is read
+      // back separately and stored beside it.
+      const dialSel = el('ad-dial'); if (dialSel) d.dial = dialSel.value;
     }
     function adStep(n, title, sub, body) {
       return `<div class="pt-4 mt-4 border-t border-line/70">
@@ -7606,9 +8157,9 @@
     <div class="text-[9.5px] font-extrabold uppercase tracking-wide text-faint mb-1.5">${g.label}</div>
     <div class="space-y-2.5">${AD_TYPES.filter(t => t.group === g.id).map(t => pick(on.includes(t.id),
         `<div class="flex items-center gap-2"><span class="text-grass shrink-0">${ic(t.ic, 16)}</span><b class="text-navy text-[14px] flex-1 min-w-0">${t.name}</b>
-     <span class="text-[12.5px] font-bold shrink-0 ${t.rate ? 'text-orange-700' : 'text-navy'}">${t.rate ? '+$' + t.rate + '/ad' : 'Included'}</span></div>
+     <span class="text-[12.5px] font-bold shrink-0 text-navy">${t.rate ? '+$' + t.rate + '<span class="font-semibold text-muted">/ad</span>' : 'Included'}</span></div>
      <p class="text-[11.5px] text-muted leading-relaxed mt-1">${t.desc}</p>
-     ${t.rate ? `<p class="text-[11.5px] font-bold text-orange-700 mt-1">Adds ${usd(t.rate)} to the amount payable.</p>` : ''}`,
+`,
         'ad-type', t.id)).join('')}</div>
   </div>`;
     }
@@ -7624,8 +8175,12 @@
       // the price of the ad — '$10' beside Deluxe read like the whole cost.
       const rate = n => n ? '+' + usd(n) : 'Free';
       const pick = (on, body, act, val) => `<button type="button" data-act="${act}" data-val="${val}" aria-pressed="${on}" class="w-full text-left rounded-2xl border p-3 transition ${on ? 'border-navy bg-blue-50/60' : 'border-line bg-[#fbfcfd]'}">${body}</button>`;
+      /* Ad type, term, total. The add-on line is gone — where nothing was
+         taken it printed "Add-ons for placement · $0.00", a charge that was
+         never made shown on every ad that did not make it; and where one was,
+         it repeated a choice the step above already states by name. The amount
+         is unchanged either way: an add-on still lands in b.total. */
       const rows = [['Ad type', usd(b.typeCost)]]
-        .concat(b.addons.length ? b.addons.map(a => [a.name, usd(a.cost)]) : [['Add-ons for placement', usd(0)]])
         .concat([[b.subscription ? 'Subscription · ' + b.plan.name : 'One time fee', usd(b.planCost)]]);
       const split = `${rows.map(r => `<div class="flex justify-between gap-3 py-1 text-[13.5px]"><span class="text-muted">${r[0]}</span><b class="text-navy">${r[1]}</b></div>`).join('')}
     <div class="flex justify-between gap-3 mt-2 pt-2.5 border-t border-line"><span class="font-bold text-navy text-[14px]">Total payable</span><b class="text-navy text-[17px]">${usd(b.total)}</b></div>`;
@@ -7647,13 +8202,17 @@
       ${adPickBtn('towns', 'Town *', 'Every town this ad should reach. Pick at least one.')}
       ${adPickBtn('ages', 'Age group', 'Leaving it empty means every age.')}
       <div><label class="${LABEL}">Address</label><input id="ad-addr" value="${esc(d.addr)}" placeholder="Street address" class="${FIELD}"></div>
-      <div><label class="${LABEL}">Phone</label><input id="ad-phone" value="${esc(d.phone)}" placeholder="(201) 555-0000" class="${FIELD}"></div>
+      <!-- The dial picker signup already uses. This was a bare input, so a
+           number typed on the ad form was the one phone number in the app with
+           no country on it — and the ad's own detail sheet then showed it bare
+           to every family reading the ad. Optional, so no asterisk. -->
+      <div><label class="${LABEL}">Phone</label><div class="au-field au-field-dial">${dialPicker('ad-dial', d.dial)}<input id="ad-phone" type="tel" inputmode="tel" value="${esc(d.phone)}" placeholder="(201) 555-0000"></div></div>
       <div><label class="${LABEL}">Working hours</label>
         <button type="button" data-act="edit-hours" class="w-full flex items-center gap-2 ${FIELD} text-left"><span class="text-grass">${ic('clock', 18)}</span><span id="nl-hours-sum" class="flex-1 truncate">${composeWH(S.wh)}</span>${ic('chev-right', 16, 'text-faint')}</button></div>
       <div><label class="${LABEL}">Description *</label><textarea id="ad-desc" rows="3" placeholder="Tell families what makes your service special…" class="${FIELD} resize-none">${String(d.desc || '')}</textarea></div>
     </div>
     ${adStep(2, 'Ad type', locked ? 'The type this ad was paid for.' : 'One choice, and it decides where the ad runs — in the directory, on the home page, or inside its own category.',
-        locked ? `<div class="${CARD} p-4">${adTypeBody(d, b, deluxe && group === 'directory' ? `<div class="mt-3"><label class="${LABEL}">Photos <span class="font-normal text-muted">— Deluxe</span></label>
+        locked ? `<div class="${CARD} p-4">${adTypeBody(d, b, deluxe && group === 'directory' ? `<div class="mt-3"><label class="${LABEL}">Photos <span class="text-orange-700">*</span> <span class="font-normal text-muted">— Max ${AD_MAX_PHOTOS}</span></label>
         <button type="button" data-act="mock-photo" class="w-full border-2 border-dashed border-line rounded-xl py-5 grid place-items-center text-muted active:bg-slate-50"><span class="text-grass">${ic('upload', 24)}</span><span class="text-[13px] mt-1">Upload images</span></button>
         <div id="nl-photo-state"></div>
         ${adVideoField(d)}</div>` : '')}
@@ -7661,7 +8220,7 @@
           : `${AD_TYPE_GROUPS.map(g => adTypeGroupHTML(g, d, pick)).join('')}
       <!-- The gallery belongs to the directory listing and nothing else: a
            banner has one picture and it is the artwork below. -->
-      ${deluxe && group === 'directory' ? `<div class="mt-3"><label class="${LABEL}">Photos <span class="font-normal text-muted">— Deluxe</span></label>
+      ${deluxe && group === 'directory' ? `<div class="mt-3"><label class="${LABEL}">Photos <span class="text-orange-700">*</span> <span class="font-normal text-muted">— Max ${AD_MAX_PHOTOS}</span></label>
         <button type="button" data-act="mock-photo" class="w-full border-2 border-dashed border-line rounded-xl py-5 grid place-items-center text-muted active:bg-slate-50"><span class="text-grass">${ic('upload', 24)}</span><span class="text-[13px] mt-1">Upload images</span></button>
         <div id="nl-photo-state">${d.photos ? adGallery(d, d.photos) + `<div class="text-[12px] text-grass font-semibold mt-1.5">${ic('check', 13)} ${d.photos} photos added</div>` : ''}</div>
         ${adVideoField(d)}</div>` : ''}
@@ -7675,7 +8234,7 @@
                 ? `<div class="space-y-2.5">${AD_ADDONS.filter(p2 => !p2.limited || left > 0 || d.addons.includes(p2.id)).map(p2 => {
                   const on = d.addons.includes(p2.id);
                   return pick(on, `<div class="flex items-center gap-2"><span class="w-5 h-5 rounded-md grid place-items-center shrink-0 ${on ? 'bg-navy text-white' : 'border border-line'}">${on ? ic('check', 12) : ''}</span>
-            <span class="text-grass">${ic(p2.ic, 15)}</span><b class="text-navy text-[14px] flex-1">${p2.name}</b><span class="text-[12.5px] font-bold text-orange-700">+$${p2.rate}/ad</span></div>
+            <span class="text-grass">${ic(p2.ic, 15)}</span><b class="text-navy text-[14px] flex-1">${p2.name}</b><span class="text-[12.5px] font-bold text-navy">+$${p2.rate}<span class="font-semibold text-muted">/ad</span></span></div>
             <p class="text-[11.5px] text-muted leading-relaxed mt-1">${p2.desc}${p2.limited ? ` <span class="text-grass font-semibold">${left} of ${TOP10_SLOTS} slots left</span>` : ''}</p>`, 'ad-addon', p2.id);
                 }).join('')}
         ${left <= 0 && !d.addons.includes('top10') ? `<p class="text-[11.5px] text-muted leading-relaxed bg-slate-50 rounded-xl px-3 py-2"><b class="text-navy">Top 10 in directory is sold out.</b> All ${TOP10_SLOTS} pinned slots are taken right now.</p>` : ''}</div>`
@@ -7725,7 +8284,11 @@
     /* Listings carry no real uploads yet, so the count is derived from the id —
        stable per listing, which keeps the "+N" state visible on some of them
        without the number changing between visits. */
-    const shotCount = l => l.photos.length || (l.plan === 'deluxe' ? 3 + (l.id.charCodeAt(l.id.length - 1) % 5) : 0);
+    /* Capped at what the tier actually sells. The derived figure ran 3 to 7,
+       so a Featured listing could claim seven photographs on a plan that allows
+       five — and the "+N" on the last tile counted up to a number the gallery
+       could never contain. The spread stays; it just stops past the allowance. */
+    const shotCount = l => Math.min(AD_MAX_PHOTOS, l.photos.length || (l.plan === 'deluxe' ? 3 + (l.id.charCodeAt(l.id.length - 1) % 5) : 0));
     const shotSrc = (l, i, w, h) => shotFrom(l.id, i, CAT_IMG[l.cat]);
     /* A Featured listing carries one video, and it takes the first slot in the
        gallery — the tile a parent looks at first is the one thing a Basic
@@ -7825,7 +8388,7 @@
     function evVideoTile(e, c, v) {
       return videoTile({
         act: 'event-video', id: e.id, grad: c.grad, ic: c.ic, len: v.len,
-        poster: EV_IMG[e.id] ? unsplash(EV_IMG[e.id], 800, 450) : '',
+        poster: evImgKey(e) ? unsplash(evImgKey(e), 800, 450) : '',
       });
     }
     function evPhotoTile(e, c, i, more) {
@@ -7834,20 +8397,20 @@
     <img src="${evShotSrc(e, i, 480, 320)}" alt="${e.name} photo ${i}" loading="lazy" class="relative w-full h-full object-cover" onerror="this.remove()">
     ${more ? `<span class="absolute inset-0 bg-navy/50 grid place-items-center text-white font-display font-black text-[19px]">+${more}</span>` : ''}</button>`;
     }
+    /* Photos & video, laid out as on the website: a small heading, then one
+       grid of square tiles three across — the video first, then every photo.
+       A photo opens the photo sheet; the video opens the player. */
     function evMedia(e, c) {
       const shots = evShots(e), video = evVideo(e);
       if (!shots && !video) return '';
-      // Four tiles, same cap as a listing: a third row pushes the description
-      // off the bottom of the shortest phones.
-      const shown = Math.min(shots, 4);
-      const counts = [shots ? `${shots} photo${shots !== 1 ? 's' : ''}` : '', video ? '1 video' : ''].filter(Boolean).join(' · ');
+      const sq = 'aspect-ratio:1/1';
+      const vid = video ? `<button type="button" data-act="event-video" data-id="${e.id}" class="rounded-xl overflow-hidden bg-navy text-white flex flex-col items-center justify-center gap-1" style="${sq}">
+        ${ic('play', 22)}<span class="text-[10.5px] font-bold leading-tight px-1 text-center">Video · ${video.len}</span></button>` : '';
+      const photos = [...Array(shots)].map((_, k) => `<button type="button" data-act="event-photos" data-id="${e.id}" class="rounded-xl overflow-hidden relative bg-gradient-to-br ${c.grad}" style="${sq}">
+        <img src="${evShotSrc(e, k + 1, 300, 300)}" alt="${e.name} photo ${k + 1}" loading="lazy" class="absolute inset-0 w-full h-full object-cover" onerror="this.remove()"></button>`).join('');
       return `<div class="mt-5">
-    <div class="flex items-baseline justify-between gap-3 mb-2">
-      <div class="font-bold text-navy text-[14.5px]">${video ? 'Photos & video' : 'Photos'}</div>
-      <div class="text-[12px] text-muted shrink-0">${counts}</div>
-    </div>
-    ${video ? evVideoTile(e, c, video) : ''}
-    ${shots ? `<div class="photo-grid${video ? ' mt-2.5' : ''}">${[...Array(shown)].map((_, k) => evPhotoTile(e, c, k + 1, k === shown - 1 ? shots - shown : 0)).join('')}</div>` : ''}
+    <div class="text-[11.5px] font-extrabold uppercase text-muted mb-2" style="letter-spacing:.06em">${video ? 'Photos &amp; video' : 'Photos'}</div>
+    <div class="grid gap-2" style="grid-template-columns:repeat(3,minmax(0,1fr))">${vid}${photos}</div>
   </div>`;
     }
     function evPhotoSheet(id) {
@@ -7862,14 +8425,93 @@
       const c = catOf(e.cat); const v = evVideo(e); if (!v) return;
       videoSheet({
         title: 'Event video', sub: e.name, len: v.len, grad: c.grad, ic: c.ic,
-        poster: EV_IMG[e.id] ? unsplash(EV_IMG[e.id], 900, 506) : '',
+        poster: evImgKey(e) ? unsplash(evImgKey(e), 900, 506) : '',
       });
     }
 
+    /* The business behind each listing, and the wider service area where one
+       exists — the same two things the website carries. A listing has two
+       names, the service and the operator, and the record only held the first;
+       and every seeded listing had one town and one min–max span, which is true
+       of a dentist with one surgery and false of a club that travels. */
+    const LISTING_ADVERTISER = {
+      l1: 'Kids First Medical Group', l2: 'Bright Smiles Dental Partners', l3: 'Little Steps Health Network',
+      l4: 'Meadowbrook Education Trust', l5: 'Tiny Explorers Learning Co.', l6: 'STEM Futures Academy Group',
+      l7: 'Bergen Learning Partners', l8: 'Summit Prep Holdings', l9: 'Mathwise Education Ltd.',
+      l10: 'Creative Hands Studios', l11: 'Clayworks Collective', l12: 'Bergen United Sports Club',
+      l13: 'Aquatic Center Group', l14: 'Dragon Martial Arts Assoc.', l15: 'Harmony Music Schools',
+      l16: 'Grace Ballet Academy Trust', l17: 'Wildwood Camps Company', l18: 'FunZone Entertainment Group',
+    };
+    const LISTING_REACH = {
+      l1: { towns: ['Hackensack', 'Teaneck', 'Bergenfield'], ages: ['infant', 'preschool', 'early', 'tween', 'teen'] },
+      l3: { towns: ['Teaneck', 'Englewood', 'Fort Lee', 'Leonia'], ages: ['infant', 'preschool', 'early'] },
+      l7: { towns: ['Ridgewood', 'Glen Rock', 'Midland Park', 'Wyckoff'], ages: ['early', 'tween', 'teen'] },
+      l10: { towns: ['Ridgewood', 'Ho-Ho-Kus', 'Waldwick'], ages: ['preschool', 'early', 'tween'] },
+      l12: { towns: ['Paramus', 'Ridgewood', 'Fair Lawn', 'Glen Rock', 'Wyckoff'], ages: ['preschool', 'early', 'tween', 'teen'] },
+      l13: { towns: ['Fort Lee', 'Edgewater', 'Cliffside Park'], ages: ['infant', 'preschool', 'early', 'tween', 'teen'] },
+      l17: { towns: ['Mahwah', 'Ramsey', 'Oakland', 'Franklin Lakes'], ages: ['early', 'tween', 'teen'] },
+      l18: { towns: ['Paramus', 'Hackensack', 'Rochelle Park'], ages: ['preschool', 'early', 'tween'] },
+    };
+    LISTINGS.forEach(l => {
+      l.advertiser = l.advertiser || LISTING_ADVERTISER[l.id] || '';
+      const r = LISTING_REACH[l.id]; if (r) Object.assign(l, r);
+    });
+    /* The card of facts, and both detail pages draw it. A listing and an ad are
+       the same object to whoever is reading — a business, where it is, who it
+       is for, when it is open, how to reach it — and they were two different
+       layouts: the listing had labelled rows in a bordered card, the ad had a
+       key-on-the-left value-on-the-right table under an "Advertisement details"
+       heading. Tapping a banner and tapping a directory card landed a family in
+       two places that did not look like the same product. */
+    const detailStack = items => items.map((x, i) => `<div class="${i ? 'mt-0.5' : ''}">${x}</div>`).join('');
+    const detailCard = rows => rows.length ? `<div class="mt-5 rounded-2xl border border-line overflow-hidden bg-[#fbfcfd]">
+      ${rows.map((x, i) => `<div class="flex gap-3 items-start px-3.5 py-3 ${i ? 'border-t border-line' : ''}">
+        <span class="w-8 h-8 rounded-xl grid place-items-center shrink-0 bg-emerald-50 text-grass mt-px">${ic(x[0], 16)}</span>
+        <div class="min-w-0 flex-1">
+          <div class="text-[10.5px] font-extrabold uppercase tracking-wide text-muted">${x[1]}</div>
+          <div class="text-[14px] font-semibold text-navy leading-snug mt-0.5">${x[2]}</div>
+        </div></div>`).join('')}
+    </div>` : '';
+    // The ad detail page's card — same rows, drawn to match the website's listing panel.
+    const adInfoCard = rows => rows.length ? `<div class="ad-info-card">
+      ${rows.map(x => `<div class="ad-info-row">
+        <span class="ad-info-ic">${ic(x[0], 16)}</span>
+        <div class="min-w-0 flex-1">
+          <div class="ad-info-lbl">${x[1]}</div>
+          <div class="ad-info-val">${x[2]}</div>
+        </div></div>`).join('')}
+    </div>` : '';
+    // The one action, full width and pinned, on both pages.
+    const detailCTA = (url, label) => `<div class="fixed bottom-0 left-0 right-0 mx-auto max-w-[430px] bg-white border-t border-line p-3 pb-[max(12px,env(safe-area-inset-bottom))] z-20">
+      <button data-act="ext" data-url="${url}" class="${BTN} w-full">${ic('globe', 17)} ${label}</button>
+    </div>`;
+    // The wider claim where one was made, the single value where it was not.
+    const listingTowns = l => (l.towns && l.towns.length ? l.towns : l.town ? [l.town] : []);
+    const listingAges = l => (l.ages && l.ages.length
+      ? l.ages.map(id => (AGES.find(a => a.id === id) || {}).l).filter(Boolean)
+      : (l.amin != null ? [`Ages ${l.amin}–${l.amax}`] : []));
     function listingPage(id) {
       const l = LISTINGS.find(x => x.id === id); if (!l) return '<div class="p-6 text-muted">Listing not found.</div>';
       const c = catOf(l.cat); const dlx = l.plan === 'deluxe';
-      const info = [l.addr && ['pin', l.addr], l.hours && ['clock', l.hours], l.phone && ['phone', l.phone], l.web && ['globe', l.web], (l.amin != null) && ['users', `Ages ${l.amin}–${l.amax}`]].filter(Boolean);
+      /* Labelled rows rather than five identical icon-and-text lines. Unlabelled,
+         nothing could be found by scanning and a phone number read as no more
+         important than an age range — and a list of towns had nowhere to go, so
+         the town was said once in the subtitle and the other four were dropped.
+
+         Same fields, same order and same wording as the website's panel, so a
+         family who saw a listing on the web finds it laid out as itself here. */
+      const towns = listingTowns(l), ages = listingAges(l);
+      const stack = detailStack;
+      const rows = [
+        l.addr && ['pin', 'Address', `${l.addr}, NJ`],
+        towns.length && ['pin', towns.length > 1 ? 'Towns' : 'Town', stack(towns)],
+        ages.length && ['users', ages.length > 1 ? 'Age groups' : 'Age group', stack(ages)],
+        l.hours && ['clock', 'Working hours', whLines(l.hours)],
+        l.phone && ['phone', 'Phone', `<a href="tel:${(dialOf(l.dial).dial + l.phone).replace(/[^0-9+]/g, '')}" class="text-grass font-bold underline">${dialOf(l.dial).dial} ${l.phone}</a>`],
+        /* No Website row — the button at the foot goes to the same address, so
+           the row was the destination printed above the control that opens it. */
+      ].filter(Boolean);
+      const infoCard = detailCard(rows);
       /* Four tiles is the cap: a fifth pushes the address and hours below the
          fold on the shortest phones. Anything past four is counted on the last
          tile and lives in the sheet.
@@ -7892,41 +8534,60 @@
     <div class="px-5 ${dlx ? '-mt-9' : 'pt-4'} relative">
       <div class="${CARD} p-4 flex items-start gap-3">
         <div class="w-12 h-12 rounded-2xl grid place-items-center shrink-0 ${c.tint}">${ic(l.ic, 24)}</div>
-        <div class="min-w-0 flex-1"><div class="font-display font-black text-[19px] text-navy leading-tight">${l.name}</div>
-          <div class="text-[12px] text-muted mt-0.5">${l.sub} · ${c.name} · ${l.town}</div></div>
+        <!-- Category then subcategory, the way the cards and the website read,
+             with the operator under the name. The town came off the end of this
+             line: one town on a listing serving five was the wrong answer, and
+             the card below now gives all of them. -->
+        <div class="min-w-0 flex-1">
+          <div class="text-[10.5px] font-extrabold uppercase tracking-wide text-muted">${c.name}${l.sub ? ' · ' + l.sub : ''}</div>
+          <div class="font-display font-black text-[19px] text-navy leading-tight mt-0.5">${l.name}</div>
+          ${l.advertiser ? `<div class="text-[12px] text-muted font-semibold mt-0.5">${l.advertiser}</div>` : ''}</div>
         ${dlx ? `<span class="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-full shrink-0 bg-sun text-navy">Featured</span>` : ''}
       </div>
     </div>
     <div class="px-5 mt-4">
+      <div class="text-[10.5px] font-extrabold uppercase tracking-wide text-muted mb-1.5">About</div>
       <p class="text-[14.5px] text-ink leading-relaxed">${l.desc}</p>
       ${photos}
-      <div class="mt-5 space-y-3">${info.map(x => `<div class="flex items-center gap-3 text-[14px] text-navy"><span class="text-grass shrink-0">${ic(x[0], 18)}</span><span>${x[1]}</span></div>`).join('')}</div>
+      ${infoCard}
     </div>
-    <div class="fixed bottom-0 left-0 right-0 mx-auto max-w-[430px] bg-white border-t border-line p-3 pb-[max(12px,env(safe-area-inset-bottom))] grid grid-cols-2 gap-2.5 z-20">
-      ${l.web ? `<button data-act="ext" data-url="${l.web}" class="${BTN}">${ic('globe', 17)} Website</button>` : '<span></span>'}
-      ${l.phone ? `<a href="tel:${l.phone.replace(/[^0-9]/g, '')}" class="${BTN2}">${ic('phone', 17)} Call</a>` : '<span></span>'}
-    </div>
+    <!-- One action, full width, as the website's panel has. Call was a second
+         button of equal weight for something the Phone row already offers as a
+         tel: link — the number is right there in the card and tapping it dials.
+         Two buttons also meant the one that matters was only half the bar. -->
+    ${l.web ? detailCTA(l.web, AD_CTA) : ''}
   </div>`;
     }
     function eventPage(id) {
       const e = EVENTS.find(x => x.id === id); if (!e) return '<div class="p-6 text-muted">Event not found.</div>';
       const c = catOf(e.cat); const d = new Date(e.date + 'T00:00'); const multi = e.end && e.end !== e.date; const de = multi ? new Date(e.end + 'T00:00') : null;
       const dateStr = multi ? `${MON[d.getMonth()]} ${d.getDate()} – ${MON[de.getMonth()]} ${de.getDate()}, ${de.getFullYear()}` : `${MON[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-      const info = [['calendar', dateStr], ['clock', e.time], ['pin', e.town + ', NJ'], ['users', `Ages ${e.amin}–${e.amax}`], ['user', e.org]];
+      // Same labelled card as the ad detail page; towns and age groups one per line.
+      const towns = evTownList(e);
+      const ages = evAgeLabels(e);
+      const info = [
+        ['calendar', 'Event date', evDateRange(e)],
+        ['clock', 'Time', evTimeRange(e)],
+        towns.length && ['pin', towns.length > 1 ? 'Towns' : 'Town', detailStack(towns.map(t => t + ', NJ'))],
+        ['users', 'Age group', detailStack(ages)],
+        ['user', 'Organizer', e.org],
+      ].filter(Boolean);
       // The photo leads, and the page rides up over its lower edge — the same
       // move a featured listing makes, so the two detail pages read as siblings.
       return `<div class="pb-16">
-    ${evPhoto(e, c, 'height:184px', 800, 420)}
+    <div class="relative">
+      ${evPhoto(e, c, 'height:184px', 800, 420)}
+      <!-- The date rides on the photo, as on the website's event panel. -->
+      <span class="absolute text-white text-[11px] font-extrabold uppercase rounded-full" style="top:12px;left:12px;padding:5px 10px;letter-spacing:.05em;background:rgba(15,26,44,.55);border:1px solid rgba(255,255,255,.3)">${MON[d.getMonth()]} ${d.getDate()}</span>
+    </div>
     <div class="px-5 pt-5 relative bg-cream rounded-t-3xl" style="margin-top:-22px">
-      <div class="text-[11px] font-bold uppercase text-teal tracking-wide">${c.name}${e.sub ? ` · ${e.sub}` : ''}</div>
-      <h1 class="font-display font-black text-[23px] text-navy leading-tight mt-1">${e.name}</h1>
-      ${multi ? `<span class="inline-block mt-2 text-[11px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-grass">Multi-day event</span>` : ''}
-      <div class="mt-4 space-y-3">${info.map(x => `<div class="flex items-center gap-3 text-[14px] text-navy"><span class="text-grass shrink-0">${ic(x[0], 18)}</span><span>${x[1]}</span></div>`).join('')}</div>
+      <div class="text-[12px] font-bold uppercase text-teal tracking-wide">${c.name}</div>
+      ${e.sub ? `<div class="text-[12.5px] font-semibold text-muted mt-0.5">${e.sub}</div>` : ''}
+      <h1 class="font-display font-black text-[23px] text-navy leading-tight mt-2">${e.name}</h1>
+      <div class="text-[14px] text-muted mt-1">${e.org}</div>
       <p class="text-[14.5px] text-ink leading-relaxed mt-4">${e.desc}</p>
-      <!-- Media sits after the description for the same reason a listing's
-           does: the when, where and what-it-is answer the question, and the
-           pictures are what you scroll on to once the answer is yes. -->
       ${evMedia(e, c)}
+      ${adInfoCard(info)}
     </div>
   </div>`;
     }
@@ -8313,8 +8974,10 @@
       openSheet(`<div class="font-display font-black text-[20px] text-navy mb-1">Checkout</div>
     <p class="text-[13px] text-muted mb-3">Pay to submit your advertisement for review.</p>
     <div class="bg-slate-50 rounded-xl p-4 space-y-2 text-[13.5px] mb-4">
-      ${b.types.map(t => line('Ad type · ' + t.name, usd(t.rate))).join('')}
-      ${b.addons.length ? b.addons.map(a => line(a.name, usd(a.cost))).join('') : line('Add-ons for placement', usd(0))}
+      ${/* One line for the type, whatever it is placed on — the slots are named
+            in full a step above, so pricing them separately restated the
+            selection in order to charge for it twice over. */
+        line('Ad type', usd(b.typeCost))}
       ${line(b.subscription ? 'Subscription · ' + b.plan.name : 'One time fee · ' + b.plan.name, usd(b.planCost))}
       <div class="flex justify-between pt-2 border-t border-line"><span class="text-muted">Total Payable</span><b class="text-navy text-[16px]">${usd(b.total)}</b></div>
     </div>
@@ -8408,9 +9071,104 @@
       ${adDetailRow('Transaction date', fmtS(a.start))}
       ${adDetailRow('Transaction ID', 'TXN-' + String(a.id || '').toUpperCase())}
     </div>`;
+    /* ---- the advertiser's own ad page ----
+       Laid out as the website's advertiser panel lays it out: a status banner,
+       the ad's details as labelled fields, then what was bought — Ad type, Ad
+       creative, Add-ons, Payment plan — and Billing details. A parent reaching
+       an ad still gets the public page above. */
+    function adOwnerPage(a) {
+      const c = catOf(a.cat), b = adBilling(a), g = adGroupOf(a);
+      const ages = (a.ages || []).map(id => (AGES.find(x => x.id === id) || {}).l).filter(Boolean);
+      const full = iso => iso ? evFullDate(iso) : '—';
+      const pill = t => `<span class="inline-block text-[12.5px] font-semibold text-navy bg-slate-50 border border-line rounded-full px-2.5 py-0.5 mb-1" style="margin-right:4px">${t}</span>`;
+      const field = (label, value) => `<div class="py-2.5">
+        <div class="text-[10.5px] font-extrabold uppercase text-muted mb-1" style="letter-spacing:.1em">${label}</div>
+        <div class="text-[14px] font-semibold text-navy leading-relaxed" style="overflow-wrap:anywhere">${value || '<span class="text-muted font-normal">—</span>'}</div></div>`;
+      const box = inner => `<div class="rounded-2xl border border-line bg-slate-50 px-4 py-1.5">${inner}</div>`;
+      const sect = (title, body) => `<div class="border-t border-line pt-4 mt-4">
+        <div class="text-[11px] font-extrabold uppercase text-muted mb-2.5" style="letter-spacing:.1em">${title}</div>${body}</div>`;
+      const kv = (l, v) => `<div class="flex justify-between gap-3 py-1 text-[13px]"><span class="text-muted">${l}</span><b class="text-navy text-right">${v}</b></div>`;
+
+      // Status banner — what state the ad is in, and the one date that matters.
+      const banner = (bg, bd, fg, icn, title, body, extra) => `<div class="rounded-2xl px-4 py-3.5 mt-3" style="background:${bg};border:1.5px solid ${bd};color:${fg}">
+        <div class="flex items-center gap-2 text-[12px] font-extrabold uppercase" style="letter-spacing:.06em">${ic(icn, 15)} ${title}</div>
+        <div class="text-[13px] leading-relaxed mt-1">${body}</div>${extra || ''}</div>`;
+      const dateLine = (l, v, bd) => `<div class="flex justify-between gap-3 text-[13px] mt-2.5 pt-2.5" style="border-top:1px solid ${bd}"><span>${l}</span><b>${v}</b></div>`;
+      const total = a.cost != null ? a.cost : b.total;
+      let status = '';
+      if (a.status === 'pending') status = banner('#fdeed5', '#f0d3a0', '#8a5200', 'clock', 'Awaiting review',
+        "Payment has gone through and your ad is queued for review by Bergen Kids. You'll be notified the moment it is approved and goes live.");
+      else if (a.status === 'rejected') status = banner('#fbe0e0', '#f3c9c9', '#9b2226', 'x', 'Rejected',
+        `<b>Reason:</b> ${a.rejectReason || 'No reason was recorded.'}<div class="mt-2">A refund of <b>${usd(total)}</b> has been issued and will reflect in the original payment method (${a.card || 'Visa •••• 4242'}) within 5–10 business days.</div>`);
+      else if (a.status === 'ended') status = banner('#f4f6f8', '#e2e8f0', '#5b6b7f', 'clock', 'Ended', `This ad finished its run on <b>${full(a.end)}</b>.`);
+      else if (a.status === 'live' && a.subCancelled) status = banner('#efe3fb', '#dcc9f3', '#5b3a91', 'check', 'Subscription cancelled',
+        'This ad will not renew. It stays live until the term already paid for runs out.', dateLine('Ad expiration date', full(a.end), '#dcc9f3'));
+      else if (a.status === 'live') status = banner('#e3f2e9', '#a8d5b8', '#20643d', 'check', 'Live',
+        b.subscription ? 'Your ad is running and renews automatically at the end of each term.' : 'Your ad is running. This was a one-time payment, so nothing renews.',
+        dateLine(b.subscription ? 'Next renewal date' : 'Expiration date', full(a.end), '#a8d5b8'));
+
+      const towns = a.towns || [];
+      const details = [
+        field('Advertisement name', a.name),
+        field('Category', c ? c.name : ''),
+        field('Subcategory', a.sub),
+        field('Click-through link', a.dest ? `<a class="text-grass underline" href="https://${String(a.dest).replace(/^https?:\/\//, '')}" target="_blank" rel="noopener">${a.dest}</a>` : ''),
+        field('Town', towns.map(pill).join('')),
+        field('Age group', ages.map(pill).join('')),
+        field('Address', a.addr ? `${a.addr}, NJ` : ''),
+        field('Phone', a.phone ? `${dialOf(a.dial).dial} ${a.phone}` : ''),
+        field('Working hours', whLines(a.hours || composeWH(defWH()))),
+        field('Description', a.desc),
+      ].join('');
+
+      // What the ad looks like: a Deluxe gallery, or each banner it bought.
+      const creative = `${a.type === 'deluxe' && g === 'directory' ? adMedia(a) : ''}${adDetailDesign(a)}`;
+      const plan = box(`${adPicked(b.subscription ? 'Subscription plan' : 'One time fee')}${adPicked(b.plan.name)}`)
+        + (b.subscription && a.status === 'live' && !a.subCancelled
+          ? `<button data-act="cancel-sub" data-id="${a.id}" class="${BTN2} mt-3" style="color:#b42318">${ic('x', 16)} Cancel subscription</button>
+             <p class="text-[12px] text-muted mt-2 leading-relaxed">The ad stays live until ${full(a.end)} — cancelling only stops the renewal after that.</p>` : '');
+      // The website's split: the ad type as one line, any add-ons, then the plan.
+      const split = [['Ad type', usd(b.types.reduce((n, t) => n + (t.rate || 0), 0))]]
+        .concat(b.addons.map(x => [x.name, usd(x.cost)]))
+        .concat([[`${b.subscription ? 'Subscription plan' : 'One time fee'} · ${b.plan.name} (${b.plan.days} days)`, usd(b.planCost)]])
+        .map(r => kv(r[0], r[1])).join('');
+      const billing = `<div class="rounded-2xl border border-line bg-slate-50 px-4 py-3">
+        ${split}
+        <div class="flex justify-between gap-3 mt-2 pt-2.5 border-t border-line"><span class="font-bold text-navy text-[13.5px]">Total Amount Paid</span><b class="text-navy text-[16px]">${usd(total)}</b></div>
+        <div class="mt-3 pt-2 border-t border-line">
+          ${kv('Payment card', a.card || 'Visa •••• 4242')}
+          ${kv('Transaction date', full(a.start))}
+          ${kv('Transaction ID', 'TXN-' + String(a.id).toUpperCase())}
+        </div></div>`;
+
+      return `<div class="pb-28 px-5 pt-4">
+    <div class="flex items-center gap-2 flex-wrap">
+      <div class="font-display font-black text-[21px] text-navy leading-tight">${a.name}</div>${statusPill(a.status)}
+    </div>
+    ${status}
+    <div class="mt-2">${details}</div>
+    ${sect('Ad type', box(b.types.map(t => adPicked(t.name)).join('')))}
+    ${/* Banner types show their banners, Deluxe its gallery; Basic has neither. */
+        creative.trim() && g !== 'directory' ? sect('Ad Banner', creative)
+          : creative.trim() && a.type === 'deluxe' ? sect('Ad Gallery', creative) : ''}
+    ${g === 'directory' ? sect('Add-ons for placement', b.addons.length ? box(b.addons.map(x => adPicked(x.name)).join('')) : '<p class="text-[13px] text-muted">No placement add-ons were taken on this ad.</p>') : ''}
+    ${sect('Payment plan', plan)}
+    ${sect('Billing details', billing)}
+    ${a.status === 'pending' ? `<button data-act="edit-ad" data-id="${a.id}" class="${BTN2} mt-5">${ic('edit', 17)} Edit advertisement</button>` : ''}
+    ${a.status === 'live' ? `<button data-act="del-ad" data-id="${a.id}" class="${BTN2} mt-5" style="color:#b42318">${ic('trash', 17)} Delete advertisement</button>` : ''}
+    ${a.dest ? detailCTA(a.dest, AD_CTA) : ''}
+  </div>`;
+    }
+    function cancelSubSheet(a) {
+      openSheet(`<div class="font-display font-black text-[20px] text-navy">Cancel subscription?</div>
+    <p class="text-[13.5px] text-muted leading-relaxed mt-2">“${a.name}” will not renew. It stays live until ${evFullDate(a.end)}, the end of the term already paid for.</p>
+    <div class="grid grid-cols-2 gap-2.5 mt-5"><button data-act="close-sheet" class="${BTN2}">Keep it</button>
+      <button data-act="cancel-sub-yes" data-id="${a.id}" class="${BTN}" style="background:#b42318">Cancel subscription</button></div>`);
+    }
     function adDetailPage(id) {
       const a = ADS.find(x => x.id === id);
       if (!a) return '<div class="p-6 text-muted">Advertisement not found.</div>';
+      if (S.user && S.user.role === 'advertiser') return adOwnerPage(a);
       const c = catOf(a.cat), b = adBilling(a), ages = adAgeText(a);
       // The same page serves two readers now: the advertiser who bought the ad,
       // and the parent who tapped it. Only one of them is owed the invoice.
@@ -8433,33 +9191,54 @@
          artwork is shown under Ad type below at the size it actually runs —
          blowing a decorative crop across the top would be inventing an image
          the advertiser never bought. */
-      return `<div class="pb-24">
+      /* The reader's half of the page, laid out exactly as a directory listing
+         is: where it is filed, what it is called, who is behind it, what it
+         offers, and the card of facts. Tapping a banner and tapping a listing
+         now land on the same thing wearing the same clothes.
+
+         The advertiser's own sections follow it, and only for them. */
+      const adRows = [
+        a.addr && ['pin', 'Address', `${a.addr}, NJ`],
+        (a.towns || []).length && ['pin', 'Town', detailStack(a.towns)],
+        ages.length && ['users', 'Age group', detailStack(ages)],
+        (a.hours || composeWH(defWH())) && ['clock', 'Working hours', whLines(a.hours || composeWH(defWH()))],
+        a.phone && ['phone', 'Phone', `<a href="tel:${(dialOf(a.dial).dial + a.phone).replace(/[^0-9+]/g, '')}">${dialOf(a.dial).dial} ${a.phone}</a>`],
+        /* No Website row — the button at the foot goes to the same address, so
+           the row was the destination printed directly above the control that
+           opens it. The listing sheet keeps its own row, where the website is
+           one fact among several rather than the page's single action. */
+      ].filter(Boolean);
+
+      /* Only a directory listing gets the photographic header. A home or
+         category ad has no picture of its own beyond its artwork, and that
+         artwork is shown under Ad type below at the size it actually runs —
+         blowing a decorative crop across the top would be inventing an image
+         the advertiser never bought. */
+      return `<div class="pb-28">
     ${adGroupOf(a) === 'directory' ? adCreative(a, 132) : ''}
-    <div class="px-4 pt-4">
-      <div class="flex items-center gap-2 flex-wrap">
-        <div class="font-display font-black text-[20px] text-navy leading-tight">${a.name}</div>${statusPill(a.status)}
+    <div class="px-5 pt-4">
+      <div class="text-[10.5px] font-extrabold uppercase tracking-wide text-muted">${c.name}${a.sub ? ' · ' + a.sub : ''}</div>
+      <div class="flex items-center gap-2 flex-wrap mt-0.5">
+        <div class="font-display font-black text-[20px] text-navy leading-tight">${a.name}</div>${mine ? statusPill(a.status) : ''}
       </div>
-      <p class="text-[12.5px] text-muted mt-1">${c.name}${a.sub ? ' · ' + a.sub : ''}</p>
+      <!-- The business behind the ad, under its name. An ad has two names — what
+           it is selling and who is selling it — and the page showed only the
+           first, so a family reading it had to reach the Advertiser row further
+           down to learn who they would be dealing with. -->
+      ${a.advertiser ? `<p class="text-[12.5px] text-muted font-semibold mt-0.5">${a.advertiser}</p>` : ''}
 
-      ${sect('Advertisement details', `
-      ${row('Category', c.name)}
-      ${row('Subcategory', a.sub)}
-      ${row('Click-through link', a.dest ? `<button data-act="ext" data-url="${a.dest}" class="text-grass font-bold underline break-all">${a.dest}</button>` : '', true)}
-      ${row('Town', (a.towns || []).length ? (a.towns).map(chip).join('') : '', true)}
-      ${row('Age group', ages.length ? ages.map(chip).join('') : 'Every age', true)}
-      ${row('Address', a.addr)}
-      ${row('Phone', a.phone)}
-      ${row('Working hours', a.hours || composeWH(defWH()), true)}
-      ${row('Description', a.desc, true)}`)}
+      ${a.desc ? `<div class="text-[10.5px] font-extrabold uppercase tracking-wide text-muted mt-5 mb-1.5">About</div>
+      <p class="text-[14.5px] text-ink leading-relaxed">${a.desc}</p>` : ''}
 
-      ${sect('Ad type', adTypeBody(a, b))}
+      ${adInfoCard(adRows)}
 
       ${/* What the ad cost and what it was paid with is the advertiser's own
             business. A parent reaches this page by tapping the ad itself, and
             everything above here — who it is, where it is, what it offers — is
-            what they came for; the four sections below are the account behind
-            it. */
+            what they came for; the sections below are the account behind it. */
         !mine ? '' : `
+      ${sect('Ad type', adTypeBody(a, b))}
+
       ${sect('Add-on', adAddonsBody(b, a))}
 
       ${sect('Payment plan', adPlanBody(a, b))}
@@ -8471,9 +9250,10 @@
         ${row('Transaction date', fmtS(a.start))}
         ${row('Transaction ID', 'TXN-' + String(a.id).toUpperCase())}
       </div>`)}`}
-
-      ${a.dest ? `<button data-act="ext" data-url="${a.dest}" class="${BTN} mt-4">${ic('globe', 17)} ${AD_CTA}</button>` : ''}
+      ${mine && a.status === 'pending' ? `<button data-act="edit-ad" data-id="${a.id}" class="${BTN2} mt-4">${ic('edit', 17)} Edit advertisement</button>` : ''}
+      ${mine && a.status === 'live' ? `<button data-act="del-ad" data-id="${a.id}" class="${BTN2} mt-4" style="color:#b42318">${ic('trash', 17)} Delete advertisement</button>` : ''}
     </div>
+    ${a.dest ? detailCTA(a.dest, AD_CTA) : ''}
   </div>`;
     }
 
@@ -8491,6 +9271,11 @@
       if (!d.sub) { toast('Choose a subcategory', 'x'); return false; }
       if (!d.dest) { toast('Add a click-through link', 'x'); return false; }
       if (!d.towns.length) { toast('Pick at least one town', 'x'); return false; }
+      // The asterisk on Photos, enforced. A Deluxe listing is a photo gallery —
+      // that is the whole difference between the two tiers — so one with no
+      // pictures renders as a Basic card that was charged twice. The video is
+      // optional and is not checked.
+      if (adGroupOf(d) === 'directory' && d.type === 'deluxe' && !d.photos) { toast('Add at least one photo — a Deluxe listing is a photo gallery', 'x'); return false; }
       if (!d.desc) { toast('Add a description', 'x'); return false; }
       d.hours = composeWH(S.wh);
       return true;
@@ -8503,7 +9288,7 @@
       if (S.editAd) {
         const a = ADS.find(x => x.id === S.editAd);
         if (a) {
-          Object.assign(a, { name: d.name, cat: d.cat, sub: d.sub, dest: d.dest, towns: d.towns, ages: d.ages, addr: d.addr, phone: d.phone, hours: d.hours, desc: d.desc, photos: d.photos, video: d.video || null, design: d.design || {}, status: 'pending' });
+          Object.assign(a, { name: d.name, cat: d.cat, sub: d.sub, dest: d.dest, towns: d.towns, ages: d.ages, addr: d.addr, phone: d.phone, dial: d.dial, hours: d.hours, desc: d.desc, photos: d.photos, video: d.video || null, design: d.design || {}, status: 'pending' });
           applyAdCreative(stripAdMedia(a));
         }
         S.editAd = null; S.adDraft = null; S.wh = null; S.aTab = 'ads'; render();
@@ -8544,7 +9329,7 @@
     document.addEventListener('click', e => {
       const t = e.target;
       const nav = t.closest('[data-nav]'); const tab = t.closest('[data-tab]'); const act = t.closest('[data-act]');
-      const cat = t.closest('[data-cat]'); const evcat = t.closest('[data-evcat]'); const setcat = t.closest('[data-setcat]'); const setsub = t.closest('[data-setsub]');
+      const cat = t.closest('[data-cat]'); const evcat = t.closest('[data-evcat]'); const setcat = t.closest('[data-setcat]');
       const listing = t.closest('[data-listing]'); const event = t.closest('[data-event]'); const article = t.closest('[data-article]');
       const viewad = t.closest('[data-viewad]');
 
@@ -8555,9 +9340,21 @@
           case 'auth-method': S.authMethod = act.dataset.method; el('auth-fields').innerHTML = authForm(S.authMode, S.authRole, S.authMethod); break;
           // Back inside the run: to the form the code was asked for on, keeping
           // whichever of the two screens the visitor came in through.
-          case 'auth-back': S.authStep = 'identify'; render(); break;
           // Back out of the run entirely, to the choice that started it.
-          case 'auth-exit': S.authStep = 'identify'; S.welcome = true; render(); break;
+          /* Back goes back one step, not out. There were two arrows on every
+             verification screen: this one, which left the sign-up run
+             altogether, and a labelled "Back to Sign up" inside the card,
+             which returned to the form. Two back controls one above the other
+             is a choice nobody should have to read carefully — and the top-left
+             arrow on a phone means "up one", so that is what it does.
+
+             From a verify step it returns to the form the code was asked for
+             on; from the form it leaves for the welcome screen. */
+          case 'auth-back':
+          case 'auth-exit':
+            if (S.authStep !== 'identify') S.authStep = 'identify';
+            else S.welcome = true;
+            render(); break;
           /* Toggling a chip patches the DOM instead of re-rendering: the towns
              list scrolls inside its card, and a repaint would throw a parent
              back to Allendale on every tap. */
@@ -8624,9 +9421,17 @@
               const ok = subOpts(PICK.vals).map(o => o[0]);
               S.ev.subs = S.ev.subs.filter(s => ok.includes(s));
             }
-            PICK = null; closeSheet(); if (inForm) repaintAdForm(); else render(); break;
+            const inEvr = PICK.scope === 'evReq';
+            PICK = null; closeSheet(); if (inForm) repaintAdForm(); else if (inEvr) repaintEvReq(); else render(); break;
           }
-          case 'clear-filters': { const sc = act.dataset.scope; SCOPE_KEYS[sc].forEach(k => S[sc][k] = []); render(); break; }
+          case 'clear-filters': { const sc = act.dataset.scope; SCOPE_KEYS[sc].forEach(k => S[sc][k] = []); if (sc === 'evcat') { S.ev.from = ''; S.ev.to = ''; } render(); break; }
+          case 'date-open': dateRangeSheet(); break;
+          case 'date-clear': S.ev.from = ''; S.ev.to = ''; closeSheet(); render(); break;
+          case 'date-apply': {
+            const from = (el('dr-from') || {}).value || '', to = (el('dr-to') || {}).value || '';
+            if (from && to && to < from) { toast('The end date is before the start date', 'x'); break; }
+            S.ev.from = from; S.ev.to = to; closeSheet(); render(); break;
+          }
           case 'clear-caldate': S.ev.from = ''; S.ev.to = ''; render(); break;
           case 'blf-filters': bListFilterSheet(); break;
           case 'ana-filters': anaFilterSheet(); break;
@@ -8668,6 +9473,10 @@
           case 'mock-video-remove': { if (!S.adDraft) break; S.adDraft.video = null; const f = el('nl-video-field'); if (f) f.outerHTML = adVideoField(S.adDraft); toast('Video removed'); break; }
           case 'mock-creative': { const b = el('ad-creative'); if (b) b.innerHTML = adCreativeHTML(); toast('Creative uploaded', 'image'); break; }
           case 'submit-listing': submitListing(); break;
+          case 'list-event': openEventRequest(); break;
+          case 'evr-submit': submitEvReq(); break;
+          case 'evr-rm-img': S.evReq.imgs.splice(+act.dataset.i, 1); repaintEvReq(); break;
+          case 'evr-rm-vid': S.evReq.video = null; repaintEvReq(); break;
           case 'del-listing': { const i = LISTINGS.findIndex(x => x.id === id); if (i > -1) { LISTINGS.splice(i, 1); toast('Listing deleted', 'trash'); render(); } break; }
           case 'submit-ad': submitAd(); break;
           /* Every priced choice syncs what has been typed into the draft before
@@ -8724,6 +9533,8 @@
           // edited past review by any other route into this action.
           case 'edit-ad': { const ad = ADS.find(x => x.id === id); if (!ad || ad.status !== 'pending') { toast('Only ads awaiting review can be edited', 'x'); break; } S.editAd = id; S.adDraft = null; S.wh = defWH(); S.aTab = 'create'; render(); break; }
           case 'del-ad': { const ad = ADS.find(x => x.id === id); if (ad) confirmAdDeleteSheet(ad); break; }
+          case 'cancel-sub': { const ad = ADS.find(x => x.id === id); if (ad) cancelSubSheet(ad); break; }
+          case 'cancel-sub-yes': { const ad = ADS.find(x => x.id === id); if (ad) { ad.subCancelled = true; closeSheet(); render(); toast('Subscription cancelled — no further renewals'); } break; }
           case 'confirm-del-ad': { const i = ADS.findIndex(x => x.id === id); if (i > -1) { ADS.splice(i, 1); closeSheet(); render(); toast('Advertisement deleted', 'trash'); } break; }
           case 'toast': toast(act.dataset.msg || 'Coming soon'); break;
         }
@@ -8742,8 +9553,7 @@
       }
       if (cat) { openDirectory(cat.dataset.cat); return; }
       if (evcat) { openEventsCat(evcat.dataset.evcat); return; }
-      if (setcat) { S.dir.cat = setcat.dataset.setcat; S.dir.sub = ''; render(); return; }
-      if (setsub) { S.dir.sub = setsub.dataset.setsub; render(); return; }
+      if (setcat) { S.dir.cat = setcat.dataset.setcat; S.dir.subs = []; render(); return; }
       if (listing) { openPage('listing', listing.dataset.listing); return; }
       if (event) { openPage('event', event.dataset.event); return; }
       if (article) { openPage('article', article.dataset.article); return; }
@@ -8826,6 +9636,7 @@
         repaintAdPreview(sl);
         return;
       }
+      if (e.target.dataset && e.target.dataset.evr && S.evReq && e.target.type !== 'checkbox') S.evReq[e.target.dataset.evr] = e.target.value;
       if (e.target.id === 'd-q') { S.dir.q = e.target.value; updateDir(); }
       if (e.target.id === 'ev-q') { S.ev.q = e.target.value; const cur = document.activeElement; render(); const q = el('ev-q'); if (q && cur && cur.id === 'ev-q') { q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }
       if (e.target.id === 'bill-q') { S.bill.q = e.target.value; const cur = document.activeElement; render(); const q = el('bill-q'); if (q) { q.focus(); q.setSelectionRange(q.value.length, q.value.length); } }
@@ -8834,14 +9645,42 @@
       if (e.target.classList && e.target.classList.contains('otp') && e.key === 'Backspace' && !e.target.value) { const boxes = [...document.querySelectorAll('.otp')]; const i = +e.target.dataset.i; if (boxes[i - 1]) boxes[i - 1].focus(); }
     });
     document.addEventListener('change', e => {
-      // Photo chosen on the device — read it, then hand it to the cropper.
+      // List an event: fields that change the shape of the page, and uploads.
+      if (S.evReq && e.target.id === 'evr-dial') { S.evReq.dial = e.target.value; return; }
+      if (S.evReq && e.target.dataset && e.target.dataset.evr) {
+        const k = e.target.dataset.evr;
+        S.evReq[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
+        if (k === 'cat') { S.evReq.sub = ''; repaintEvReq(); }
+        if (k === 'repeat') repaintEvReq();
+        return;
+      }
+      if (S.evReq && (e.target.id === 'evr-img-file' || e.target.id === 'evr-vid-file')) {
+        const files = [...(e.target.files || [])]; const isImg = e.target.id === 'evr-img-file';
+        e.target.value = '';
+        if (!files.length) return;
+        if (!isImg) {
+          if (!/^video\//.test(files[0].type)) { toast('Choose a video file', 'x'); return; }
+          S.evReq.video = URL.createObjectURL(files[0]); repaintEvReq(); return;
+        }
+        const room = EVR_MAX_IMGS - S.evReq.imgs.length;
+        if (files.length > room) toast(`Up to ${EVR_MAX_IMGS} photos`, 'x');
+        files.slice(0, room).forEach(f => {
+          if (!/^image\//.test(f.type)) { toast('Choose image files', 'x'); return; }
+          const rd = new FileReader();
+          rd.onload = () => { if (S.evReq.imgs.length < EVR_MAX_IMGS) S.evReq.imgs.push(rd.result); repaintEvReq(); };
+          rd.readAsDataURL(f);
+        });
+        return;
+      }
+      // Photo chosen on the device — used as picked, no cropping. The round
+      // avatar fills itself from the centre of whatever shape it is given.
       if (e.target.id === 'ep-file') {
         const f = e.target.files && e.target.files[0];
         e.target.value = '';           // so the same file can be picked twice
         if (!f) return;
         if (!/^image\//.test(f.type)) { toast('Choose an image file', 'x'); return; }
         const rd = new FileReader();
-        rd.onload = () => cropSheet(rd.result);
+        rd.onload = () => { S.user.photo = rd.result; render(); toast('Profile photo updated', 'check'); };
         rd.readAsDataURL(f);
         return;
       }
@@ -8945,6 +9784,9 @@
       applyTheme();   // the screen element is new, so re-stamp the theme on it
       render();
     }
+    // Stacked: the panel sits above the device rather than beside it, and the
+    // stage scrolls. Height stops being a constraint on the frame.
+    const STACKED = () => !BARE() && window.matchMedia('(max-width:1080px)').matches;
     function fitDevice() {
       const d = CURDEV, wrap = el('device-wrap'), dev = el('device');
       if (!wrap || !dev) return;
@@ -8953,7 +9795,22 @@
       // stick on iOS.
       if (BARE()) { dev.style.transform = 'none'; return; }
       const ow = d.w + d.bez * 2, oh = d.h + d.bezV * 2;
-      const s = Math.min(1, (wrap.clientWidth - 32) / ow, (wrap.clientHeight - 16) / oh);
+      let s;
+      if (STACKED()) {
+        /* Fit the width alone — the column can be as tall as it needs to be
+           now. The wrapper is then given the height the scaled frame actually
+           occupies, because a transform does not affect layout: without it the
+           box keeps the unscaled height and leaves a gap under the phone, or
+           the phone overlaps whatever follows. */
+        // Floored, because clientWidth is 0 for the moment between the frame
+        // being written and the browser laying it out — and (0-32)/ow is
+        // negative, which flips the phone inside out rather than hiding it.
+        s = Math.max(0.2, Math.min(1, (wrap.clientWidth - 32) / ow));
+        wrap.style.height = Math.ceil(oh * s) + 'px';
+      } else {
+        wrap.style.height = '';
+        s = Math.max(0.2, Math.min(1, (wrap.clientWidth - 32) / ow, (wrap.clientHeight - 16) / oh));
+      }
       dev.style.transform = `scale(${s.toFixed(4)})`;
       el('dev-caption').textContent = `${d.name} · ${d.w} × ${d.h}${s < .999 ? ' · ' + Math.round(s * 100) + '%' : ''}`;
     }
