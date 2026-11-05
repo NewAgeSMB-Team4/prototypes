@@ -7,6 +7,13 @@
     <title>Cascade Driving Academy – Student</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        (function () {
+            var w = console.warn;
+            console.warn = function (m) { if (typeof m === 'string' && m.indexOf('cdn.tailwindcss.com') > -1) return; return w.apply(console, arguments); };
+            document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('a[href="#"]'); if (a) e.preventDefault(); }, true);
+        })();
+    </script>
     <script src="https://cdn.tailwindcss.com/3.4.17"></script>
     <script>
         tailwind.config = {
@@ -472,6 +479,37 @@
 
     #app.applicant .content {
         padding-left: 0;
+    }
+
+    #app.applicant main {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #view-apply,
+    #view-rejected {
+        max-width: 48rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #view-paid {
+        max-width: 36rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #view-applied {
+        max-width: 64rem;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    #view-apply>div,
+    #view-rejected>div,
+    #view-paid>div {
+        margin-left: auto;
+        margin-right: auto;
     }
 </style>
 

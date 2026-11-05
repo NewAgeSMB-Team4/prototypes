@@ -2,8 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Clickable UI prototype by NewAgeSysIT. Sample data only: no real sign-in, no network requests, no payments. -->
-    <meta name="description" content="Clickable UI prototype with sample data. No real sign-in or payments.">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Cascade Driving Academy – Instructor</title>
@@ -2005,45 +2003,6 @@
             --tw-bg-opacity: 1;
             background-color: rgb(246 245 243/var(--tw-bg-opacity, 1))
         }
-
-        .sigbox {
-            margin-top: 4px;
-            height: 4rem;
-            background: #f6f5f3;
-            border-radius: .5rem;
-            padding: 0 8px 10px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: center
-        }
-
-        .sigbox.pending {
-            background: #fff;
-            border: 1px dashed #d9d6d0;
-            align-items: center;
-            padding: 0
-        }
-
-        .signame {
-            font-size: 1.125rem;
-            line-height: 1.25;
-            color: #121212;
-            padding: 0 12px;
-            border-bottom: 1px solid #cfcac2;
-            white-space: nowrap;
-            font-family: "Segoe Script", "Snell Roundhand", "Brush Script MT", "Apple Chancery", cursive
-        }
-
-        .sigcap {
-            font-size: 11px;
-            color: #6b6b6b;
-            margin-top: 4px
-        }
-
-        .siglbl {
-            font-size: 12px;
-            color: #6b6b6b
-        }
     </style>
 </head>
 
@@ -2119,14 +2078,14 @@
                                     <div class="mt-1.5 flex">
                                         <span
                                             class="inline-flex items-center px-3 border border-r-0 border-line rounded-l-lg bg-white text-muted text-sm">+1</span>
-                                        <input id="phone" type="tel" inputmode="tel" value="(253) 555-0147"
-                                            placeholder="(253) 555-0147"
+                                        <input id="phone" type="tel" inputmode="tel" autocomplete="tel"
+                                            value="(253) 555-0147" placeholder="(253) 555-0147"
                                             class="flex-1 min-w-0 border border-line rounded-r-lg bg-white px-3 py-3 text-base focus:border-brand">
                                     </div>
                                 </div>
                                 <div id="field-email" class="hidden">
                                     <label for="email" class="block text-sm font-medium">Email address</label>
-                                    <input id="email" type="email" inputmode="email"
+                                    <input id="email" type="email" inputmode="email" autocomplete="email"
                                         value="dale.whitcomb@cascadecdl.com" placeholder="you@example.com"
                                         class="mt-1.5 w-full border border-line rounded-lg bg-white px-3 py-3 text-base focus:border-brand">
                                 </div>
@@ -2148,7 +2107,8 @@
 
                             <div class="mt-5 grid grid-cols-4 gap-3" id="code-boxes">
                                 <input class="code-box border border-line rounded-lg bg-white focus:border-brand"
-                                    type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Digit 1">
+                                    type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
+                                    maxlength="1" aria-label="Digit 1">
                                 <input class="code-box border border-line rounded-lg bg-white focus:border-brand"
                                     type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Digit 2">
                                 <input class="code-box border border-line rounded-lg bg-white focus:border-brand"
@@ -2919,12 +2879,12 @@
                 ['2026-09-13', '8:00–11:00 AM', ['Carlos Mena', 'Leo Tran'], 'Road training', 'Unit 14', 'Kent', 'Scheduled', null, 'One drives, one rides along, then they swap'],
                 ['2026-09-11', '8:00–11:00 AM', 'Owen Marsh', 'Road assessment', 'Unit 14', 'Kent', 'Assessment', null, 'You conduct this assessment · lead instructor Rachel Turner'],
                 ['2026-09-13', '8:00–11:00 AM', 'Nina Patel', 'Range assessment', 'Unit 9', 'Kent', 'Assessment', null, 'You conduct this assessment · lead instructor Rachel Turner'],
-                ['2026-09-05', '1:00–4:00 PM', ['Tyler Brooks', 'Devon Price'], 'Range training', 'Unit 9', 'Kent', 'Signed', ['B1.2 Straight-line backing · Proficient', 'B1.4 Offset backing · Needs improvement'], 'Paired session. Tyler signed off B1.2; Devon needs another offset attempt.', 'Sep 5, 2026, 4:05 PM', 'Sep 5, 2026, 7:20 PM', { 'Tyler Brooks': 'Sep 5, 2026, 4:40 PM', 'Devon Price': 'Sep 5, 2026, 7:20 PM' }],
+                ['2026-09-05', '1:00–4:00 PM', ['Tyler Brooks', 'Devon Price'], 'Range training', 'Unit 9', 'Kent', 'Signed', ['B1.2 Straight-line backing · Proficient', 'B1.4 Offset backing · Needs improvement'], 'Paired session. Tyler signed off B1.2; Devon needs another offset attempt.', 'Sep 5, 2026, 4:05 PM', 'Sep 5, 2026, 7:20 PM'],
                 ['2026-09-14', '6:00–9:00 PM', 'Marcus Reyes', 'Road training', 'Unit 14', 'Kent', 'Scheduled'],
                 ['2026-09-15', '1:00–4:00 PM', 'Tyler Brooks', 'Range training', 'Unit 14', 'Kent', 'Scheduled'],
                 ['2026-09-16', '6:00–9:00 PM', 'Leo Tran', 'Range training', 'Unit 14', 'Kent', 'Scheduled'],
                 ['2026-09-17', '8:00–11:00 AM', 'Carlos Mena', 'Road training', 'Unit 14', 'Kent', 'Scheduled'],
-                ['2026-09-09', '6:00–9:00 PM', ['Jacob Miller', 'Ethan Ward', 'Grace Lin'], 'Theory class', '—', 'Kent · classroom', 'Student to sign', ['A1 Basic operation · Proficient', 'A2 Safe operating procedures · Proficient'], 'Group class on A1 and A2. Grace joined the cohort this week; Ethan left before the recap.', 'Sep 9, 2026, 9:03 PM', null, { 'Jacob Miller': 'Sep 9, 2026, 9:40 PM', 'Grace Lin': 'Sep 10, 2026, 7:15 AM', 'Ethan Ward': null }],
+                ['2026-09-09', '6:00–9:00 PM', ['Jacob Miller', 'Ethan Ward', 'Grace Lin'], 'Theory class', '—', 'Kent · classroom', 'Scheduled'],
                 ['2026-09-11', '6:00–9:00 PM', 'Jacob Miller', 'Theory class', '—', 'Kent · classroom', 'Scheduled', null, 'One-to-one catch-up class'],
                 ['2026-09-08', '9:00 AM–12:00 PM', 'Dana Whitfield', 'Theory class', '—', 'Kent · classroom', 'Signed', ['D1.1 Post-crash procedures · Proficient', 'D1.2 Fires and evacuation · Proficient', 'D2.1 Vehicle orientation · Proficient', 'D2.2 Pre-trip inspection of a bus · Proficient'], 'Passenger endorsement theory, first half. Sharp on emergency exits.', 'Sep 8, 2026, 12:05 PM', 'Sep 8, 2026, 6:40 PM'],
                 ['2026-09-14', '9:00 AM–12:00 PM', 'Dana Whitfield', 'Theory class', '—', 'Kent · classroom', 'Scheduled'],
@@ -2937,9 +2897,9 @@
                 ['2026-09-21', '8:00 AM–1:00 PM', 'Rosa Delgado', 'Road training', 'Unit 7 (school bus)', 'Tacoma', 'Scheduled', null, 'School bus · 5 h road target · student stops and crossings'],
                 ['2026-09-09', '4:00–7:00 PM', 'Victor Hale', 'Theory class', '—', 'Kent · classroom', 'Signed', ['F1.1 Hazard classes and placards · Proficient', 'F1.2 Shipping papers · Proficient', 'F2.1 Loading and segregation · Proficient', 'F2.2 Securement and containment · Proficient'], 'Hazmat theory. Reminded him to chase the TSA appointment.', 'Sep 9, 2026, 7:04 PM', 'Sep 9, 2026, 8:15 PM'],
                 ['2026-09-15', '4:00–7:00 PM', 'Victor Hale', 'Theory class', '—', 'Kent · classroom', 'Scheduled', null, 'Hazmat · F3 emergency response and security · theory only, no driving sessions'],
-                ['2026-08-24', '6:00–9:00 PM', ['Leo Tran', 'Jacob Miller', 'Ethan Ward'], 'Theory class', '—', 'Kent · classroom', 'Signed', ['A1 Basic operation · Proficient', 'A2 Safe operating procedures · Proficient'], 'Covered A1 and A2 with the group; Leo asked good questions on air brakes.', 'Aug 24, 2026, 9:02 PM', 'Aug 25, 2026, 7:10 AM', { 'Leo Tran': 'Aug 25, 2026, 7:10 AM', 'Jacob Miller': 'Aug 24, 2026, 9:18 PM', 'Ethan Ward': 'Aug 24, 2026, 10:05 PM' }],
-                ['2026-08-27', '6:00–9:00 PM', ['Leo Tran', 'Jacob Miller', 'Ethan Ward'], 'Theory class', '—', 'Kent · classroom', 'Signed', ['A3 Advanced operating practices · Proficient', 'A4 Vehicle systems and reporting malfunctions · Proficient'], 'Hazard perception video and malfunction reporting.', 'Aug 27, 2026, 9:04 PM', 'Aug 28, 2026, 6:40 AM', { 'Leo Tran': 'Aug 27, 2026, 9:30 PM', 'Jacob Miller': 'Aug 27, 2026, 9:12 PM', 'Ethan Ward': 'Aug 28, 2026, 6:40 AM' }],
-                ['2026-09-01', '6:00–9:00 PM', ['Leo Tran', 'Jacob Miller', 'Ethan Ward'], 'Theory class', '—', 'Kent · classroom', 'Signed', ['A5 Non-driving activities · Proficient'], 'Hours of service and trip planning. Ready for the final theory test.', 'Sep 1, 2026, 9:00 PM', 'Sep 2, 2026, 7:00 AM', { 'Leo Tran': 'Sep 1, 2026, 9:22 PM', 'Jacob Miller': 'Sep 1, 2026, 9:15 PM', 'Ethan Ward': 'Sep 2, 2026, 7:00 AM' }],
+                ['2026-08-24', '6:00–9:00 PM', ['Leo Tran', 'Jacob Miller', 'Ethan Ward'], 'Theory class', '—', 'Kent · classroom', 'Signed', ['A1 Basic operation · Proficient', 'A2 Safe operating procedures · Proficient'], 'Covered A1 and A2 with the group; Leo asked good questions on air brakes.', 'Aug 24, 2026, 9:02 PM', 'Aug 25, 2026, 7:10 AM'],
+                ['2026-08-27', '6:00–9:00 PM', ['Leo Tran', 'Jacob Miller', 'Ethan Ward'], 'Theory class', '—', 'Kent · classroom', 'Signed', ['A3 Advanced operating practices · Proficient', 'A4 Vehicle systems and reporting malfunctions · Proficient'], 'Hazard perception video and malfunction reporting.', 'Aug 27, 2026, 9:04 PM', 'Aug 28, 2026, 6:40 AM'],
+                ['2026-09-01', '6:00–9:00 PM', ['Leo Tran', 'Jacob Miller', 'Ethan Ward'], 'Theory class', '—', 'Kent · classroom', 'Signed', ['A5 Non-driving activities · Proficient'], 'Hours of service and trip planning. Ready for the final theory test.', 'Sep 1, 2026, 9:00 PM', 'Sep 2, 2026, 7:00 AM'],
                 ['2026-09-11', '1:00–4:00 PM', 'Leo Tran', 'Range training', 'Unit 14', 'Kent', 'Scheduled'],
                 ['2026-09-18', '8:00–11:00 AM', 'Leo Tran', 'Range assessment', 'Unit 9', 'Kent', 'Assessment', null, 'Assessor: Rachel Turner · you observe'],
                 ['2026-09-21', '8:00–11:00 AM', 'Leo Tran', 'Road training', 'Unit 14', 'Kent', 'Scheduled'],
@@ -3024,42 +2984,22 @@
             function infoCard(s) { return '<div class="bg-white rounded-xl shadow-card text-sm divide-y divide-line">' + [[Array.isArray(s[2]) ? 'Students' : 'Student', names(s).join(', ')], ['Type', s[3]], ['Scheduled', s[1]]].concat(/Theory/.test(s[3]) ? [] : [['Vehicle', s[4]]]).concat([['Location', s[5]]]).map(function (r) { return '<div class="px-4 py-2.5 flex justify-between"><span class="text-muted">' + r[0] + '</span><span>' + r[1] + '</span></div>'; }).join('') + '</div>'; }
             function todayRow(name) { return Array.prototype.filter.call(document.querySelectorAll('#view-today ul li'), function (l) { return l.textContent.indexOf(name) > -1; })[0]; }
 
-            /* ============ lesson log signatures (same design as the student app) ============ */
-            function sigBox(label, name, when) { return '<div><div class="siglbl">' + label + '</div><div class="sigbox"><span class="signame">' + name + '</span></div><div class="sigcap">' + name + ' · ' + when + '</div></div>'; }
-            function studentSigs(s) {
-                var map = s[11] || {}, group = names(s).length > 1;
-                return names(s).map(function (n) { return { n: n, at: group ? (map[n] || null) : s[10] }; });
-            }
-            function sigCard(s) {
-                var list = studentSigs(s), pend = list.filter(function (x) { return !x.at; }), group = list.length > 1;
-                var status = !pend.length ? (group ? 'Signed by all' : 'Signed by both') : group ? (list.length - pend.length) + ' of ' + list.length + ' students signed' : 'Awaiting student signature';
-                var h = '<div class="mt-4 mb-2 flex items-baseline justify-between"><span class="text-sm font-medium">Lesson log signatures</span><span class="text-xs font-medium ' + (pend.length ? 'text-warn' : 'text-ok') + '">' + status + '</span></div>';
-                h += '<div class="bg-white rounded-xl shadow-card px-4 py-3.5 text-sm"><div class="space-y-3">' + sigBox('Instructor', 'Dale Whitcomb', s[9]);
-                if (group) h += '<div class="border-t border-line" style="margin-top:14px;padding-top:12px"><div class="flex items-baseline justify-between"><span class="text-sm font-medium">Students</span><span class="siglbl">' + list.length + ' in this ' + (/Theory/.test(s[3]) ? 'class' : 'session') + '</span></div></div>';
-                h += list.map(function (x) {
-                    var label = group ? x.n : 'Student';
-                    if (x.at) return sigBox(label, x.n, x.at);
-                    return '<div><div class="flex items-center justify-between gap-2"><span class="siglbl">' + label + '</span><span class="text-warn font-medium bg-warn-soft px-2 py-0.5 rounded" style="font-size:11px">Pending sign-off</span></div><div class="sigbox pending"><span class="text-muted" style="font-size:12px">Not signed yet</span></div><div class="flex items-center justify-between"><span class="sigcap">Waiting for ' + x.n.split(' ')[0] + ' to countersign in the student app</span><button type="button" class="sd-remind text-brand-dark font-medium" style="font-size:12px;margin-top:4px;white-space:nowrap">Send reminder</button></div></div>';
-                }).join('') + '</div></div>';
-                return h;
-            }
-
             /* ============ detail page (completed / assessment) ============ */
             function openDetail(s, from) {
                 sdFrom = from || 'today';
                 var st = s[6], done = st === 'Signed', pend = st === 'Student to sign', assess = /assessment/i.test(s[3]);
                 $('sd-title').textContent = label(s) + ' · ' + s[3]; $('sd-sub').textContent = fmtDay(s[0]) + ' · ' + s[1] + ' · ' + progOfSess(s);
-                $('sd-tag').innerHTML = done ? '<span class="text-[11px] bg-ok-soft text-ok px-2 py-0.5 rounded font-medium">Signed</span>' : pend ? '<span class="text-[11px] bg-warn-soft text-warn px-2 py-0.5 rounded font-medium">' + (names(s).length > 1 ? studentSigs(s).filter(function (x) { return !x.at; }).length + ' to sign' : 'Student to sign') + '</span>' : '<span class="text-[11px] bg-canvas text-muted px-2 py-0.5 rounded font-medium">' + (assess ? 'Assessment' : 'Scheduled') + '</span>';
+                $('sd-tag').innerHTML = done ? '<span class="text-[11px] bg-ok-soft text-ok px-2 py-0.5 rounded font-medium">Signed</span>' : pend ? '<span class="text-[11px] bg-warn-soft text-warn px-2 py-0.5 rounded font-medium">Student to sign</span>' : '<span class="text-[11px] bg-canvas text-muted px-2 py-0.5 rounded font-medium">' + (assess ? 'Assessment' : 'Scheduled') + '</span>';
                 var html = infoCard(s);
                 if (done || pend) {
                     html += '<div class="mt-4 mb-2 text-sm font-medium">Units recorded</div><ul class="bg-white rounded-xl shadow-card divide-y divide-line text-sm">' + (s[7] || []).map(function (x) { var p = x.split(' · '); return '<li class="px-4 py-2.5 flex justify-between gap-3"><span>' + p[0] + '</span><span class="' + (/Proficient/.test(x) ? 'text-ok font-medium' : 'text-muted') + '">' + p.slice(1).join(' · ') + '</span></li>'; }).join('') + '</ul>';
                     html += '<div class="mt-4 bg-white rounded-xl shadow-card px-4 py-3 text-[13px]"><div class="text-xs text-muted">Notes</div><div class="mt-1">' + (s[8] || '—') + '</div></div>';
-                    html += sigCard(s);
+                    html += '<div class="mt-4 grid grid-cols-2 gap-2 text-xs"><div class="bg-white rounded-xl shadow-card px-3 py-3"><div class="text-muted">Instructor signature</div><div class="font-medium italic mt-1">Dale Whitcomb</div><div class="text-muted mt-1">' + s[9] + '</div></div><div class="bg-white rounded-xl shadow-card px-3 py-3"><div class="text-muted">Student signature</div>' + (s[10] ? '<div class="font-medium italic mt-1">' + s[2] + '</div><div class="text-muted mt-1">' + s[10] + '</div>' : '<div class="text-warn font-medium mt-1">Awaiting</div><button type="button" class="mt-1 text-brand-dark font-medium sd-remind">Send reminder</button>') + '</div></div>';
                 } else if (assess) {
                     html += '<div class="mt-4 bg-brand-soft rounded-xl px-4 py-3 text-[13px]">' + (s[8] || '') + '. The assessor records the result; you can observe and take notes.</div>';
                 }
                 $('sd-body').innerHTML = html; show('session-detail');
-                Array.prototype.forEach.call($('sd-body').querySelectorAll('.sd-remind'), function (r) { r.addEventListener('click', function () { r.textContent = 'Reminder sent'; r.className = 'text-ok font-medium'; }); });
+                var r = $('sd-body').querySelector('.sd-remind'); if (r) r.addEventListener('click', function () { r.textContent = 'Reminder sent'; r.className = 'mt-1 text-ok font-medium'; });
             }
             $('sd-back').addEventListener('click', function () { show(sdFrom); });
 
@@ -3222,10 +3162,10 @@
                     (noHours ? '' : '<div class="mx-5 mt-4 mb-2 text-sm font-medium">' + (/Theory/.test(sess.s[3]) ? 'Topics covered' : 'Units covered') + '</div><ul class="mx-5 bg-white rounded-xl shadow-card divide-y divide-line text-sm">' + sess.skills.map(function (r) { if (!sess.group) return '<li class="px-4 py-2.5 flex justify-between gap-3"><span>' + r.code + ' ' + r.name + '</span><span class="' + (r.result === 'Proficient' ? 'text-ok font-medium' : 'text-muted') + '">' + r.result + (r.signoff ? ' · signing off' : '') + '</span></li>'; return '<li class="px-4 py-2.5"><div class="font-medium">' + r.code + ' ' + r.name + '</div>' + attending().map(function (n) { var pv = r.per[n] || {}; return '<div class="flex justify-between gap-3 text-[13px] mt-1"><span class="text-muted">' + n + '</span><span class="' + (pv.result === 'Proficient' ? 'text-ok font-medium' : 'text-muted') + '">' + (pv.result || '—') + (pv.signoff ? ' · signing off' : '') + '</span></div>'; }).join('') + '</li>'; }).join('') + '</ul>') +
                     (noHours ? '' : '<div class="mx-5 mt-4 bg-white rounded-xl shadow-card px-4 py-3 text-[13px]"><div class="text-xs text-muted">Notes</div><div class="mt-1">' + (sess.notes || '<span class="text-muted">None</span>') + '</div></div>') +
                     '<div class="mx-5 mt-4 bg-white rounded-xl shadow-card px-4 py-3 text-[13px]"><div class="text-xs text-muted">Effect on ' + (Array.isArray(s[2]) ? 'each student' : s[2].split(' ')[0]) + '\'s record</div><ul class="mt-1 space-y-0.5">' + (noHours ? '<li>No hours credited · ' + (sess.attendance === 'Excused' ? 'excused absence recorded' : 'no-show recorded, late-cancellation policy applies') + '</li><li>No units recorded</li>' : (isAssessment() ? '<li>Assessment record goes to the office; they confirm the outcome from the units you marked</li>' : '') + '<li>' + (/Theory/.test(s[3]) ? 'Theory' : /Road/.test(s[3]) ? 'Road' : 'Range') + ' hours +' + hm(creditedMins()) + '</li><li>Units signed off: ' + (sess.group ? gJoin('signoff') : (signed.length ? signed.map(function (r) { return r.code; }).join(', ') : 'none')) + '</li><li>Units to repeat: ' + (sess.group ? gJoin('repeat') : (sess.skills.filter(function (r) { return r.result === 'Needs improvement'; }).map(function (r) { return r.code; }).join(', ') || 'none')) + '</li>') + '</ul></div>' +
-                    '<div class="mx-5 mt-4 bg-brand-soft rounded-xl px-4 py-4"><div class="text-sm font-medium">Instructor sign-off</div><p class="text-xs text-ink/70 mt-1">I certify that I conducted this session, the times are accurate, and the evaluation reflects the student\'s performance. ' + (Array.isArray(s[2]) ? 'Each student' : s[2]) + ' will be asked to countersign in their app.</p><div id="sm-sig" class="mt-3 h-20 bg-white border border-dashed border-line rounded-lg grid place-items-center text-muted text-xs" style="cursor:pointer">Tap to sign</div></div>' +
+                    '<div class="mx-5 mt-4 bg-brand-soft rounded-xl px-4 py-4"><div class="text-sm font-medium">Instructor sign-off</div><p class="text-xs text-ink/70 mt-1">I certify that I conducted this session, the times are accurate, and the evaluation reflects the student\'s performance. ' + (Array.isArray(s[2]) ? 'Each student' : s[2]) + ' will be asked to countersign in their app.</p><div id="sm-sig" class="mt-3 h-20 bg-white border border-dashed border-line rounded-lg grid place-items-center text-muted text-xs">Tap to sign</div></div>' +
                     '<button type="button" id="sm-submit" class="mx-5 mt-4 w-[calc(100%-2.5rem)] bg-brand text-white font-medium py-3 rounded-lg">Sign and submit</button><div class="h-6"></div>';
                 $('sm-back').addEventListener('click', function () { show('session'); });
-                $('sm-sig').addEventListener('click', function () { sess.signed = true; $('sm-sig').innerHTML = '<span class="signame">Dale Whitcomb</span>'; $('sm-sig').className = 'mt-3 sigbox'; $('sm-sig').style.height = '5rem'; $('sm-sig').style.background = '#fff'; });
+                $('sm-sig').addEventListener('click', function () { sess.signed = true; $('sm-sig').textContent = 'Dale Whitcomb'; $('sm-sig').className = 'mt-3 h-20 bg-white border border-line rounded-lg grid place-items-center text-coal font-medium italic'; });
                 $('sm-submit').addEventListener('click', submitRecord);
             }
             function submitRecord() {

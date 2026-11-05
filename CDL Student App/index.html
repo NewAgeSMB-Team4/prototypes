@@ -2,8 +2,6 @@
 <html lang="en">
 
 <head>
-    <!-- Clickable UI prototype by NewAgeSysIT. Sample data only: no real sign-in, no network requests, no payments. -->
-    <meta name="description" content="Clickable UI prototype with sample data. No real sign-in or payments.">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>Cascade Driving Academy – Student</title>
@@ -1879,138 +1877,6 @@
             --tw-bg-opacity: 1;
             background-color: rgb(246 245 243/var(--tw-bg-opacity, 1))
         }
-
-        .sess,
-        .att-row {
-            cursor: pointer;
-            transition: background-color .15s
-        }
-
-        .sess:active,
-        .att-row:active {
-            background-color: #f6f5f3
-        }
-
-        .sess:focus-visible,
-        .att-row:focus-visible {
-            outline: 2px solid #f26a1b;
-            outline-offset: -2px
-        }
-
-        .chev {
-            color: #a8a5a0;
-            font-size: 18px;
-            line-height: 1;
-            flex-shrink: 0;
-            margin-left: 2px
-        }
-
-        .cal-ev {
-            width: 100%;
-            text-align: left;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 10px 12px;
-            background: #fff
-        }
-
-        .cal-ev:active {
-            background: #f6f5f3
-        }
-    </style>
-    <style>
-        .cal-sheet {
-            position: absolute;
-            inset: 0;
-            z-index: 40;
-            display: flex;
-            align-items: flex-end
-        }
-
-        .cal-sheet.hidden {
-            display: none
-        }
-
-        .cal-sheet-backdrop {
-            position: absolute;
-            inset: 0;
-            background: rgba(28, 26, 23, .45)
-        }
-
-        .cal-sheet-card {
-            position: relative;
-            width: 100%;
-            max-height: 82%;
-            overflow-y: auto;
-            background: #fff;
-            border-radius: 18px 18px 0 0;
-            padding: 16px 20px 24px;
-            box-shadow: 0 -8px 24px rgba(0, 0, 0, .18)
-        }
-
-        .cal-grid {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 2px;
-            text-align: center
-        }
-
-        .cal-dow {
-            font-size: 10px;
-            color: #6b6b6b;
-            padding: 4px 0;
-            font-weight: 500
-        }
-
-        .cal-day {
-            position: relative;
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 13px;
-            border-radius: 9999px;
-            background: transparent;
-            color: #171717
-        }
-
-        .cal-day[disabled] {
-            color: transparent;
-            cursor: default
-        }
-
-        .cal-day.is-today {
-            font-weight: 600;
-            box-shadow: inset 0 0 0 1.5px #f26a1b
-        }
-
-        .cal-day.has-sess {
-            font-weight: 500
-        }
-
-        .cal-day .dot {
-            position: absolute;
-            bottom: 3px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 5px;
-            height: 5px;
-            border-radius: 50%;
-            background: #f26a1b
-        }
-
-        .cal-day.dot-ok .dot {
-            background: #1e7a45
-        }
-
-        .cal-day.dot-warn .dot {
-            background: #8a5a00
-        }
-
-        .cal-day.is-sel {
-            background: #fdebdd
-        }
     </style>
 </head>
 
@@ -2086,15 +1952,15 @@
                                     <div class="mt-1.5 flex">
                                         <span
                                             class="inline-flex items-center px-3 border border-r-0 border-line rounded-l-lg bg-white text-muted text-sm">+1</span>
-                                        <input id="phone" type="tel" inputmode="tel" value="(253) 555-0132"
-                                            placeholder="(253) 555-0132"
+                                        <input id="phone" type="tel" inputmode="tel" autocomplete="tel"
+                                            value="(253) 555-0132" placeholder="(253) 555-0132"
                                             class="flex-1 min-w-0 border border-line rounded-r-lg bg-white px-3 py-3 text-base focus:border-brand">
                                     </div>
                                 </div>
                                 <div id="field-email" class="hidden">
                                     <label for="email" class="block text-sm font-medium">Email address</label>
-                                    <input id="email" type="email" inputmode="email" value="marcus.reyes@example.com"
-                                        placeholder="you@example.com"
+                                    <input id="email" type="email" inputmode="email" autocomplete="email"
+                                        value="marcus.reyes@example.com" placeholder="you@example.com"
                                         class="mt-1.5 w-full border border-line rounded-lg bg-white px-3 py-3 text-base focus:border-brand">
                                 </div>
                                 <p class="text-xs text-muted mt-1.5">Use the one the school has on file for you.</p>
@@ -2147,7 +2013,8 @@
 
                             <div class="mt-5 grid grid-cols-4 gap-3" id="code-boxes">
                                 <input class="code-box border border-line rounded-lg bg-white focus:border-brand"
-                                    type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Digit 1">
+                                    type="text" inputmode="numeric" pattern="[0-9]*" autocomplete="one-time-code"
+                                    maxlength="1" aria-label="Digit 1">
                                 <input class="code-box border border-line rounded-lg bg-white focus:border-brand"
                                     type="text" inputmode="numeric" pattern="[0-9]*" maxlength="1" aria-label="Digit 2">
                                 <input class="code-box border border-line rounded-lg bg-white focus:border-brand"
@@ -2668,8 +2535,7 @@
                                 <div class="text-xl font-semibold">Schedule</div>
                                 <div class="text-xs text-muted">Evening cohort · Mon, Wed, Thu 6–9 PM · Sat 8–2</div>
                             </div>
-                            <button type="button" id="sc-cal-open"
-                                class="text-sm text-brand-dark font-medium">Calendar</button>
+                            <a href="#" class="text-sm text-brand-dark font-medium">Calendar</a>
                         </header>
 
                         <div class="mx-5 bg-coal text-white rounded-xl px-4 py-3.5">
@@ -2712,7 +2578,6 @@
                                     </div>
                                     <span
                                         class="tag text-[11px] bg-ok-soft text-ok px-2 py-0.5 rounded font-medium shrink-0">Completed</span>
-                                    <span class="chev" aria-hidden="true">›</span>
                                 </div>
                             </li>
                             <li class="sess px-4 py-3 bg-brand-soft/60" data-id="s2" data-state="tosign">
@@ -2727,7 +2592,6 @@
                                     </div>
                                     <button type="button" data-view="sign"
                                         class="text-[12px] bg-brand text-white px-3 py-1.5 rounded-lg font-medium shrink-0">Sign</button>
-                                    <span class="chev" aria-hidden="true">›</span>
                                 </div>
                             </li>
                             <li class="sess px-4 py-3" data-id="s3" data-state="inprogress">
@@ -2743,7 +2607,6 @@
                                     <span
                                         class="tag text-[11px] bg-brand text-white px-2 py-0.5 rounded font-medium shrink-0">In
                                         progress</span>
-                                    <span class="chev" aria-hidden="true">›</span>
                                 </div>
                             </li>
                             <li class="sess px-4 py-3" data-id="s4" data-state="scheduled">
@@ -2760,7 +2623,6 @@
                                     <button type="button"
                                         class="cm text-[12px] border border-line px-3 py-1.5 rounded-lg shrink-0">Can't
                                         make it</button>
-                                    <span class="chev" aria-hidden="true">›</span>
                                 </div>
                             </li>
                         </ul>
@@ -2780,7 +2642,6 @@
                                     <button type="button"
                                         class="cm text-[12px] border border-line px-3 py-1.5 rounded-lg shrink-0">Can't
                                         make it</button>
-                                    <span class="chev" aria-hidden="true">›</span>
                                 </div>
                             </li>
                             <li class="sess px-4 py-3" data-id="s6" data-state="scheduled">
@@ -2796,7 +2657,6 @@
                                     <button type="button"
                                         class="cm text-[12px] border border-line px-3 py-1.5 rounded-lg shrink-0">Can't
                                         make it</button>
-                                    <span class="chev" aria-hidden="true">›</span>
                                 </div>
                             </li>
                         </ul>
@@ -2808,41 +2668,31 @@
                                 class="text-sm font-medium">Attendance</span><span class="text-xs text-muted">Present 9
                                 · Late 1 · Absent 0</span></div>
                         <ul class="mx-5 bg-white rounded-xl shadow-card divide-y divide-line text-sm">
-                            <li class="att-row px-4 py-2.5 flex items-center justify-between gap-2" data-id="a1">
-                                <div class="flex-1">
+                            <li class="px-4 py-2.5 flex items-center justify-between">
+                                <div>
                                     <div>Sat, Sep 5, 2026 · Range</div>
                                     <div class="text-xs text-muted">Scheduled 6 h · credited 5 h 40 min</div>
-                                </div><span class="text-ok text-xs font-medium">Present</span><span class="chev"
-                                    aria-hidden="true">›</span>
+                                </div><span class="text-ok text-xs font-medium">Present</span>
                             </li>
-                            <li class="att-row px-4 py-2.5 flex items-center justify-between gap-2" data-id="a2">
-                                <div class="flex-1">
+                            <li class="px-4 py-2.5 flex items-center justify-between">
+                                <div>
                                     <div>Thu, Sep 3, 2026 · Range</div>
                                     <div class="text-xs text-muted">Scheduled 3 h · credited 3 h</div>
-                                </div><span class="text-ok text-xs font-medium">Present</span><span class="chev"
-                                    aria-hidden="true">›</span>
+                                </div><span class="text-ok text-xs font-medium">Present</span>
                             </li>
-                            <li class="att-row px-4 py-2.5 flex items-center justify-between gap-2" data-id="a3">
-                                <div class="flex-1">
+                            <li class="px-4 py-2.5 flex items-center justify-between">
+                                <div>
                                     <div>Mon, Aug 31, 2026 · Range</div>
                                     <div class="text-xs text-muted">Arrived 6:20 PM · credited 2 h 40 min</div>
-                                </div><span class="text-warn text-xs font-medium">Late</span><span class="chev"
-                                    aria-hidden="true">›</span>
+                                </div><span class="text-warn text-xs font-medium">Late</span>
                             </li>
-                            <li class="att-row px-4 py-2.5 flex items-center justify-between gap-2" data-id="a4">
-                                <div class="flex-1">
+                            <li class="px-4 py-2.5 flex items-center justify-between">
+                                <div>
                                     <div>Sat, Aug 29, 2026 · Range</div>
                                     <div class="text-xs text-muted">Scheduled 6 h · credited 6 h</div>
-                                </div><span class="text-ok text-xs font-medium">Present</span><span class="chev"
-                                    aria-hidden="true">›</span>
+                                </div><span class="text-ok text-xs font-medium">Present</span>
                             </li>
                         </ul>
-                        <div class="h-6"></div>
-                    </section>
-
-                    <!-- ---------- SESSION DETAIL (sub-screen) ---------- -->
-                    <section id="view-session" class="view">
-                        <div id="sd-box"></div>
                         <div class="h-6"></div>
                     </section>
 
@@ -4082,18 +3932,19 @@
                             </div>
                             <div class="mx-5 mt-3 bg-white rounded-xl shadow-card px-4 py-3 text-sm">
                                 <div class="font-medium">Card payment</div>
-                                <div class="mt-2 w-full border border-line rounded-lg bg-white px-3 py-2.5">4242 4242
-                                    4242 4242</div>
-                                <div class="mt-2 grid grid-cols-3 gap-2">
-                                    <div class="border border-line rounded-lg bg-white px-3 py-2.5">09/29</div>
-                                    <div class="border border-line rounded-lg bg-white px-3 py-2.5">•••</div>
-                                    <div class="border border-line rounded-lg bg-white px-3 py-2.5">98032</div>
-                                </div>
-                                <div class="mt-2 w-full border border-line rounded-lg bg-white px-3 py-2.5"
-                                    id="ap-cardname">Marcus Reyes</div>
-                                <p class="text-xs text-muted mt-2">Sample card shown for the prototype. Prefer cash or
-                                    check? Submit without paying and pay at the office; your enrollment is approved once
-                                    payment is received.</p>
+                                <input class="mt-2 w-full border border-line rounded-lg bg-white px-3 py-2.5"
+                                    value="4242 4242 4242 4242" placeholder="Card number">
+                                <div class="mt-2 grid grid-cols-3 gap-2"><input
+                                        class="border border-line rounded-lg bg-white px-3 py-2.5" value="09/29"
+                                        placeholder="MM/YY"><input
+                                        class="border border-line rounded-lg bg-white px-3 py-2.5" value="123"
+                                        placeholder="CVC"><input
+                                        class="border border-line rounded-lg bg-white px-3 py-2.5" value="98032"
+                                        placeholder="ZIP"></div>
+                                <input class="mt-2 w-full border border-line rounded-lg bg-white px-3 py-2.5"
+                                    id="ap-cardname" placeholder="Name on card">
+                                <p class="text-xs text-muted mt-2">Prefer cash or check? Submit without paying and pay
+                                    at the office; your enrollment is approved once payment is received.</p>
                             </div>
                             <div class="mx-5 mt-4 grid grid-cols-2 gap-2"><button type="button"
                                     class="ap-next text-sm py-3 rounded-lg border border-line bg-white"
@@ -4395,7 +4246,7 @@
             $('ap-submit').addEventListener('click', function () {
                 if (!applicant) return;
                 if (!$('ap-agree1').checked || !$('ap-sig1').dataset.signed) { $('ap-error').classList.remove('hidden'); return; }
-                var pn = payNow(); $('ap-paynow').textContent = '$' + pn.amt.toLocaleString() + '.00'; $('ap-paybreak').textContent = pn.text; $('ap-cardname').textContent = applicant.first + ' ' + applicant.last; apStep(4);
+                var pn = payNow(); $('ap-paynow').textContent = '$' + pn.amt.toLocaleString() + '.00'; $('ap-paybreak').textContent = pn.text; $('ap-cardname').value = applicant.first + ' ' + applicant.last; apStep(4);
             });
             function finishSubmit(paid) {
                 if (!applicant) return;
@@ -4603,120 +4454,11 @@
                                 var reason = box.querySelector('.cm-r').value, note = box.querySelector('.cm-n').value;
                                 box.innerHTML = '<div class="font-medium text-bad">Marked absent</div><div class="text-xs text-muted mt-1">Sent Sep 10, 2026 · reason: ' + reason + (note ? ' (' + note + ')' : '') + '. Your instructor sees this straight away and the office will offer a new slot.</div>';
                                 btn.outerHTML = '<span class="tag text-[11px] bg-bad-soft text-bad px-2 py-0.5 rounded font-medium shrink-0">Absent</span>';
-                                li.dataset.state = 'absent'; li.dataset.reason = reason;
+                                li.dataset.state = 'absent';
                             });
                         });
                     });
                 });
-            })();
-            /* ---- schedule: calendar ---- */
-            (function () {
-                var openBtn = $('sc-cal-open'); if (!openBtn) return;
-                var TODAY = new Date(2026, 8, 10); // Thu Sep 10, 2026 ("today" in this app)
-                var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-                var DOWS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
-
-                function collectEvents() {
-                    var byKey = {}; // 'YYYY-M-D' -> [{title, when, state, id}]
-                    function add(y, m, d, title, when, state, id) {
-                        var k = y + '-' + m + '-' + d;
-                        (byKey[k] = byKey[k] || []).push({ title: title, when: when, state: state, id: id });
-                    }
-                    ['sc-week', 'sc-next'].forEach(function (lid) {
-                        var ul = $(lid); if (!ul) return;
-                        Array.prototype.forEach.call(ul.querySelectorAll('.sess'), function (li) {
-                            var dayNum = li.querySelector('.text-lg.font-semibold.leading-none');
-                            var title = li.querySelector('.text-sm.font-medium');
-                            var when = li.querySelector('.text-xs.text-muted');
-                            if (!dayNum || !title) return;
-                            var d = parseInt(dayNum.textContent, 10); if (!d) return;
-                            // all schedule-tab sessions fall in the current app month (September 2026)
-                            add(TODAY.getFullYear(), TODAY.getMonth(), d, title.textContent, when ? when.textContent : '', li.dataset.state || 'scheduled', li.dataset.id);
-                        });
-                    });
-                    var att = document.querySelectorAll('#view-schedule ul.divide-y li');
-                    Array.prototype.forEach.call(att, function (li) {
-                        var head = li.querySelector('div > div');
-                        if (!head) return;
-                        var m = /^([A-Za-z]{3}), ([A-Za-z]{3}) (\d{1,2}), (\d{4})/.exec(head.textContent.trim());
-                        if (!m) return;
-                        var mi = MONTHS.findIndex(function (mo) { return mo.slice(0, 3) === m[2]; });
-                        if (mi < 0) return;
-                        var statusEl = li.querySelector('span.text-ok, span.text-warn, span.text-bad');
-                        var status = statusEl ? statusEl.textContent.trim() : 'Present';
-                        add(+m[4], mi, +m[3], head.textContent.split('·')[0].trim() + ' · Range', head.nextElementSibling ? head.nextElementSibling.textContent : '', status.toLowerCase(), li.dataset.id || null);
-                    });
-                    return byKey;
-                }
-
-                var sheet = document.createElement('div');
-                sheet.className = 'cal-sheet hidden';
-                sheet.innerHTML = '<div class="cal-sheet-backdrop"></div><div class="cal-sheet-card" id="cal-box"></div>';
-                ($('view-schedule') || document.body).appendChild(sheet);
-                sheet.querySelector('.cal-sheet-backdrop').addEventListener('click', close);
-                function close() { sheet.classList.add('hidden'); }
-
-                var view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1);
-
-                function render() {
-                    var events = collectEvents();
-                    var y = view.getFullYear(), m = view.getMonth();
-                    var first = new Date(y, m, 1), startDow = first.getDay();
-                    var daysInMonth = new Date(y, m + 1, 0).getDate();
-                    var cells = '';
-                    for (var i = 0; i < startDow; i++) cells += '<button type="button" class="cal-day" disabled></button>';
-                    for (var d = 1; d <= daysInMonth; d++) {
-                        var k = y + '-' + m + '-' + d;
-                        var evs = events[k];
-                        var isToday = (y === TODAY.getFullYear() && m === TODAY.getMonth() && d === TODAY.getDate());
-                        var cls = 'cal-day' + (isToday ? ' is-today' : '') + (evs ? ' has-sess' : '');
-                        if (evs) {
-                            var worst = evs.some(function (e) { return e.state === 'absent' || e.state === 'late'; }) ? 'warn' : (evs.some(function (e) { return e.state === 'scheduled' || e.state === 'tosign' || e.state === 'inprogress'; }) ? '' : 'ok');
-                            if (worst) cls += ' dot-' + worst;
-                        }
-                        cells += '<button type="button" class="' + cls + '" data-d="' + d + '">' + d + (evs ? '<span class="dot"></span>' : '') + '</button>';
-                    }
-                    var box = $('cal-box');
-                    box.innerHTML =
-                        '<div class="flex items-center justify-between mb-3">' +
-                        '<button type="button" id="cal-prev" class="h-8 w-8 grid place-items-center rounded-full active:bg-canvas text-muted">‹</button>' +
-                        '<div class="text-sm font-semibold">' + MONTHS[m] + ' ' + y + '</div>' +
-                        '<button type="button" id="cal-next" class="h-8 w-8 grid place-items-center rounded-full active:bg-canvas text-muted">›</button>' +
-                        '</div>' +
-                        '<div class="cal-grid">' + DOWS.map(function (w) { return '<div class="cal-dow">' + w + '</div>'; }).join('') + cells + '</div>' +
-                        '<div id="cal-detail" class="mt-4"></div>' +
-                        '<button type="button" id="cal-close" class="mt-4 w-full text-sm text-muted py-2">Close</button>';
-                    $('cal-prev').addEventListener('click', function () { view = new Date(y, m - 1, 1); render(); });
-                    $('cal-next').addEventListener('click', function () { view = new Date(y, m + 1, 1); render(); });
-                    $('cal-close').addEventListener('click', close);
-                    Array.prototype.forEach.call(box.querySelectorAll('.cal-day:not([disabled])'), function (btn) {
-                        btn.addEventListener('click', function () {
-                            Array.prototype.forEach.call(box.querySelectorAll('.cal-day'), function (o) { o.classList.remove('is-sel'); });
-                            btn.classList.add('is-sel');
-                            var d = +btn.dataset.d, k = y + '-' + m + '-' + d;
-                            var evs = events[k];
-                            var det = $('cal-detail');
-                            if (!evs) { det.innerHTML = '<div class="text-xs text-muted text-center py-2">No sessions on ' + MONTHS[m] + ' ' + d + '.</div>'; return; }
-                            det.innerHTML = '<div class="text-xs font-medium text-muted mb-1.5">' + MONTHS[m] + ' ' + d + '</div><ul class="divide-y divide-line rounded-xl border border-line overflow-hidden">' +
-                                evs.map(function (e) {
-                                    var tag = { signed: 'Completed', tosign: 'To sign', inprogress: 'In progress', scheduled: 'Scheduled', absent: 'Absent', present: 'Present', late: 'Late' }[e.state] || e.state;
-                                    return '<li><button type="button" class="cal-ev" data-id="' + e.id + '"><div class="flex-1 min-w-0"><div class="text-sm font-medium">' + e.title + '</div><div class="text-xs text-muted">' + e.when + '</div></div><span class="text-[11px] text-muted shrink-0">' + tag + '</span><span class="chev" aria-hidden="true">›</span></button></li>';
-                                }).join('') + '</ul>';
-                            Array.prototype.forEach.call(det.querySelectorAll('.cal-ev'), function (jb) {
-                                jb.addEventListener('click', function () {
-                                    close();
-                                    window.__openSession && window.__openSession(jb.dataset.id, { y: y, m: m, d: d });
-                                });
-                            });
-                        });
-                    });
-                }
-
-                window.__openCal = function (y, m, d) {
-                    view = new Date(y, m, 1); render(); sheet.classList.remove('hidden');
-                    var btn = $('cal-box').querySelector('.cal-day[data-d="' + d + '"]'); if (btn) btn.click();
-                };
-                openBtn.addEventListener('click', function () { view = new Date(TODAY.getFullYear(), TODAY.getMonth(), 1); render(); sheet.classList.remove('hidden'); });
             })();
             /* ---- state skills test: booked / result preview ---- */
             (function () {
@@ -5115,183 +4857,8 @@
                 }
                 list();
             })();
-            /* ---- schedule: session detail (opened from the list or the calendar) ---- */
-            (function () {
-                var box = $('sd-box'); if (!box) return;
-                var DALE = 'Dale Whitcomb', RACHEL = 'Rachel Turner', U14 = 'Unit 14 · Freightliner Cascadia', U9 = 'Unit 9 · Freightliner Cascadia, automatic', YARD = 'Kent training yard';
-                var BRING = ['Commercial learner\'s permit', 'Medical examiner\'s certificate', 'Closed-toe boots and hi-vis vest'];
-                var SD = {
-                    s1: {
-                        sigI: 'Sep 8, 2026, 9:04 PM', sigS: 'Sep 8, 2026, 9:10 PM', date: 'Tue, Sep 8, 2026', d: [2026, 8, 8], title: 'Range training', time: '6:00–9:00 PM', who: DALE, truck: U14, loc: YARD,
-                        att: 'Present · 5:57 PM to 8:59 PM', cred: '3 h (1.8 h at the controls)', log: 'done',
-                        ev: [['Straight-line backing', 'Proficient', 1], ['Offset backing, left', 'Proficient', 1], ['Offset backing, right', 'Needs improvement', 0]],
-                        note: 'Good control on the straight line. On the right offset you\'re turning in before the trailer tandems clear the line. We\'ll start with that on Thursday.'
-                    },
-                    s2: {
-                        sigI: 'Sep 10, 2026, 3:58 PM', sigS: null, date: 'Thu, Sep 10, 2026', d: [2026, 8, 10], title: 'Range training', time: '1:00–4:00 PM', who: DALE, truck: U14, loc: YARD,
-                        att: 'Present · 12:58 PM to 3:54 PM', cred: '2 h 56 min (1.9 h at the controls)', log: 'sign',
-                        ev: [['Pre-trip walk-around', 'Proficient', 1], ['Sight-side parallel parking', 'Proficient', 1], ['Blind-side parallel parking', 'Needs improvement', 0]],
-                        note: 'Pre-trip signed off again for the assessment file. Blind side is the last thing before Saturday. We work on it tonight.'
-                    },
-                    s3: {
-                        date: 'Thu, Sep 10, 2026', d: [2026, 8, 10], title: 'Range training', time: '6:00–9:00 PM', who: DALE, truck: U14, loc: YARD,
-                        started: 'Dale started this session at 6:02 PM.',
-                        plan: ['Blind-side parallel parking', 'Alley dock, both sides', 'Full pre-assessment run-through']
-                    },
-                    s4: {
-                        date: 'Sat, Sep 12, 2026', d: [2026, 8, 12], title: 'Final range assessment', time: '8:00–11:00 AM', who: RACHEL + ' (assessor)', truck: U9, loc: YARD,
-                        plan: ['Pre-trip inspection, in-cab and walk-around', 'Straight-line backing', 'Offset backing, both sides', 'Alley dock and parallel parking'],
-                        extra: 'A second instructor assesses this session. If you pass, road training starts on Monday. Please confirm you\'ll be there.'
-                    },
-                    s5: {
-                        date: 'Mon, Sep 14, 2026', d: [2026, 8, 14], title: 'Road training', time: '6:00–9:00 PM', who: DALE, truck: U14, loc: 'Kent yard, then local roads',
-                        plan: ['Coupling and uncoupling', 'Shifting and space management on local streets', 'Right turns at signalised intersections'],
-                        extra: 'Starts only after you pass the final range assessment.'
-                    },
-                    s6: {
-                        date: 'Wed, Sep 16, 2026', d: [2026, 8, 16], title: 'Road training', time: '6:00–9:00 PM', who: DALE, truck: U14, loc: 'Kent yard, then SR-167',
-                        plan: ['Highway merging and lane changes', 'Rail crossings', 'Downgrade and speed management'],
-                        extra: 'Installment 2 ($1,650) is due Sep 15. It needs to be paid for road training to continue.', pay: 1
-                    },
-                    a1: {
-                        sigI: 'Sep 5, 2026, 1:52 PM', sigS: null, date: 'Sat, Sep 5, 2026', d: [2026, 8, 5], title: 'Range training', time: '8:00 AM–2:00 PM', who: RACHEL, truck: U9, loc: YARD, st: 'present',
-                        att: 'Present · 8:04 AM to 1:44 PM', cred: '5 h 40 min (3.4 h at the controls)', log: 'sign',
-                        ev: [['Alley dock backing', 'Proficient', 1], ['Sight-side parallel parking', 'Proficient', 1], ['Blind-side parallel parking', 'Needs improvement', 0]],
-                        note: 'Sight-side parallel is close. You\'re stopping the pull-forward a truck length too early. Alley dock was clean today, signed off.'
-                    },
-                    a2: {
-                        sigI: 'Sep 3, 2026, 9:05 PM', sigS: 'Sep 3, 2026, 9:12 PM', date: 'Thu, Sep 3, 2026', d: [2026, 8, 3], title: 'Range training', time: '6:00–9:00 PM', who: DALE, truck: U14, loc: YARD, st: 'present',
-                        att: 'Present · 5:55 PM to 9:00 PM', cred: '3 h', log: 'done',
-                        ev: [['Offset backing, left', 'Proficient', 1], ['Mirror use and GOAL', 'Proficient', 0]]
-                    },
-                    a3: {
-                        sigI: 'Aug 31, 2026, 9:03 PM', sigS: 'Aug 31, 2026, 9:08 PM', date: 'Mon, Aug 31, 2026', d: [2026, 7, 31], title: 'Range training', time: '6:00–9:00 PM', who: DALE, truck: U14, loc: YARD, st: 'late',
-                        att: 'Late · arrived 6:20 PM, left 9:00 PM', cred: '2 h 40 min (20 min not credited)', log: 'done',
-                        ev: [['Straight-line backing', 'Proficient', 1]],
-                        note: 'Late arrivals are recorded on your attendance. Time you miss is not credited toward your hours.'
-                    },
-                    a4: {
-                        sigI: 'Aug 29, 2026, 2:06 PM', sigS: 'Aug 29, 2026, 2:15 PM', date: 'Sat, Aug 29, 2026', d: [2026, 7, 29], title: 'Range training', time: '8:00 AM–2:00 PM', who: RACHEL, truck: U9, loc: YARD, st: 'present',
-                        att: 'Present · 7:56 AM to 2:00 PM', cred: '6 h (3.6 h at the controls)', log: 'done',
-                        ev: [['Pre-trip walk-around', 'Proficient', 1], ['Coupling and uncoupling', 'Proficient', 0]]
-                    }
-                };
-                var cur = null, origin = null, STUDENT = 'Marcus Reyes';
-                var SIGFONT = 'white-space:nowrap;font-family:"Segoe Script","Snell Roundhand","Brush Script MT","Apple Chancery",cursive;';
-                function sig(label, name, when) { return '<div><div class="text-xs text-muted">' + label + '</div><div class="mt-1 h-16 bg-canvas rounded-lg px-2 flex justify-center" style="align-items:flex-end;padding-bottom:10px"><span class="text-lg text-coal px-3 leading-tight" style=\'border-bottom:1px solid #cfcac2;' + SIGFONT + '\'>' + name + '</span></div><div class="text-[11px] text-muted mt-1">' + name + ' · ' + when + '</div></div>'; }
-
-                function row(id) { return document.querySelector('#view-schedule [data-id="' + id + '"]'); }
-                function stateOf(id) { var li = row(id); return (li && li.dataset.state) || SD[id].st || 'scheduled'; }
-                var BANNER = {
-                    scheduled: ['Scheduled', 'bg-white shadow-card', 'bg-canvas text-ink'],
-                    inprogress: ['In progress', 'bg-brand-soft', 'bg-brand text-white'],
-                    tosign: ['Ended · needs your signature', 'bg-warn-soft', 'bg-warn text-white'],
-                    signed: ['Completed', 'bg-ok-soft', 'bg-ok text-white'],
-                    present: ['Present', 'bg-ok-soft', 'bg-ok text-white'],
-                    late: ['Late', 'bg-warn-soft', 'bg-warn text-white'],
-                    absent: ['Absent', 'bg-bad-soft', 'bg-bad text-white']
-                };
-                function list(title, items) { return '<div class="mx-5 mt-4 mb-2 text-sm font-medium">' + title + '</div><ul class="mx-5 bg-white rounded-xl shadow-card divide-y divide-line text-sm">' + items.map(function (t) { return '<li class="px-4 py-2.5">' + t + '</li>'; }).join('') + '</ul>'; }
-
-                function render() {
-                    var s = SD[cur], st = stateOf(cur), li = row(cur), b = BANNER[st] || BANNER.scheduled;
-                    var past = st === 'signed' || st === 'tosign' || st === 'present' || st === 'late';
-                    var h = '<header class="px-5 pt-4 pb-3 flex items-center gap-3"><button type="button" id="sd-back" class="text-brand-dark text-xl leading-none" aria-label="Back to schedule">‹</button><div><div class="text-xl font-semibold leading-tight">' + s.title + '</div><div class="text-xs text-muted">' + s.date + ' · ' + s.time + '</div></div></header>';
-                    h += '<div class="mx-5 rounded-xl px-4 py-3 ' + b[1] + ' flex items-center justify-between gap-3"><div class="text-[13px]">' +
-                        (st === 'inprogress' ? s.started : st === 'absent' ? 'You told us you can\'t make this session' + (li && li.dataset.reason ? ' (' + li.dataset.reason.toLowerCase() + ')' : '') + '. The office will offer you a new slot.' : st === 'tosign' ? 'Your instructor has ended this session. Sign the lesson log so the hours count.' : past ? 'Attended and recorded on your training file.' : (li && li.dataset.confirmed ? 'You confirmed you\'ll attend.' : 'Booked by the office.')) +
-                        '</div><span class="text-[11px] px-2 py-0.5 rounded font-medium shrink-0 ' + b[2] + '">' + b[0] + '</span></div>';
-                    h += '<div class="mx-5 mt-3 bg-white rounded-xl shadow-card px-4 py-3.5 text-sm"><dl class="grid grid-cols-[6.5rem_1fr] gap-y-1">' +
-                        '<dt class="text-muted">Date</dt><dd>' + s.date + '</dd><dt class="text-muted">Time</dt><dd>' + s.time + '</dd>' +
-                        '<dt class="text-muted">Instructor</dt><dd>' + s.who + '</dd><dt class="text-muted">Truck</dt><dd>' + s.truck + '</dd><dt class="text-muted">Location</dt><dd>' + s.loc + '</dd>' +
-                        (s.att ? '<dt class="text-muted">Attendance</dt><dd>' + s.att + '</dd><dt class="text-muted">Credited</dt><dd>' + s.cred + '</dd>' : '') + '</dl></div>';
-
-                    if (past) {
-                        h += '<div class="mx-5 mt-4 mb-2 text-sm font-medium">Evaluation</div><ul class="mx-5 bg-white rounded-xl shadow-card divide-y divide-line text-sm">' +
-                            s.ev.map(function (e) { return '<li class="px-4 py-2.5 flex items-center justify-between gap-3"><span>' + e[0] + '<div class="text-xs text-muted">' + (e[2] ? 'Signed off by ' + s.who.split(' (')[0] : 'Not signed off yet') + '</div></span><span class="shrink-0 ' + (e[1] === 'Proficient' ? 'text-ok font-medium' : 'text-muted') + '">' + e[1] + '</span></li>'; }).join('') + '</ul>';
-                        if (s.note) h += '<div class="mx-5 mt-4 bg-white rounded-xl shadow-card px-4 py-3.5 text-[13px]"><div class="font-medium text-sm">' + (st === 'late' ? 'About this record' : 'Instructor\'s note to you') + '</div><p class="mt-1 text-ink/85">' + s.note + '</p></div>';
-                        var who = s.who.split(' (')[0], signedS = s.sigS || (row(cur) && row(cur).dataset.sigS);
-                        h += '<div class="mx-5 mt-4 mb-2 flex items-baseline justify-between"><span class="text-sm font-medium">Lesson log signatures</span>' + (signedS ? '<span class="text-ok text-xs font-medium">Signed by both</span>' : '<span class="text-warn text-xs font-medium">Awaiting your signature</span>') + '</div>';
-                        h += '<div class="mx-5 bg-white rounded-xl shadow-card px-4 py-3.5 text-sm"><div class="space-y-3">' + sig('Instructor', who, s.sigI) +
-                            (signedS ? sig('Student', STUDENT, signedS) : '<div><div class="text-xs text-muted">Student</div><div id="sd-pad" role="button" tabindex="0" class="mt-1 h-16 bg-canvas border border-dashed border-line rounded-lg grid place-items-center text-muted text-xs cursor-pointer">Tap to sign</div><div class="text-[11px] text-muted mt-1">Not signed yet</div></div>') + '</div>' +
-                            (signedS ? '' : '<p class="text-xs text-ink/70 mt-3">By signing you confirm you attended this session and the time recorded is accurate. Your hours count toward the federal record once both signatures are on the log.</p><button type="button" id="sd-sign" class="mt-3 w-full bg-brand text-white font-medium py-2.5 rounded-lg text-sm opacity-50">Sign and submit</button>') + '</div>';
-                    } else if (st === 'inprogress') {
-                        h += list('Today\'s plan', s.plan);
-                        h += '<p class="mx-5 mt-2 text-xs text-muted">Your lesson log will be ready to sign when ' + s.who.split(' ')[0] + ' ends the session.</p>';
-                    } else if (st === 'absent') {
-                        h += list('What happens next', ['The office offers you a new slot by text.', 'Your instructor has been notified.', 'Late notice may carry a fee under your agreement.']);
-                    } else {
-                        h += list('What you\'ll cover', s.plan);
-                        h += list('Bring with you', BRING);
-                        if (s.extra) h += '<div class="mx-5 mt-4 rounded-xl ' + (s.pay ? 'bg-warn-soft text-warn' : 'bg-white shadow-card') + ' px-4 py-3 text-[13px]">' + s.extra + (s.pay ? '<button type="button" data-go="payments" class="mt-2 block font-medium underline">Go to payments</button>' : '') + '</div>';
-                        h += '<div class="mx-5 mt-4 grid grid-cols-2 gap-2">' +
-                            (li && li.dataset.confirmed ? '<span class="text-sm py-2.5 rounded-lg bg-ok-soft text-ok text-center font-medium">Attendance confirmed</span>' : '<button type="button" id="sd-confirm" class="bg-brand text-white text-sm font-medium py-2.5 rounded-lg">Confirm I\'ll attend</button>') +
-                            '<button type="button" id="sd-cant" class="text-sm py-2.5 rounded-lg border border-line bg-white">Can\'t make it</button></div><div id="sd-cm"></div>';
-                    }
-                    box.innerHTML = h;
-                    bind();
-                }
-
-                function bind() {
-                    $('sd-back').addEventListener('click', back);
-                    Array.prototype.forEach.call(box.querySelectorAll('[data-go]'), function (el) { el.addEventListener('click', function () { window.__show(el.dataset.go); }); });
-                    var pad = $('sd-pad'), sb = $('sd-sign'), inked = false;
-                    if (pad) {
-                        var ink = function () { if (inked) return; inked = true; pad.className = 'mt-1 h-16 bg-canvas rounded-lg px-2 flex justify-center'; pad.style.alignItems = 'flex-end'; pad.style.paddingBottom = '10px'; pad.innerHTML = '<span class="text-lg text-coal px-3 leading-tight" style=\'border-bottom:1px solid #cfcac2;' + SIGFONT + '\'>' + STUDENT + '</span>'; sb.classList.remove('opacity-50'); };
-                        pad.addEventListener('click', ink); pad.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); ink(); } });
-                        sb.addEventListener('click', function () {
-                            if (!inked) { pad.classList.add('border-bad'); pad.textContent = 'Tap here to sign first'; return; }
-                            var li = row(cur), when = 'Sep 10, 2026, 7:05 PM';
-                            if (li) {
-                                li.dataset.sigS = when;
-                                if (li.dataset.state === 'tosign') {
-                                    li.dataset.state = 'signed'; li.classList.remove('bg-brand-soft/60');
-                                    var b = li.querySelector('[data-view="sign"]'); if (b) b.outerHTML = '<span class="tag text-[11px] bg-ok-soft text-ok px-2 py-0.5 rounded font-medium shrink-0">Completed</span>';
-                                }
-                            } else SD[cur].sigS = when;
-                            render();
-                        });
-                    }
-                    var c = $('sd-confirm'); if (c) c.addEventListener('click', function () { var li = row(cur); if (li) li.dataset.confirmed = '1'; render(); });
-                    var x = $('sd-cant'); if (x) x.addEventListener('click', function () {
-                        var holder = $('sd-cm'); if (holder.innerHTML) return;
-                        holder.innerHTML = '<div class="mx-5 mt-3 rounded-lg bg-white shadow-card px-3 py-3 text-sm"><div class="font-medium">Can\'t make this session?</div><div class="text-xs text-muted mt-1">Telling us more than 24 hours ahead has no charge; later notice may carry a fee under your agreement.</div><label class="block text-xs text-muted mt-2">Reason<select class="sd-r mt-1 w-full border border-line rounded-lg bg-white px-3 py-2 text-ink"><option>Work shift changed</option><option>Illness</option><option>Family or childcare</option><option>Transport problem</option><option>Other</option></select></label><div class="mt-2 grid grid-cols-2 gap-2"><button type="button" class="sd-no text-sm py-2 rounded-lg border border-line bg-white">Keep session</button><button type="button" class="sd-yes bg-bad text-white text-sm font-medium py-2 rounded-lg">Mark me absent</button></div></div>';
-                        holder.querySelector('.sd-no').addEventListener('click', function () { holder.innerHTML = ''; });
-                        holder.querySelector('.sd-yes').addEventListener('click', function () {
-                            var li = row(cur), reason = holder.querySelector('.sd-r').value;
-                            if (li) {
-                                li.dataset.state = 'absent'; li.dataset.reason = reason;
-                                var btn = li.querySelector('.cm'); if (btn) btn.outerHTML = '<span class="tag text-[11px] bg-bad-soft text-bad px-2 py-0.5 rounded font-medium shrink-0">Absent</span>';
-                                var open = li.querySelector('.cmbox'); if (open) open.remove();
-                            }
-                            render();
-                        });
-                    });
-                }
-
-                function back() {
-                    var from = origin, id = cur;
-                    window.__show('schedule');
-                    if (from && window.__openCal) { window.__openCal(from.y, from.m, from.d); return; }
-                    var li = row(id); if (li) setTimeout(function () { li.scrollIntoView({ block: 'center' }); }, 0);
-                }
-
-                window.__openSession = function (id, fromCal) {
-                    if (!SD[id]) return;
-                    cur = id; origin = fromCal || null;
-                    render(); window.__show('session');
-                };
-
-                /* whole row opens the detail; inner buttons and the inline absence form keep their own behaviour */
-                Array.prototype.forEach.call(document.querySelectorAll('#view-schedule .sess, #view-schedule .att-row'), function (li) {
-                    li.setAttribute('tabindex', '0'); li.setAttribute('role', 'button');
-                    li.setAttribute('aria-label', 'Open session details');
-                    li.addEventListener('click', function (e) { if (e.target.closest('button, select, input, label, .cmbox')) return; window.__openSession(li.dataset.id); });
-                    li.addEventListener('keydown', function (e) { if (e.target !== li) return; if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.__openSession(li.dataset.id); } });
-                });
-            })();
-
             var tabViews = ['home', 'training', 'schedule', 'documents', 'more'];
-            var parentOf = { session: 'schedule', payments: 'more', messages: 'more', profile: 'more', enrollment: 'more', assessments: 'more', notifications: 'more', sign: 'home', quiz: 'training', takequiz: 'quiz', logs: 'home', finaltest: 'quiz', ftresult: 'quiz', fttest: 'ftresult', withdraw: 'more', addprog: 'more', terms: 'more', privacy: 'more', agreement: 'enrollment', clp: 'documents', apply: 'home', applied: 'home', rejected: 'home', paid: 'home' };
+            var parentOf = { payments: 'more', messages: 'more', profile: 'more', enrollment: 'more', assessments: 'more', notifications: 'more', sign: 'home', quiz: 'training', takequiz: 'quiz', logs: 'home', finaltest: 'quiz', ftresult: 'quiz', fttest: 'ftresult', withdraw: 'more', addprog: 'more', terms: 'more', privacy: 'more', agreement: 'enrollment', clp: 'documents', apply: 'home', applied: 'home', rejected: 'home', paid: 'home' };
             var views = document.querySelectorAll('.view');
             var tabs = document.querySelectorAll('.tab-item');
             function show(name) {
